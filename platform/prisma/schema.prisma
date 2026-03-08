@@ -1,0 +1,92 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model School {
+  id   Int    @id @default(autoincrement())
+  name String
+  code String? // optional region/code for filter
+  students Student[]
+  teachers TeacherSchool[]
+}
+
+model Student {
+  id           Int      @id @default(autoincrement())
+  surname      String
+  name         String
+  patronymic   String?
+  phone        String   @unique
+  passwordHash String
+  schoolId     Int
+  className    String   // 10А, 10Б, 11А, 11Б
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  school       School   @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  attempts     Attempt[]
+
+  @@index([schoolId, className])
+  @@index([phone])
+}
+
+model Teacher {
+  id           Int      @id @default(autoincrement())
+  emailOrPhone String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  schools      TeacherSchool[]
+}
+
+model TeacherSchool {
+  id        Int     @id @default(autoincrement())
+  teacherId Int
+  schoolId  Int
+  teacher   Teacher @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+  school    School  @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  @@unique([teacherId, schoolId])
+  @@index([schoolId])
+}
+
+model Course {
+  id        Int      @id @default(autoincrement())
+  title     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  lessons   Lesson[]
+}
+
+model Lesson {
+  id        Int      @id @default(autoincrement())
+  courseId  Int
+  title     String
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  attempts  Attempt[]
+
+  @@index([courseId])
+}
+
+model Attempt {
+  id         Int      @id @default(autoincrement())
+  studentId  Int
+  lessonId   Int
+  score      Int?     // nullable until graded
+  completedAt DateTime @default(now())
+  student   Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  lesson    Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  @@unique([studentId, lessonId])
+  @@index([lessonId])
+  @@index([studentId])
+}
