@@ -1,23 +1,14 @@
 name: "🐛 Баг-репорт"
-description: "Сообщить об ошибке. Форма откроется на отдельной странице — заполните поля ниже."
+description: "Сообщить об ошибке."
 body:
   - type: markdown
     attributes:
-      value: "Заполните разделы ниже, чтобы мы могли воспроизвести и исправить баг."
-
-  - type: input
-    id: title
-    attributes:
-      label: "Заголовок"
-      description: "Скопируйте или введите то же в поле «Title» выше."
-      placeholder: "Что произошло? Где? Когда?"
-    validations:
-      required: true
+      value: "Что произошло? Где? Когда?."
 
   - type: textarea
     id: description
     attributes:
-      label: "Описание проблемы своими словами *"
+      label: "Описание проблемы своими словами"
       description: "Что именно происходит и в каком месте."
       placeholder: "Опишите проблему так, как видите вы..."
     validations:
@@ -76,15 +67,6 @@ body:
     validations:
       required: true
 
-  - type: upload
-    id: screenshots
-    attributes:
-      label: "Скриншоты или видео (по желанию)"
-      description: "Перетащите файлы сюда или выберите — наглядно покажут ошибку."
-    validations:
-      required: false
-      accept: ".png,.jpg,.jpeg,.gif,.webp,.mp4,.webm,.mov"
-
   - type: dropdown
     id: severity
     attributes:
@@ -96,27 +78,4 @@ body:
         - "Major"
         - "Minor"
         - "Trivial"
-    validations:
-      required: true
 
-  - type: dropdown
-    id: priority
-    attributes:
-      label: "Приоритет"
-      description: "Заполняется PM. Очередность исправления."
-      options:
-        - "Высокий"
-        - "Средний"
-        - "Низкий"
-
-  - type: input
-    id: author
-    attributes:
-      label: "Автор"
-      placeholder: "Кто завёл баг?"
-
-  - type: input
-    id: assignee
-    attributes:
-      label: "Исполнитель"
-      placeholder: "Кому предстоит исправить баг?"
