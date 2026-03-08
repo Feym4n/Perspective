@@ -30,3 +30,5 @@ body:
         - "Улучшение существующего"
         - "Удобство (UX)"
         - "Другое"
+    validations:
+      required: true

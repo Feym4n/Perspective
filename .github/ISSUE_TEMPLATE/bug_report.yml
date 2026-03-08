@@ -3,7 +3,7 @@ description: "Сообщить об ошибке."
 body:
   - type: markdown
     attributes:
-      value: "Что произошло? Где? Когда?."
+      value: "Что произошло? Где? Когда?"
 
   - type: textarea
     id: description
@@ -11,8 +11,6 @@ body:
       label: "Описание проблемы своими словами"
       description: "Что именно происходит и в каком месте."
       placeholder: "Опишите проблему так, как видите вы..."
-    validations:
-      required: true
 
   - type: checkboxes
     id: environment
@@ -24,12 +22,16 @@ body:
         - label: "Safari"
         - label: "Firefox"
         - label: "Яндекс.Браузер"
-
+    validations:
+      required: true
+      
   - type: input
     id: browser_version
     attributes:
       label: "Версия браузера"
       placeholder: "Например: 133.0.6943.127 (64 бит)"
+    validations:
+      required: true
 
   - type: textarea
     id: preconditions
@@ -41,7 +43,7 @@ body:
   - type: textarea
     id: steps
     attributes:
-      label: "Шаги воспроизведения *"
+      label: "Шаги воспроизведения"
       description: "Последовательность действий, ведущих к ошибке."
       placeholder: "Куда нажимать, чтобы воспроизвести ошибку? Последовательность шагов."
       value: |
@@ -54,7 +56,7 @@ body:
   - type: textarea
     id: actual
     attributes:
-      label: "Фактический результат *"
+      label: "Фактический результат"
       placeholder: "Что имеем по факту?"
     validations:
       required: true
@@ -62,7 +64,7 @@ body:
   - type: textarea
     id: expected
     attributes:
-      label: "Ожидаемый результат *"
+      label: "Ожидаемый результат"
       placeholder: "Что хотели получить? (руководствуемся документацией и логикой)"
     validations:
       required: true
@@ -78,4 +80,5 @@ body:
         - "Major"
         - "Minor"
         - "Trivial"
-
+    validations:
+      required: true
