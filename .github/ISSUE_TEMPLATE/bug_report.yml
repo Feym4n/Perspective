@@ -1,0 +1,103 @@
+name: "🐛 Баг-репорт"
+description: "Сообщить об ошибке — заполните поля ниже, чтобы мы могли воспроизвести и исправить баг."
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Заполните разделы ниже. Чем точнее описание и шаги — тем быстрее сможем воспроизвести и починить.
+
+  - type: input
+    id: prefix
+    attributes:
+      label: "Краткий заголовок (префикс)"
+      description: "Одно предложение — что сломалось или где проблема."
+      placeholder: "Например: Кнопка «Отправить» не реагирует на клик"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: "Опишите проблему *"
+      description: "Что именно происходит? В каком месте приложения/страницы?"
+      placeholder: "Когда я нажимаю здесь, происходит то-то..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: "Шаги для воспроизведения *"
+      description: "Пошагово, как получить этот баг."
+      value: |
+        1. Перейти на страницу X
+        2. Нажать здесь
+        3. Нажать там
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: "Ожидаемый результат *"
+      description: "Что должно было произойти при правильной работе."
+      placeholder: "Я ожидал, что произойдёт вот это..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: "Фактический результат (если отличается от описания выше)"
+      description: "Опционально. Что произошло на самом деле, если не очевидно из шагов."
+      placeholder: "Вместо этого происходит..."
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: "Критичность"
+      description: "Насколько баг мешает работе."
+      options:
+        - "Критично — блокирует работу / падает приложение"
+        - "Высокая — важная функция не работает"
+        - "Средняя — неудобно, но есть обходной путь"
+        - "Низкая — косметика или редко встречается"
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: environment
+    attributes:
+      label: "Где воспроизводится (отметьте подходящее)"
+      description: "Можно несколько."
+      options:
+        - label: "Chrome"
+        - label: "Firefox"
+        - label: "Safari"
+        - label: "Edge"
+        - label: "Мобильный браузер"
+        - label: "Другое (напишите в описании)"
+
+  - type: input
+    id: os
+    attributes:
+      label: "ОС и устройство (опционально)"
+      placeholder: "Например: Windows 11, или iOS 17, iPhone"
+
+  - type: upload
+    id: screenshots
+    attributes:
+      label: "Скриншоты или видео"
+      description: "Перетащите сюда или выберите файлы. Помогают сильно ускорить разбор."
+    validations:
+      required: false
+      accept: ".png,.jpg,.jpeg,.gif,.webp,.mp4,.webm,.mov"
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: "Перед отправкой"
+      description: "Отметьте, что сделали (необязательно, но помогает)."
+      options:
+        - label: "Проверил(а), что такого issue ещё нет в списке"
+        - label: "Приложил(а) скриншот/видео или логи, если есть"
