@@ -1,7 +1,13 @@
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
+import { isValidPhoneNumber } from "libphonenumber-js";
 import { createTRPCRouter, publicProcedure, studentProcedure } from "~/server/api/trpc";
 import { hashPassword, verifyPassword } from "~/server/auth-utils";
+
+const phoneSchema = z
+  .string()
+  .min(1, "Введите телефон")
+  .refine((v) => isValidPhoneNumber(v), "Некорректный номер телефона");
 
 // Строго 3 символа: два цифры класса + одна заглавная русская буква (например 10Б)
 const CLASS_REGEX = /^[0-9]{2}[А-ЯЁ]$/;
@@ -13,7 +19,7 @@ export const studentRouter = createTRPCRouter({
         surname: z.string().min(1, "Введите фамилию"),
         name: z.string().min(1, "Введите имя"),
         patronymic: z.string().optional(),
-        phone: z.string().min(1, "Введите телефон"),
+        phone: phoneSchema,
         password: z.string().min(6, "Пароль не менее 6 символов"),
         schoolId: z.number().int().positive(),
         className: z
@@ -59,7 +65,7 @@ export const studentRouter = createTRPCRouter({
   login: publicProcedure
     .input(
       z.object({
-        phone: z.string().min(1),
+        phone: phoneSchema,
         password: z.string().min(1),
       })
     )

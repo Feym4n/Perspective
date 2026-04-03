@@ -5,7 +5,7 @@ import { useState } from "react";
 import { api } from "~/trpc/react";
 import { setStudentCookie } from "~/lib/auth-cookies";
 import { LoginCard } from "~/app/_components/login-card";
-import { PhoneInput } from "~/app/_components/phone-input";
+import { PhoneInput, validatePhone } from "~/app/_components/phone-input";
 import { PasswordInput } from "~/app/_components/password-input";
 
 export default function StudentLoginPage() {
@@ -13,12 +13,18 @@ export default function StudentLoginPage() {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [phoneError, setPhoneError] = useState<string | null>(null);
 
   const loginMutation = api.student.login.useMutation();
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
+    const phErr = validatePhone(phone);
+    if (phErr) {
+      setPhoneError(phErr);
+      return;
+    }
     try {
       const result = await loginMutation.mutateAsync({ phone, password });
       setStudentCookie(result.student.id);
@@ -45,9 +51,10 @@ export default function StudentLoginPage() {
       <PhoneInput
         label="Мобильный телефон"
         value={phone}
-        onChange={setPhone}
+        onChange={(v) => { setPhone(v); if (phoneError) setPhoneError(validatePhone(v)); }}
         placeholder="+7 (999) 123-45-67"
         required
+        error={phoneError}
         className="[&_input]:border-2 [&_input]:border-sky-200 [&_input]:bg-white"
       />
       <PasswordInput

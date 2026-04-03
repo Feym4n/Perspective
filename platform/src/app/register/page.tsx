@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { api } from "~/trpc/react";
 import { setStudentCookie } from "~/lib/auth-cookies";
-import { PhoneInput } from "~/app/_components/phone-input";
+import { PhoneInput, validatePhone } from "~/app/_components/phone-input";
 import { PasswordInput } from "~/app/_components/password-input";
 
 // Строго 3 символа: два цифры класса + одна заглавная русская буква (например 10Б)
@@ -28,6 +28,7 @@ export default function RegisterPage() {
   const [className, setClassName] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [classError, setClassError] = useState<string | null>(null);
+  const [phoneError, setPhoneError] = useState<string | null>(null);
 
   const { data: schools, isLoading: schoolsLoading } = api.school.list.useQuery();
   const registerMutation = api.student.register.useMutation();
@@ -49,6 +50,11 @@ export default function RegisterPage() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
+    const phErr = validatePhone(phone);
+    if (phErr) {
+      setPhoneError(phErr);
+      return;
+    }
     const cnErr = validateClassName(className);
     if (cnErr) {
       setClassError(cnErr);
@@ -144,9 +150,11 @@ export default function RegisterPage() {
           <PhoneInput
             label="Мобильный телефон"
             value={phone}
-            onChange={setPhone}
+            onChange={(v) => { setPhone(v); if (phoneError) setPhoneError(validatePhone(v)); }}
+            onBlur={() => { if (phone) setPhoneError(validatePhone(phone)); }}
             placeholder="+7 (999) 123-45-67"
             required
+            error={phoneError}
           />
           <label className="block">
             <span className="mb-1 block text-sm font-medium text-stone-700">
@@ -228,6 +236,7 @@ export default function RegisterPage() {
               registerMutation.isPending ||
               loginMutation.isPending ||
               !!classError ||
+              !!phoneError ||
               className.length !== 3
             }
             className="w-full rounded-lg bg-sky-600 py-3 font-medium text-white hover:bg-sky-700 disabled:opacity-50"
