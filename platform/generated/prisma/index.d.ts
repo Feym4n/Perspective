@@ -48,6 +48,31 @@ export type Lesson = $Result.DefaultSelection<Prisma.$LessonPayload>
  * 
  */
 export type Attempt = $Result.DefaultSelection<Prisma.$AttemptPayload>
+/**
+ * Model AssignmentTemplate
+ * 
+ */
+export type AssignmentTemplate = $Result.DefaultSelection<Prisma.$AssignmentTemplatePayload>
+/**
+ * Model Assignment
+ * 
+ */
+export type Assignment = $Result.DefaultSelection<Prisma.$AssignmentPayload>
+/**
+ * Model AssignmentField
+ * 
+ */
+export type AssignmentField = $Result.DefaultSelection<Prisma.$AssignmentFieldPayload>
+/**
+ * Model AssignmentSubmission
+ * 
+ */
+export type AssignmentSubmission = $Result.DefaultSelection<Prisma.$AssignmentSubmissionPayload>
+/**
+ * Model TestAnswerFirst
+ * Первый зафиксированный ответ ученика на тестовый блок (single_choice).
+ */
+export type TestAnswerFirst = $Result.DefaultSelection<Prisma.$TestAnswerFirstPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -236,6 +261,56 @@ export class PrismaClient<
     * ```
     */
   get attempt(): Prisma.AttemptDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.assignmentTemplate`: Exposes CRUD operations for the **AssignmentTemplate** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AssignmentTemplates
+    * const assignmentTemplates = await prisma.assignmentTemplate.findMany()
+    * ```
+    */
+  get assignmentTemplate(): Prisma.AssignmentTemplateDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.assignment`: Exposes CRUD operations for the **Assignment** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Assignments
+    * const assignments = await prisma.assignment.findMany()
+    * ```
+    */
+  get assignment(): Prisma.AssignmentDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.assignmentField`: Exposes CRUD operations for the **AssignmentField** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AssignmentFields
+    * const assignmentFields = await prisma.assignmentField.findMany()
+    * ```
+    */
+  get assignmentField(): Prisma.AssignmentFieldDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.assignmentSubmission`: Exposes CRUD operations for the **AssignmentSubmission** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AssignmentSubmissions
+    * const assignmentSubmissions = await prisma.assignmentSubmission.findMany()
+    * ```
+    */
+  get assignmentSubmission(): Prisma.AssignmentSubmissionDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.testAnswerFirst`: Exposes CRUD operations for the **TestAnswerFirst** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more TestAnswerFirsts
+    * const testAnswerFirsts = await prisma.testAnswerFirst.findMany()
+    * ```
+    */
+  get testAnswerFirst(): Prisma.TestAnswerFirstDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -683,7 +758,12 @@ export namespace Prisma {
     TeacherSchool: 'TeacherSchool',
     Course: 'Course',
     Lesson: 'Lesson',
-    Attempt: 'Attempt'
+    Attempt: 'Attempt',
+    AssignmentTemplate: 'AssignmentTemplate',
+    Assignment: 'Assignment',
+    AssignmentField: 'AssignmentField',
+    AssignmentSubmission: 'AssignmentSubmission',
+    TestAnswerFirst: 'TestAnswerFirst'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -702,7 +782,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "school" | "student" | "teacher" | "teacherSchool" | "course" | "lesson" | "attempt"
+      modelProps: "school" | "student" | "teacher" | "teacherSchool" | "course" | "lesson" | "attempt" | "assignmentTemplate" | "assignment" | "assignmentField" | "assignmentSubmission" | "testAnswerFirst"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1224,6 +1304,376 @@ export namespace Prisma {
           }
         }
       }
+      AssignmentTemplate: {
+        payload: Prisma.$AssignmentTemplatePayload<ExtArgs>
+        fields: Prisma.AssignmentTemplateFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AssignmentTemplateFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignmentTemplatePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AssignmentTemplateFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignmentTemplatePayload>
+          }
+          findFirst: {
+            args: Prisma.AssignmentTemplateFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignmentTemplatePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AssignmentTemplateFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignmentTemplatePayload>
+          }
+          findMany: {
+            args: Prisma.AssignmentTemplateFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignmentTemplatePayload>[]
+          }
+          create: {
+            args: Prisma.AssignmentTemplateCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignmentTemplatePayload>
+          }
+          createMany: {
+            args: Prisma.AssignmentTemplateCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AssignmentTemplateCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignmentTemplatePayload>[]
+          }
+          delete: {
+            args: Prisma.AssignmentTemplateDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignmentTemplatePayload>
+          }
+          update: {
+            args: Prisma.AssignmentTemplateUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignmentTemplatePayload>
+          }
+          deleteMany: {
+            args: Prisma.AssignmentTemplateDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AssignmentTemplateUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.AssignmentTemplateUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignmentTemplatePayload>[]
+          }
+          upsert: {
+            args: Prisma.AssignmentTemplateUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignmentTemplatePayload>
+          }
+          aggregate: {
+            args: Prisma.AssignmentTemplateAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAssignmentTemplate>
+          }
+          groupBy: {
+            args: Prisma.AssignmentTemplateGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AssignmentTemplateGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AssignmentTemplateCountArgs<ExtArgs>
+            result: $Utils.Optional<AssignmentTemplateCountAggregateOutputType> | number
+          }
+        }
+      }
+      Assignment: {
+        payload: Prisma.$AssignmentPayload<ExtArgs>
+        fields: Prisma.AssignmentFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AssignmentFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignmentPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AssignmentFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignmentPayload>
+          }
+          findFirst: {
+            args: Prisma.AssignmentFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignmentPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AssignmentFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignmentPayload>
+          }
+          findMany: {
+            args: Prisma.AssignmentFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignmentPayload>[]
+          }
+          create: {
+            args: Prisma.AssignmentCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignmentPayload>
+          }
+          createMany: {
+            args: Prisma.AssignmentCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AssignmentCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignmentPayload>[]
+          }
+          delete: {
+            args: Prisma.AssignmentDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignmentPayload>
+          }
+          update: {
+            args: Prisma.AssignmentUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignmentPayload>
+          }
+          deleteMany: {
+            args: Prisma.AssignmentDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AssignmentUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.AssignmentUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignmentPayload>[]
+          }
+          upsert: {
+            args: Prisma.AssignmentUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignmentPayload>
+          }
+          aggregate: {
+            args: Prisma.AssignmentAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAssignment>
+          }
+          groupBy: {
+            args: Prisma.AssignmentGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AssignmentGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AssignmentCountArgs<ExtArgs>
+            result: $Utils.Optional<AssignmentCountAggregateOutputType> | number
+          }
+        }
+      }
+      AssignmentField: {
+        payload: Prisma.$AssignmentFieldPayload<ExtArgs>
+        fields: Prisma.AssignmentFieldFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AssignmentFieldFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignmentFieldPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AssignmentFieldFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignmentFieldPayload>
+          }
+          findFirst: {
+            args: Prisma.AssignmentFieldFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignmentFieldPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AssignmentFieldFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignmentFieldPayload>
+          }
+          findMany: {
+            args: Prisma.AssignmentFieldFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignmentFieldPayload>[]
+          }
+          create: {
+            args: Prisma.AssignmentFieldCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignmentFieldPayload>
+          }
+          createMany: {
+            args: Prisma.AssignmentFieldCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AssignmentFieldCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignmentFieldPayload>[]
+          }
+          delete: {
+            args: Prisma.AssignmentFieldDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignmentFieldPayload>
+          }
+          update: {
+            args: Prisma.AssignmentFieldUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignmentFieldPayload>
+          }
+          deleteMany: {
+            args: Prisma.AssignmentFieldDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AssignmentFieldUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.AssignmentFieldUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignmentFieldPayload>[]
+          }
+          upsert: {
+            args: Prisma.AssignmentFieldUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignmentFieldPayload>
+          }
+          aggregate: {
+            args: Prisma.AssignmentFieldAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAssignmentField>
+          }
+          groupBy: {
+            args: Prisma.AssignmentFieldGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AssignmentFieldGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AssignmentFieldCountArgs<ExtArgs>
+            result: $Utils.Optional<AssignmentFieldCountAggregateOutputType> | number
+          }
+        }
+      }
+      AssignmentSubmission: {
+        payload: Prisma.$AssignmentSubmissionPayload<ExtArgs>
+        fields: Prisma.AssignmentSubmissionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AssignmentSubmissionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignmentSubmissionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AssignmentSubmissionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignmentSubmissionPayload>
+          }
+          findFirst: {
+            args: Prisma.AssignmentSubmissionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignmentSubmissionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AssignmentSubmissionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignmentSubmissionPayload>
+          }
+          findMany: {
+            args: Prisma.AssignmentSubmissionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignmentSubmissionPayload>[]
+          }
+          create: {
+            args: Prisma.AssignmentSubmissionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignmentSubmissionPayload>
+          }
+          createMany: {
+            args: Prisma.AssignmentSubmissionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AssignmentSubmissionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignmentSubmissionPayload>[]
+          }
+          delete: {
+            args: Prisma.AssignmentSubmissionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignmentSubmissionPayload>
+          }
+          update: {
+            args: Prisma.AssignmentSubmissionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignmentSubmissionPayload>
+          }
+          deleteMany: {
+            args: Prisma.AssignmentSubmissionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AssignmentSubmissionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.AssignmentSubmissionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignmentSubmissionPayload>[]
+          }
+          upsert: {
+            args: Prisma.AssignmentSubmissionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignmentSubmissionPayload>
+          }
+          aggregate: {
+            args: Prisma.AssignmentSubmissionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAssignmentSubmission>
+          }
+          groupBy: {
+            args: Prisma.AssignmentSubmissionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AssignmentSubmissionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AssignmentSubmissionCountArgs<ExtArgs>
+            result: $Utils.Optional<AssignmentSubmissionCountAggregateOutputType> | number
+          }
+        }
+      }
+      TestAnswerFirst: {
+        payload: Prisma.$TestAnswerFirstPayload<ExtArgs>
+        fields: Prisma.TestAnswerFirstFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.TestAnswerFirstFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TestAnswerFirstPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.TestAnswerFirstFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TestAnswerFirstPayload>
+          }
+          findFirst: {
+            args: Prisma.TestAnswerFirstFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TestAnswerFirstPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.TestAnswerFirstFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TestAnswerFirstPayload>
+          }
+          findMany: {
+            args: Prisma.TestAnswerFirstFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TestAnswerFirstPayload>[]
+          }
+          create: {
+            args: Prisma.TestAnswerFirstCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TestAnswerFirstPayload>
+          }
+          createMany: {
+            args: Prisma.TestAnswerFirstCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.TestAnswerFirstCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TestAnswerFirstPayload>[]
+          }
+          delete: {
+            args: Prisma.TestAnswerFirstDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TestAnswerFirstPayload>
+          }
+          update: {
+            args: Prisma.TestAnswerFirstUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TestAnswerFirstPayload>
+          }
+          deleteMany: {
+            args: Prisma.TestAnswerFirstDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.TestAnswerFirstUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.TestAnswerFirstUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TestAnswerFirstPayload>[]
+          }
+          upsert: {
+            args: Prisma.TestAnswerFirstUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TestAnswerFirstPayload>
+          }
+          aggregate: {
+            args: Prisma.TestAnswerFirstAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTestAnswerFirst>
+          }
+          groupBy: {
+            args: Prisma.TestAnswerFirstGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TestAnswerFirstGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.TestAnswerFirstCountArgs<ExtArgs>
+            result: $Utils.Optional<TestAnswerFirstCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1327,6 +1777,11 @@ export namespace Prisma {
     course?: CourseOmit
     lesson?: LessonOmit
     attempt?: AttemptOmit
+    assignmentTemplate?: AssignmentTemplateOmit
+    assignment?: AssignmentOmit
+    assignmentField?: AssignmentFieldOmit
+    assignmentSubmission?: AssignmentSubmissionOmit
+    testAnswerFirst?: TestAnswerFirstOmit
   }
 
   /* Types for Logging */
@@ -1448,10 +1903,14 @@ export namespace Prisma {
 
   export type StudentCountOutputType = {
     attempts: number
+    submissions: number
+    testAnswerFirsts: number
   }
 
   export type StudentCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     attempts?: boolean | StudentCountOutputTypeCountAttemptsArgs
+    submissions?: boolean | StudentCountOutputTypeCountSubmissionsArgs
+    testAnswerFirsts?: boolean | StudentCountOutputTypeCountTestAnswerFirstsArgs
   }
 
   // Custom InputTypes
@@ -1470,6 +1929,20 @@ export namespace Prisma {
    */
   export type StudentCountOutputTypeCountAttemptsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: AttemptWhereInput
+  }
+
+  /**
+   * StudentCountOutputType without action
+   */
+  export type StudentCountOutputTypeCountSubmissionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AssignmentSubmissionWhereInput
+  }
+
+  /**
+   * StudentCountOutputType without action
+   */
+  export type StudentCountOutputTypeCountTestAnswerFirstsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TestAnswerFirstWhereInput
   }
 
 
@@ -1541,10 +2014,12 @@ export namespace Prisma {
 
   export type LessonCountOutputType = {
     attempts: number
+    assignments: number
   }
 
   export type LessonCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     attempts?: boolean | LessonCountOutputTypeCountAttemptsArgs
+    assignments?: boolean | LessonCountOutputTypeCountAssignmentsArgs
   }
 
   // Custom InputTypes
@@ -1563,6 +2038,62 @@ export namespace Prisma {
    */
   export type LessonCountOutputTypeCountAttemptsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: AttemptWhereInput
+  }
+
+  /**
+   * LessonCountOutputType without action
+   */
+  export type LessonCountOutputTypeCountAssignmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AssignmentWhereInput
+  }
+
+
+  /**
+   * Count Type AssignmentCountOutputType
+   */
+
+  export type AssignmentCountOutputType = {
+    fields: number
+    submissions: number
+    testAnswerFirsts: number
+  }
+
+  export type AssignmentCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    fields?: boolean | AssignmentCountOutputTypeCountFieldsArgs
+    submissions?: boolean | AssignmentCountOutputTypeCountSubmissionsArgs
+    testAnswerFirsts?: boolean | AssignmentCountOutputTypeCountTestAnswerFirstsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * AssignmentCountOutputType without action
+   */
+  export type AssignmentCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssignmentCountOutputType
+     */
+    select?: AssignmentCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * AssignmentCountOutputType without action
+   */
+  export type AssignmentCountOutputTypeCountFieldsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AssignmentFieldWhereInput
+  }
+
+  /**
+   * AssignmentCountOutputType without action
+   */
+  export type AssignmentCountOutputTypeCountSubmissionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AssignmentSubmissionWhereInput
+  }
+
+  /**
+   * AssignmentCountOutputType without action
+   */
+  export type AssignmentCountOutputTypeCountTestAnswerFirstsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TestAnswerFirstWhereInput
   }
 
 
@@ -2918,6 +3449,8 @@ export namespace Prisma {
     updatedAt?: boolean
     school?: boolean | SchoolDefaultArgs<ExtArgs>
     attempts?: boolean | Student$attemptsArgs<ExtArgs>
+    submissions?: boolean | Student$submissionsArgs<ExtArgs>
+    testAnswerFirsts?: boolean | Student$testAnswerFirstsArgs<ExtArgs>
     _count?: boolean | StudentCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["student"]>
 
@@ -2966,6 +3499,8 @@ export namespace Prisma {
   export type StudentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     school?: boolean | SchoolDefaultArgs<ExtArgs>
     attempts?: boolean | Student$attemptsArgs<ExtArgs>
+    submissions?: boolean | Student$submissionsArgs<ExtArgs>
+    testAnswerFirsts?: boolean | Student$testAnswerFirstsArgs<ExtArgs>
     _count?: boolean | StudentCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type StudentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2980,6 +3515,8 @@ export namespace Prisma {
     objects: {
       school: Prisma.$SchoolPayload<ExtArgs>
       attempts: Prisma.$AttemptPayload<ExtArgs>[]
+      submissions: Prisma.$AssignmentSubmissionPayload<ExtArgs>[]
+      testAnswerFirsts: Prisma.$TestAnswerFirstPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -3388,6 +3925,8 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     school<T extends SchoolDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SchoolDefaultArgs<ExtArgs>>): Prisma__SchoolClient<$Result.GetResult<Prisma.$SchoolPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     attempts<T extends Student$attemptsArgs<ExtArgs> = {}>(args?: Subset<T, Student$attemptsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttemptPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    submissions<T extends Student$submissionsArgs<ExtArgs> = {}>(args?: Subset<T, Student$submissionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssignmentSubmissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    testAnswerFirsts<T extends Student$testAnswerFirstsArgs<ExtArgs> = {}>(args?: Subset<T, Student$testAnswerFirstsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TestAnswerFirstPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3842,6 +4381,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: AttemptScalarFieldEnum | AttemptScalarFieldEnum[]
+  }
+
+  /**
+   * Student.submissions
+   */
+  export type Student$submissionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssignmentSubmission
+     */
+    select?: AssignmentSubmissionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssignmentSubmission
+     */
+    omit?: AssignmentSubmissionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignmentSubmissionInclude<ExtArgs> | null
+    where?: AssignmentSubmissionWhereInput
+    orderBy?: AssignmentSubmissionOrderByWithRelationInput | AssignmentSubmissionOrderByWithRelationInput[]
+    cursor?: AssignmentSubmissionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AssignmentSubmissionScalarFieldEnum | AssignmentSubmissionScalarFieldEnum[]
+  }
+
+  /**
+   * Student.testAnswerFirsts
+   */
+  export type Student$testAnswerFirstsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TestAnswerFirst
+     */
+    select?: TestAnswerFirstSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TestAnswerFirst
+     */
+    omit?: TestAnswerFirstOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TestAnswerFirstInclude<ExtArgs> | null
+    where?: TestAnswerFirstWhereInput
+    orderBy?: TestAnswerFirstOrderByWithRelationInput | TestAnswerFirstOrderByWithRelationInput[]
+    cursor?: TestAnswerFirstWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TestAnswerFirstScalarFieldEnum | TestAnswerFirstScalarFieldEnum[]
   }
 
   /**
@@ -7350,6 +7937,7 @@ export namespace Prisma {
     updatedAt?: boolean
     course?: boolean | CourseDefaultArgs<ExtArgs>
     attempts?: boolean | Lesson$attemptsArgs<ExtArgs>
+    assignments?: boolean | Lesson$assignmentsArgs<ExtArgs>
     _count?: boolean | LessonCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["lesson"]>
 
@@ -7386,6 +7974,7 @@ export namespace Prisma {
   export type LessonInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     course?: boolean | CourseDefaultArgs<ExtArgs>
     attempts?: boolean | Lesson$attemptsArgs<ExtArgs>
+    assignments?: boolean | Lesson$assignmentsArgs<ExtArgs>
     _count?: boolean | LessonCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type LessonIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -7400,6 +7989,7 @@ export namespace Prisma {
     objects: {
       course: Prisma.$CoursePayload<ExtArgs>
       attempts: Prisma.$AttemptPayload<ExtArgs>[]
+      assignments: Prisma.$AssignmentPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -7804,6 +8394,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     course<T extends CourseDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CourseDefaultArgs<ExtArgs>>): Prisma__CourseClient<$Result.GetResult<Prisma.$CoursePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     attempts<T extends Lesson$attemptsArgs<ExtArgs> = {}>(args?: Subset<T, Lesson$attemptsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttemptPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    assignments<T extends Lesson$assignmentsArgs<ExtArgs> = {}>(args?: Subset<T, Lesson$assignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8254,6 +8845,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: AttemptScalarFieldEnum | AttemptScalarFieldEnum[]
+  }
+
+  /**
+   * Lesson.assignments
+   */
+  export type Lesson$assignmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Assignment
+     */
+    select?: AssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Assignment
+     */
+    omit?: AssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignmentInclude<ExtArgs> | null
+    where?: AssignmentWhereInput
+    orderBy?: AssignmentOrderByWithRelationInput | AssignmentOrderByWithRelationInput[]
+    cursor?: AssignmentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AssignmentScalarFieldEnum | AssignmentScalarFieldEnum[]
   }
 
   /**
@@ -9386,6 +10001,5834 @@ export namespace Prisma {
 
 
   /**
+   * Model AssignmentTemplate
+   */
+
+  export type AggregateAssignmentTemplate = {
+    _count: AssignmentTemplateCountAggregateOutputType | null
+    _avg: AssignmentTemplateAvgAggregateOutputType | null
+    _sum: AssignmentTemplateSumAggregateOutputType | null
+    _min: AssignmentTemplateMinAggregateOutputType | null
+    _max: AssignmentTemplateMaxAggregateOutputType | null
+  }
+
+  export type AssignmentTemplateAvgAggregateOutputType = {
+    id: number | null
+  }
+
+  export type AssignmentTemplateSumAggregateOutputType = {
+    id: number | null
+  }
+
+  export type AssignmentTemplateMinAggregateOutputType = {
+    id: number | null
+    key: string | null
+    title: string | null
+    description: string | null
+    configJson: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AssignmentTemplateMaxAggregateOutputType = {
+    id: number | null
+    key: string | null
+    title: string | null
+    description: string | null
+    configJson: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AssignmentTemplateCountAggregateOutputType = {
+    id: number
+    key: number
+    title: number
+    description: number
+    configJson: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type AssignmentTemplateAvgAggregateInputType = {
+    id?: true
+  }
+
+  export type AssignmentTemplateSumAggregateInputType = {
+    id?: true
+  }
+
+  export type AssignmentTemplateMinAggregateInputType = {
+    id?: true
+    key?: true
+    title?: true
+    description?: true
+    configJson?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AssignmentTemplateMaxAggregateInputType = {
+    id?: true
+    key?: true
+    title?: true
+    description?: true
+    configJson?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AssignmentTemplateCountAggregateInputType = {
+    id?: true
+    key?: true
+    title?: true
+    description?: true
+    configJson?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type AssignmentTemplateAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AssignmentTemplate to aggregate.
+     */
+    where?: AssignmentTemplateWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AssignmentTemplates to fetch.
+     */
+    orderBy?: AssignmentTemplateOrderByWithRelationInput | AssignmentTemplateOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AssignmentTemplateWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AssignmentTemplates from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AssignmentTemplates.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned AssignmentTemplates
+    **/
+    _count?: true | AssignmentTemplateCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: AssignmentTemplateAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: AssignmentTemplateSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AssignmentTemplateMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AssignmentTemplateMaxAggregateInputType
+  }
+
+  export type GetAssignmentTemplateAggregateType<T extends AssignmentTemplateAggregateArgs> = {
+        [P in keyof T & keyof AggregateAssignmentTemplate]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAssignmentTemplate[P]>
+      : GetScalarType<T[P], AggregateAssignmentTemplate[P]>
+  }
+
+
+
+
+  export type AssignmentTemplateGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AssignmentTemplateWhereInput
+    orderBy?: AssignmentTemplateOrderByWithAggregationInput | AssignmentTemplateOrderByWithAggregationInput[]
+    by: AssignmentTemplateScalarFieldEnum[] | AssignmentTemplateScalarFieldEnum
+    having?: AssignmentTemplateScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AssignmentTemplateCountAggregateInputType | true
+    _avg?: AssignmentTemplateAvgAggregateInputType
+    _sum?: AssignmentTemplateSumAggregateInputType
+    _min?: AssignmentTemplateMinAggregateInputType
+    _max?: AssignmentTemplateMaxAggregateInputType
+  }
+
+  export type AssignmentTemplateGroupByOutputType = {
+    id: number
+    key: string
+    title: string
+    description: string | null
+    configJson: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: AssignmentTemplateCountAggregateOutputType | null
+    _avg: AssignmentTemplateAvgAggregateOutputType | null
+    _sum: AssignmentTemplateSumAggregateOutputType | null
+    _min: AssignmentTemplateMinAggregateOutputType | null
+    _max: AssignmentTemplateMaxAggregateOutputType | null
+  }
+
+  type GetAssignmentTemplateGroupByPayload<T extends AssignmentTemplateGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AssignmentTemplateGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AssignmentTemplateGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AssignmentTemplateGroupByOutputType[P]>
+            : GetScalarType<T[P], AssignmentTemplateGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AssignmentTemplateSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    key?: boolean
+    title?: boolean
+    description?: boolean
+    configJson?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["assignmentTemplate"]>
+
+  export type AssignmentTemplateSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    key?: boolean
+    title?: boolean
+    description?: boolean
+    configJson?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["assignmentTemplate"]>
+
+  export type AssignmentTemplateSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    key?: boolean
+    title?: boolean
+    description?: boolean
+    configJson?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["assignmentTemplate"]>
+
+  export type AssignmentTemplateSelectScalar = {
+    id?: boolean
+    key?: boolean
+    title?: boolean
+    description?: boolean
+    configJson?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type AssignmentTemplateOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "key" | "title" | "description" | "configJson" | "createdAt" | "updatedAt", ExtArgs["result"]["assignmentTemplate"]>
+
+  export type $AssignmentTemplatePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "AssignmentTemplate"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      key: string
+      title: string
+      description: string | null
+      configJson: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["assignmentTemplate"]>
+    composites: {}
+  }
+
+  type AssignmentTemplateGetPayload<S extends boolean | null | undefined | AssignmentTemplateDefaultArgs> = $Result.GetResult<Prisma.$AssignmentTemplatePayload, S>
+
+  type AssignmentTemplateCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AssignmentTemplateFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AssignmentTemplateCountAggregateInputType | true
+    }
+
+  export interface AssignmentTemplateDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AssignmentTemplate'], meta: { name: 'AssignmentTemplate' } }
+    /**
+     * Find zero or one AssignmentTemplate that matches the filter.
+     * @param {AssignmentTemplateFindUniqueArgs} args - Arguments to find a AssignmentTemplate
+     * @example
+     * // Get one AssignmentTemplate
+     * const assignmentTemplate = await prisma.assignmentTemplate.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AssignmentTemplateFindUniqueArgs>(args: SelectSubset<T, AssignmentTemplateFindUniqueArgs<ExtArgs>>): Prisma__AssignmentTemplateClient<$Result.GetResult<Prisma.$AssignmentTemplatePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one AssignmentTemplate that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {AssignmentTemplateFindUniqueOrThrowArgs} args - Arguments to find a AssignmentTemplate
+     * @example
+     * // Get one AssignmentTemplate
+     * const assignmentTemplate = await prisma.assignmentTemplate.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AssignmentTemplateFindUniqueOrThrowArgs>(args: SelectSubset<T, AssignmentTemplateFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AssignmentTemplateClient<$Result.GetResult<Prisma.$AssignmentTemplatePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AssignmentTemplate that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssignmentTemplateFindFirstArgs} args - Arguments to find a AssignmentTemplate
+     * @example
+     * // Get one AssignmentTemplate
+     * const assignmentTemplate = await prisma.assignmentTemplate.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AssignmentTemplateFindFirstArgs>(args?: SelectSubset<T, AssignmentTemplateFindFirstArgs<ExtArgs>>): Prisma__AssignmentTemplateClient<$Result.GetResult<Prisma.$AssignmentTemplatePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AssignmentTemplate that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssignmentTemplateFindFirstOrThrowArgs} args - Arguments to find a AssignmentTemplate
+     * @example
+     * // Get one AssignmentTemplate
+     * const assignmentTemplate = await prisma.assignmentTemplate.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AssignmentTemplateFindFirstOrThrowArgs>(args?: SelectSubset<T, AssignmentTemplateFindFirstOrThrowArgs<ExtArgs>>): Prisma__AssignmentTemplateClient<$Result.GetResult<Prisma.$AssignmentTemplatePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more AssignmentTemplates that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssignmentTemplateFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AssignmentTemplates
+     * const assignmentTemplates = await prisma.assignmentTemplate.findMany()
+     * 
+     * // Get first 10 AssignmentTemplates
+     * const assignmentTemplates = await prisma.assignmentTemplate.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const assignmentTemplateWithIdOnly = await prisma.assignmentTemplate.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AssignmentTemplateFindManyArgs>(args?: SelectSubset<T, AssignmentTemplateFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssignmentTemplatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a AssignmentTemplate.
+     * @param {AssignmentTemplateCreateArgs} args - Arguments to create a AssignmentTemplate.
+     * @example
+     * // Create one AssignmentTemplate
+     * const AssignmentTemplate = await prisma.assignmentTemplate.create({
+     *   data: {
+     *     // ... data to create a AssignmentTemplate
+     *   }
+     * })
+     * 
+     */
+    create<T extends AssignmentTemplateCreateArgs>(args: SelectSubset<T, AssignmentTemplateCreateArgs<ExtArgs>>): Prisma__AssignmentTemplateClient<$Result.GetResult<Prisma.$AssignmentTemplatePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many AssignmentTemplates.
+     * @param {AssignmentTemplateCreateManyArgs} args - Arguments to create many AssignmentTemplates.
+     * @example
+     * // Create many AssignmentTemplates
+     * const assignmentTemplate = await prisma.assignmentTemplate.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AssignmentTemplateCreateManyArgs>(args?: SelectSubset<T, AssignmentTemplateCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many AssignmentTemplates and returns the data saved in the database.
+     * @param {AssignmentTemplateCreateManyAndReturnArgs} args - Arguments to create many AssignmentTemplates.
+     * @example
+     * // Create many AssignmentTemplates
+     * const assignmentTemplate = await prisma.assignmentTemplate.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many AssignmentTemplates and only return the `id`
+     * const assignmentTemplateWithIdOnly = await prisma.assignmentTemplate.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AssignmentTemplateCreateManyAndReturnArgs>(args?: SelectSubset<T, AssignmentTemplateCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssignmentTemplatePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a AssignmentTemplate.
+     * @param {AssignmentTemplateDeleteArgs} args - Arguments to delete one AssignmentTemplate.
+     * @example
+     * // Delete one AssignmentTemplate
+     * const AssignmentTemplate = await prisma.assignmentTemplate.delete({
+     *   where: {
+     *     // ... filter to delete one AssignmentTemplate
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AssignmentTemplateDeleteArgs>(args: SelectSubset<T, AssignmentTemplateDeleteArgs<ExtArgs>>): Prisma__AssignmentTemplateClient<$Result.GetResult<Prisma.$AssignmentTemplatePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one AssignmentTemplate.
+     * @param {AssignmentTemplateUpdateArgs} args - Arguments to update one AssignmentTemplate.
+     * @example
+     * // Update one AssignmentTemplate
+     * const assignmentTemplate = await prisma.assignmentTemplate.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AssignmentTemplateUpdateArgs>(args: SelectSubset<T, AssignmentTemplateUpdateArgs<ExtArgs>>): Prisma__AssignmentTemplateClient<$Result.GetResult<Prisma.$AssignmentTemplatePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more AssignmentTemplates.
+     * @param {AssignmentTemplateDeleteManyArgs} args - Arguments to filter AssignmentTemplates to delete.
+     * @example
+     * // Delete a few AssignmentTemplates
+     * const { count } = await prisma.assignmentTemplate.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AssignmentTemplateDeleteManyArgs>(args?: SelectSubset<T, AssignmentTemplateDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AssignmentTemplates.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssignmentTemplateUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AssignmentTemplates
+     * const assignmentTemplate = await prisma.assignmentTemplate.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AssignmentTemplateUpdateManyArgs>(args: SelectSubset<T, AssignmentTemplateUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AssignmentTemplates and returns the data updated in the database.
+     * @param {AssignmentTemplateUpdateManyAndReturnArgs} args - Arguments to update many AssignmentTemplates.
+     * @example
+     * // Update many AssignmentTemplates
+     * const assignmentTemplate = await prisma.assignmentTemplate.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more AssignmentTemplates and only return the `id`
+     * const assignmentTemplateWithIdOnly = await prisma.assignmentTemplate.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends AssignmentTemplateUpdateManyAndReturnArgs>(args: SelectSubset<T, AssignmentTemplateUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssignmentTemplatePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one AssignmentTemplate.
+     * @param {AssignmentTemplateUpsertArgs} args - Arguments to update or create a AssignmentTemplate.
+     * @example
+     * // Update or create a AssignmentTemplate
+     * const assignmentTemplate = await prisma.assignmentTemplate.upsert({
+     *   create: {
+     *     // ... data to create a AssignmentTemplate
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AssignmentTemplate we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AssignmentTemplateUpsertArgs>(args: SelectSubset<T, AssignmentTemplateUpsertArgs<ExtArgs>>): Prisma__AssignmentTemplateClient<$Result.GetResult<Prisma.$AssignmentTemplatePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of AssignmentTemplates.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssignmentTemplateCountArgs} args - Arguments to filter AssignmentTemplates to count.
+     * @example
+     * // Count the number of AssignmentTemplates
+     * const count = await prisma.assignmentTemplate.count({
+     *   where: {
+     *     // ... the filter for the AssignmentTemplates we want to count
+     *   }
+     * })
+    **/
+    count<T extends AssignmentTemplateCountArgs>(
+      args?: Subset<T, AssignmentTemplateCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AssignmentTemplateCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a AssignmentTemplate.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssignmentTemplateAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AssignmentTemplateAggregateArgs>(args: Subset<T, AssignmentTemplateAggregateArgs>): Prisma.PrismaPromise<GetAssignmentTemplateAggregateType<T>>
+
+    /**
+     * Group by AssignmentTemplate.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssignmentTemplateGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AssignmentTemplateGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AssignmentTemplateGroupByArgs['orderBy'] }
+        : { orderBy?: AssignmentTemplateGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AssignmentTemplateGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAssignmentTemplateGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the AssignmentTemplate model
+   */
+  readonly fields: AssignmentTemplateFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AssignmentTemplate.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AssignmentTemplateClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the AssignmentTemplate model
+   */
+  interface AssignmentTemplateFieldRefs {
+    readonly id: FieldRef<"AssignmentTemplate", 'Int'>
+    readonly key: FieldRef<"AssignmentTemplate", 'String'>
+    readonly title: FieldRef<"AssignmentTemplate", 'String'>
+    readonly description: FieldRef<"AssignmentTemplate", 'String'>
+    readonly configJson: FieldRef<"AssignmentTemplate", 'String'>
+    readonly createdAt: FieldRef<"AssignmentTemplate", 'DateTime'>
+    readonly updatedAt: FieldRef<"AssignmentTemplate", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * AssignmentTemplate findUnique
+   */
+  export type AssignmentTemplateFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssignmentTemplate
+     */
+    select?: AssignmentTemplateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssignmentTemplate
+     */
+    omit?: AssignmentTemplateOmit<ExtArgs> | null
+    /**
+     * Filter, which AssignmentTemplate to fetch.
+     */
+    where: AssignmentTemplateWhereUniqueInput
+  }
+
+  /**
+   * AssignmentTemplate findUniqueOrThrow
+   */
+  export type AssignmentTemplateFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssignmentTemplate
+     */
+    select?: AssignmentTemplateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssignmentTemplate
+     */
+    omit?: AssignmentTemplateOmit<ExtArgs> | null
+    /**
+     * Filter, which AssignmentTemplate to fetch.
+     */
+    where: AssignmentTemplateWhereUniqueInput
+  }
+
+  /**
+   * AssignmentTemplate findFirst
+   */
+  export type AssignmentTemplateFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssignmentTemplate
+     */
+    select?: AssignmentTemplateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssignmentTemplate
+     */
+    omit?: AssignmentTemplateOmit<ExtArgs> | null
+    /**
+     * Filter, which AssignmentTemplate to fetch.
+     */
+    where?: AssignmentTemplateWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AssignmentTemplates to fetch.
+     */
+    orderBy?: AssignmentTemplateOrderByWithRelationInput | AssignmentTemplateOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AssignmentTemplates.
+     */
+    cursor?: AssignmentTemplateWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AssignmentTemplates from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AssignmentTemplates.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AssignmentTemplates.
+     */
+    distinct?: AssignmentTemplateScalarFieldEnum | AssignmentTemplateScalarFieldEnum[]
+  }
+
+  /**
+   * AssignmentTemplate findFirstOrThrow
+   */
+  export type AssignmentTemplateFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssignmentTemplate
+     */
+    select?: AssignmentTemplateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssignmentTemplate
+     */
+    omit?: AssignmentTemplateOmit<ExtArgs> | null
+    /**
+     * Filter, which AssignmentTemplate to fetch.
+     */
+    where?: AssignmentTemplateWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AssignmentTemplates to fetch.
+     */
+    orderBy?: AssignmentTemplateOrderByWithRelationInput | AssignmentTemplateOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AssignmentTemplates.
+     */
+    cursor?: AssignmentTemplateWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AssignmentTemplates from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AssignmentTemplates.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AssignmentTemplates.
+     */
+    distinct?: AssignmentTemplateScalarFieldEnum | AssignmentTemplateScalarFieldEnum[]
+  }
+
+  /**
+   * AssignmentTemplate findMany
+   */
+  export type AssignmentTemplateFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssignmentTemplate
+     */
+    select?: AssignmentTemplateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssignmentTemplate
+     */
+    omit?: AssignmentTemplateOmit<ExtArgs> | null
+    /**
+     * Filter, which AssignmentTemplates to fetch.
+     */
+    where?: AssignmentTemplateWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AssignmentTemplates to fetch.
+     */
+    orderBy?: AssignmentTemplateOrderByWithRelationInput | AssignmentTemplateOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AssignmentTemplates.
+     */
+    cursor?: AssignmentTemplateWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AssignmentTemplates from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AssignmentTemplates.
+     */
+    skip?: number
+    distinct?: AssignmentTemplateScalarFieldEnum | AssignmentTemplateScalarFieldEnum[]
+  }
+
+  /**
+   * AssignmentTemplate create
+   */
+  export type AssignmentTemplateCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssignmentTemplate
+     */
+    select?: AssignmentTemplateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssignmentTemplate
+     */
+    omit?: AssignmentTemplateOmit<ExtArgs> | null
+    /**
+     * The data needed to create a AssignmentTemplate.
+     */
+    data: XOR<AssignmentTemplateCreateInput, AssignmentTemplateUncheckedCreateInput>
+  }
+
+  /**
+   * AssignmentTemplate createMany
+   */
+  export type AssignmentTemplateCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many AssignmentTemplates.
+     */
+    data: AssignmentTemplateCreateManyInput | AssignmentTemplateCreateManyInput[]
+  }
+
+  /**
+   * AssignmentTemplate createManyAndReturn
+   */
+  export type AssignmentTemplateCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssignmentTemplate
+     */
+    select?: AssignmentTemplateSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssignmentTemplate
+     */
+    omit?: AssignmentTemplateOmit<ExtArgs> | null
+    /**
+     * The data used to create many AssignmentTemplates.
+     */
+    data: AssignmentTemplateCreateManyInput | AssignmentTemplateCreateManyInput[]
+  }
+
+  /**
+   * AssignmentTemplate update
+   */
+  export type AssignmentTemplateUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssignmentTemplate
+     */
+    select?: AssignmentTemplateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssignmentTemplate
+     */
+    omit?: AssignmentTemplateOmit<ExtArgs> | null
+    /**
+     * The data needed to update a AssignmentTemplate.
+     */
+    data: XOR<AssignmentTemplateUpdateInput, AssignmentTemplateUncheckedUpdateInput>
+    /**
+     * Choose, which AssignmentTemplate to update.
+     */
+    where: AssignmentTemplateWhereUniqueInput
+  }
+
+  /**
+   * AssignmentTemplate updateMany
+   */
+  export type AssignmentTemplateUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update AssignmentTemplates.
+     */
+    data: XOR<AssignmentTemplateUpdateManyMutationInput, AssignmentTemplateUncheckedUpdateManyInput>
+    /**
+     * Filter which AssignmentTemplates to update
+     */
+    where?: AssignmentTemplateWhereInput
+    /**
+     * Limit how many AssignmentTemplates to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * AssignmentTemplate updateManyAndReturn
+   */
+  export type AssignmentTemplateUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssignmentTemplate
+     */
+    select?: AssignmentTemplateSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssignmentTemplate
+     */
+    omit?: AssignmentTemplateOmit<ExtArgs> | null
+    /**
+     * The data used to update AssignmentTemplates.
+     */
+    data: XOR<AssignmentTemplateUpdateManyMutationInput, AssignmentTemplateUncheckedUpdateManyInput>
+    /**
+     * Filter which AssignmentTemplates to update
+     */
+    where?: AssignmentTemplateWhereInput
+    /**
+     * Limit how many AssignmentTemplates to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * AssignmentTemplate upsert
+   */
+  export type AssignmentTemplateUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssignmentTemplate
+     */
+    select?: AssignmentTemplateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssignmentTemplate
+     */
+    omit?: AssignmentTemplateOmit<ExtArgs> | null
+    /**
+     * The filter to search for the AssignmentTemplate to update in case it exists.
+     */
+    where: AssignmentTemplateWhereUniqueInput
+    /**
+     * In case the AssignmentTemplate found by the `where` argument doesn't exist, create a new AssignmentTemplate with this data.
+     */
+    create: XOR<AssignmentTemplateCreateInput, AssignmentTemplateUncheckedCreateInput>
+    /**
+     * In case the AssignmentTemplate was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AssignmentTemplateUpdateInput, AssignmentTemplateUncheckedUpdateInput>
+  }
+
+  /**
+   * AssignmentTemplate delete
+   */
+  export type AssignmentTemplateDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssignmentTemplate
+     */
+    select?: AssignmentTemplateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssignmentTemplate
+     */
+    omit?: AssignmentTemplateOmit<ExtArgs> | null
+    /**
+     * Filter which AssignmentTemplate to delete.
+     */
+    where: AssignmentTemplateWhereUniqueInput
+  }
+
+  /**
+   * AssignmentTemplate deleteMany
+   */
+  export type AssignmentTemplateDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AssignmentTemplates to delete
+     */
+    where?: AssignmentTemplateWhereInput
+    /**
+     * Limit how many AssignmentTemplates to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * AssignmentTemplate without action
+   */
+  export type AssignmentTemplateDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssignmentTemplate
+     */
+    select?: AssignmentTemplateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssignmentTemplate
+     */
+    omit?: AssignmentTemplateOmit<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Assignment
+   */
+
+  export type AggregateAssignment = {
+    _count: AssignmentCountAggregateOutputType | null
+    _avg: AssignmentAvgAggregateOutputType | null
+    _sum: AssignmentSumAggregateOutputType | null
+    _min: AssignmentMinAggregateOutputType | null
+    _max: AssignmentMaxAggregateOutputType | null
+  }
+
+  export type AssignmentAvgAggregateOutputType = {
+    id: number | null
+    lessonId: number | null
+    maxScore: number | null
+    order: number | null
+  }
+
+  export type AssignmentSumAggregateOutputType = {
+    id: number | null
+    lessonId: number | null
+    maxScore: number | null
+    order: number | null
+  }
+
+  export type AssignmentMinAggregateOutputType = {
+    id: number | null
+    lessonId: number | null
+    title: string | null
+    goal: string | null
+    instruction: string | null
+    taskType: string | null
+    answerFormat: string | null
+    gradingMode: string | null
+    maxScore: number | null
+    order: number | null
+    isPublished: boolean | null
+    configJson: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AssignmentMaxAggregateOutputType = {
+    id: number | null
+    lessonId: number | null
+    title: string | null
+    goal: string | null
+    instruction: string | null
+    taskType: string | null
+    answerFormat: string | null
+    gradingMode: string | null
+    maxScore: number | null
+    order: number | null
+    isPublished: boolean | null
+    configJson: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AssignmentCountAggregateOutputType = {
+    id: number
+    lessonId: number
+    title: number
+    goal: number
+    instruction: number
+    taskType: number
+    answerFormat: number
+    gradingMode: number
+    maxScore: number
+    order: number
+    isPublished: number
+    configJson: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type AssignmentAvgAggregateInputType = {
+    id?: true
+    lessonId?: true
+    maxScore?: true
+    order?: true
+  }
+
+  export type AssignmentSumAggregateInputType = {
+    id?: true
+    lessonId?: true
+    maxScore?: true
+    order?: true
+  }
+
+  export type AssignmentMinAggregateInputType = {
+    id?: true
+    lessonId?: true
+    title?: true
+    goal?: true
+    instruction?: true
+    taskType?: true
+    answerFormat?: true
+    gradingMode?: true
+    maxScore?: true
+    order?: true
+    isPublished?: true
+    configJson?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AssignmentMaxAggregateInputType = {
+    id?: true
+    lessonId?: true
+    title?: true
+    goal?: true
+    instruction?: true
+    taskType?: true
+    answerFormat?: true
+    gradingMode?: true
+    maxScore?: true
+    order?: true
+    isPublished?: true
+    configJson?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AssignmentCountAggregateInputType = {
+    id?: true
+    lessonId?: true
+    title?: true
+    goal?: true
+    instruction?: true
+    taskType?: true
+    answerFormat?: true
+    gradingMode?: true
+    maxScore?: true
+    order?: true
+    isPublished?: true
+    configJson?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type AssignmentAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Assignment to aggregate.
+     */
+    where?: AssignmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Assignments to fetch.
+     */
+    orderBy?: AssignmentOrderByWithRelationInput | AssignmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AssignmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Assignments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Assignments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Assignments
+    **/
+    _count?: true | AssignmentCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: AssignmentAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: AssignmentSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AssignmentMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AssignmentMaxAggregateInputType
+  }
+
+  export type GetAssignmentAggregateType<T extends AssignmentAggregateArgs> = {
+        [P in keyof T & keyof AggregateAssignment]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAssignment[P]>
+      : GetScalarType<T[P], AggregateAssignment[P]>
+  }
+
+
+
+
+  export type AssignmentGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AssignmentWhereInput
+    orderBy?: AssignmentOrderByWithAggregationInput | AssignmentOrderByWithAggregationInput[]
+    by: AssignmentScalarFieldEnum[] | AssignmentScalarFieldEnum
+    having?: AssignmentScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AssignmentCountAggregateInputType | true
+    _avg?: AssignmentAvgAggregateInputType
+    _sum?: AssignmentSumAggregateInputType
+    _min?: AssignmentMinAggregateInputType
+    _max?: AssignmentMaxAggregateInputType
+  }
+
+  export type AssignmentGroupByOutputType = {
+    id: number
+    lessonId: number
+    title: string
+    goal: string | null
+    instruction: string
+    taskType: string
+    answerFormat: string
+    gradingMode: string
+    maxScore: number | null
+    order: number
+    isPublished: boolean
+    configJson: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: AssignmentCountAggregateOutputType | null
+    _avg: AssignmentAvgAggregateOutputType | null
+    _sum: AssignmentSumAggregateOutputType | null
+    _min: AssignmentMinAggregateOutputType | null
+    _max: AssignmentMaxAggregateOutputType | null
+  }
+
+  type GetAssignmentGroupByPayload<T extends AssignmentGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AssignmentGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AssignmentGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AssignmentGroupByOutputType[P]>
+            : GetScalarType<T[P], AssignmentGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AssignmentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    lessonId?: boolean
+    title?: boolean
+    goal?: boolean
+    instruction?: boolean
+    taskType?: boolean
+    answerFormat?: boolean
+    gradingMode?: boolean
+    maxScore?: boolean
+    order?: boolean
+    isPublished?: boolean
+    configJson?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    lesson?: boolean | LessonDefaultArgs<ExtArgs>
+    fields?: boolean | Assignment$fieldsArgs<ExtArgs>
+    submissions?: boolean | Assignment$submissionsArgs<ExtArgs>
+    testAnswerFirsts?: boolean | Assignment$testAnswerFirstsArgs<ExtArgs>
+    _count?: boolean | AssignmentCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["assignment"]>
+
+  export type AssignmentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    lessonId?: boolean
+    title?: boolean
+    goal?: boolean
+    instruction?: boolean
+    taskType?: boolean
+    answerFormat?: boolean
+    gradingMode?: boolean
+    maxScore?: boolean
+    order?: boolean
+    isPublished?: boolean
+    configJson?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    lesson?: boolean | LessonDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["assignment"]>
+
+  export type AssignmentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    lessonId?: boolean
+    title?: boolean
+    goal?: boolean
+    instruction?: boolean
+    taskType?: boolean
+    answerFormat?: boolean
+    gradingMode?: boolean
+    maxScore?: boolean
+    order?: boolean
+    isPublished?: boolean
+    configJson?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    lesson?: boolean | LessonDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["assignment"]>
+
+  export type AssignmentSelectScalar = {
+    id?: boolean
+    lessonId?: boolean
+    title?: boolean
+    goal?: boolean
+    instruction?: boolean
+    taskType?: boolean
+    answerFormat?: boolean
+    gradingMode?: boolean
+    maxScore?: boolean
+    order?: boolean
+    isPublished?: boolean
+    configJson?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type AssignmentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "lessonId" | "title" | "goal" | "instruction" | "taskType" | "answerFormat" | "gradingMode" | "maxScore" | "order" | "isPublished" | "configJson" | "createdAt" | "updatedAt", ExtArgs["result"]["assignment"]>
+  export type AssignmentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    lesson?: boolean | LessonDefaultArgs<ExtArgs>
+    fields?: boolean | Assignment$fieldsArgs<ExtArgs>
+    submissions?: boolean | Assignment$submissionsArgs<ExtArgs>
+    testAnswerFirsts?: boolean | Assignment$testAnswerFirstsArgs<ExtArgs>
+    _count?: boolean | AssignmentCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type AssignmentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    lesson?: boolean | LessonDefaultArgs<ExtArgs>
+  }
+  export type AssignmentIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    lesson?: boolean | LessonDefaultArgs<ExtArgs>
+  }
+
+  export type $AssignmentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Assignment"
+    objects: {
+      lesson: Prisma.$LessonPayload<ExtArgs>
+      fields: Prisma.$AssignmentFieldPayload<ExtArgs>[]
+      submissions: Prisma.$AssignmentSubmissionPayload<ExtArgs>[]
+      testAnswerFirsts: Prisma.$TestAnswerFirstPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      lessonId: number
+      title: string
+      goal: string | null
+      instruction: string
+      taskType: string
+      answerFormat: string
+      gradingMode: string
+      maxScore: number | null
+      order: number
+      isPublished: boolean
+      configJson: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["assignment"]>
+    composites: {}
+  }
+
+  type AssignmentGetPayload<S extends boolean | null | undefined | AssignmentDefaultArgs> = $Result.GetResult<Prisma.$AssignmentPayload, S>
+
+  type AssignmentCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AssignmentFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AssignmentCountAggregateInputType | true
+    }
+
+  export interface AssignmentDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Assignment'], meta: { name: 'Assignment' } }
+    /**
+     * Find zero or one Assignment that matches the filter.
+     * @param {AssignmentFindUniqueArgs} args - Arguments to find a Assignment
+     * @example
+     * // Get one Assignment
+     * const assignment = await prisma.assignment.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AssignmentFindUniqueArgs>(args: SelectSubset<T, AssignmentFindUniqueArgs<ExtArgs>>): Prisma__AssignmentClient<$Result.GetResult<Prisma.$AssignmentPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Assignment that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {AssignmentFindUniqueOrThrowArgs} args - Arguments to find a Assignment
+     * @example
+     * // Get one Assignment
+     * const assignment = await prisma.assignment.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AssignmentFindUniqueOrThrowArgs>(args: SelectSubset<T, AssignmentFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AssignmentClient<$Result.GetResult<Prisma.$AssignmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Assignment that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssignmentFindFirstArgs} args - Arguments to find a Assignment
+     * @example
+     * // Get one Assignment
+     * const assignment = await prisma.assignment.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AssignmentFindFirstArgs>(args?: SelectSubset<T, AssignmentFindFirstArgs<ExtArgs>>): Prisma__AssignmentClient<$Result.GetResult<Prisma.$AssignmentPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Assignment that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssignmentFindFirstOrThrowArgs} args - Arguments to find a Assignment
+     * @example
+     * // Get one Assignment
+     * const assignment = await prisma.assignment.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AssignmentFindFirstOrThrowArgs>(args?: SelectSubset<T, AssignmentFindFirstOrThrowArgs<ExtArgs>>): Prisma__AssignmentClient<$Result.GetResult<Prisma.$AssignmentPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Assignments that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssignmentFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Assignments
+     * const assignments = await prisma.assignment.findMany()
+     * 
+     * // Get first 10 Assignments
+     * const assignments = await prisma.assignment.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const assignmentWithIdOnly = await prisma.assignment.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AssignmentFindManyArgs>(args?: SelectSubset<T, AssignmentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Assignment.
+     * @param {AssignmentCreateArgs} args - Arguments to create a Assignment.
+     * @example
+     * // Create one Assignment
+     * const Assignment = await prisma.assignment.create({
+     *   data: {
+     *     // ... data to create a Assignment
+     *   }
+     * })
+     * 
+     */
+    create<T extends AssignmentCreateArgs>(args: SelectSubset<T, AssignmentCreateArgs<ExtArgs>>): Prisma__AssignmentClient<$Result.GetResult<Prisma.$AssignmentPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Assignments.
+     * @param {AssignmentCreateManyArgs} args - Arguments to create many Assignments.
+     * @example
+     * // Create many Assignments
+     * const assignment = await prisma.assignment.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AssignmentCreateManyArgs>(args?: SelectSubset<T, AssignmentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Assignments and returns the data saved in the database.
+     * @param {AssignmentCreateManyAndReturnArgs} args - Arguments to create many Assignments.
+     * @example
+     * // Create many Assignments
+     * const assignment = await prisma.assignment.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Assignments and only return the `id`
+     * const assignmentWithIdOnly = await prisma.assignment.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AssignmentCreateManyAndReturnArgs>(args?: SelectSubset<T, AssignmentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssignmentPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Assignment.
+     * @param {AssignmentDeleteArgs} args - Arguments to delete one Assignment.
+     * @example
+     * // Delete one Assignment
+     * const Assignment = await prisma.assignment.delete({
+     *   where: {
+     *     // ... filter to delete one Assignment
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AssignmentDeleteArgs>(args: SelectSubset<T, AssignmentDeleteArgs<ExtArgs>>): Prisma__AssignmentClient<$Result.GetResult<Prisma.$AssignmentPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Assignment.
+     * @param {AssignmentUpdateArgs} args - Arguments to update one Assignment.
+     * @example
+     * // Update one Assignment
+     * const assignment = await prisma.assignment.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AssignmentUpdateArgs>(args: SelectSubset<T, AssignmentUpdateArgs<ExtArgs>>): Prisma__AssignmentClient<$Result.GetResult<Prisma.$AssignmentPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Assignments.
+     * @param {AssignmentDeleteManyArgs} args - Arguments to filter Assignments to delete.
+     * @example
+     * // Delete a few Assignments
+     * const { count } = await prisma.assignment.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AssignmentDeleteManyArgs>(args?: SelectSubset<T, AssignmentDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Assignments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssignmentUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Assignments
+     * const assignment = await prisma.assignment.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AssignmentUpdateManyArgs>(args: SelectSubset<T, AssignmentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Assignments and returns the data updated in the database.
+     * @param {AssignmentUpdateManyAndReturnArgs} args - Arguments to update many Assignments.
+     * @example
+     * // Update many Assignments
+     * const assignment = await prisma.assignment.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Assignments and only return the `id`
+     * const assignmentWithIdOnly = await prisma.assignment.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends AssignmentUpdateManyAndReturnArgs>(args: SelectSubset<T, AssignmentUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssignmentPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Assignment.
+     * @param {AssignmentUpsertArgs} args - Arguments to update or create a Assignment.
+     * @example
+     * // Update or create a Assignment
+     * const assignment = await prisma.assignment.upsert({
+     *   create: {
+     *     // ... data to create a Assignment
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Assignment we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AssignmentUpsertArgs>(args: SelectSubset<T, AssignmentUpsertArgs<ExtArgs>>): Prisma__AssignmentClient<$Result.GetResult<Prisma.$AssignmentPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Assignments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssignmentCountArgs} args - Arguments to filter Assignments to count.
+     * @example
+     * // Count the number of Assignments
+     * const count = await prisma.assignment.count({
+     *   where: {
+     *     // ... the filter for the Assignments we want to count
+     *   }
+     * })
+    **/
+    count<T extends AssignmentCountArgs>(
+      args?: Subset<T, AssignmentCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AssignmentCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Assignment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssignmentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AssignmentAggregateArgs>(args: Subset<T, AssignmentAggregateArgs>): Prisma.PrismaPromise<GetAssignmentAggregateType<T>>
+
+    /**
+     * Group by Assignment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssignmentGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AssignmentGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AssignmentGroupByArgs['orderBy'] }
+        : { orderBy?: AssignmentGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AssignmentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAssignmentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Assignment model
+   */
+  readonly fields: AssignmentFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Assignment.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AssignmentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    lesson<T extends LessonDefaultArgs<ExtArgs> = {}>(args?: Subset<T, LessonDefaultArgs<ExtArgs>>): Prisma__LessonClient<$Result.GetResult<Prisma.$LessonPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    fields<T extends Assignment$fieldsArgs<ExtArgs> = {}>(args?: Subset<T, Assignment$fieldsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssignmentFieldPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    submissions<T extends Assignment$submissionsArgs<ExtArgs> = {}>(args?: Subset<T, Assignment$submissionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssignmentSubmissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    testAnswerFirsts<T extends Assignment$testAnswerFirstsArgs<ExtArgs> = {}>(args?: Subset<T, Assignment$testAnswerFirstsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TestAnswerFirstPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Assignment model
+   */
+  interface AssignmentFieldRefs {
+    readonly id: FieldRef<"Assignment", 'Int'>
+    readonly lessonId: FieldRef<"Assignment", 'Int'>
+    readonly title: FieldRef<"Assignment", 'String'>
+    readonly goal: FieldRef<"Assignment", 'String'>
+    readonly instruction: FieldRef<"Assignment", 'String'>
+    readonly taskType: FieldRef<"Assignment", 'String'>
+    readonly answerFormat: FieldRef<"Assignment", 'String'>
+    readonly gradingMode: FieldRef<"Assignment", 'String'>
+    readonly maxScore: FieldRef<"Assignment", 'Int'>
+    readonly order: FieldRef<"Assignment", 'Int'>
+    readonly isPublished: FieldRef<"Assignment", 'Boolean'>
+    readonly configJson: FieldRef<"Assignment", 'String'>
+    readonly createdAt: FieldRef<"Assignment", 'DateTime'>
+    readonly updatedAt: FieldRef<"Assignment", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Assignment findUnique
+   */
+  export type AssignmentFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Assignment
+     */
+    select?: AssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Assignment
+     */
+    omit?: AssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignmentInclude<ExtArgs> | null
+    /**
+     * Filter, which Assignment to fetch.
+     */
+    where: AssignmentWhereUniqueInput
+  }
+
+  /**
+   * Assignment findUniqueOrThrow
+   */
+  export type AssignmentFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Assignment
+     */
+    select?: AssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Assignment
+     */
+    omit?: AssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignmentInclude<ExtArgs> | null
+    /**
+     * Filter, which Assignment to fetch.
+     */
+    where: AssignmentWhereUniqueInput
+  }
+
+  /**
+   * Assignment findFirst
+   */
+  export type AssignmentFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Assignment
+     */
+    select?: AssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Assignment
+     */
+    omit?: AssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignmentInclude<ExtArgs> | null
+    /**
+     * Filter, which Assignment to fetch.
+     */
+    where?: AssignmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Assignments to fetch.
+     */
+    orderBy?: AssignmentOrderByWithRelationInput | AssignmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Assignments.
+     */
+    cursor?: AssignmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Assignments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Assignments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Assignments.
+     */
+    distinct?: AssignmentScalarFieldEnum | AssignmentScalarFieldEnum[]
+  }
+
+  /**
+   * Assignment findFirstOrThrow
+   */
+  export type AssignmentFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Assignment
+     */
+    select?: AssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Assignment
+     */
+    omit?: AssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignmentInclude<ExtArgs> | null
+    /**
+     * Filter, which Assignment to fetch.
+     */
+    where?: AssignmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Assignments to fetch.
+     */
+    orderBy?: AssignmentOrderByWithRelationInput | AssignmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Assignments.
+     */
+    cursor?: AssignmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Assignments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Assignments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Assignments.
+     */
+    distinct?: AssignmentScalarFieldEnum | AssignmentScalarFieldEnum[]
+  }
+
+  /**
+   * Assignment findMany
+   */
+  export type AssignmentFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Assignment
+     */
+    select?: AssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Assignment
+     */
+    omit?: AssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignmentInclude<ExtArgs> | null
+    /**
+     * Filter, which Assignments to fetch.
+     */
+    where?: AssignmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Assignments to fetch.
+     */
+    orderBy?: AssignmentOrderByWithRelationInput | AssignmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Assignments.
+     */
+    cursor?: AssignmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Assignments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Assignments.
+     */
+    skip?: number
+    distinct?: AssignmentScalarFieldEnum | AssignmentScalarFieldEnum[]
+  }
+
+  /**
+   * Assignment create
+   */
+  export type AssignmentCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Assignment
+     */
+    select?: AssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Assignment
+     */
+    omit?: AssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignmentInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Assignment.
+     */
+    data: XOR<AssignmentCreateInput, AssignmentUncheckedCreateInput>
+  }
+
+  /**
+   * Assignment createMany
+   */
+  export type AssignmentCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Assignments.
+     */
+    data: AssignmentCreateManyInput | AssignmentCreateManyInput[]
+  }
+
+  /**
+   * Assignment createManyAndReturn
+   */
+  export type AssignmentCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Assignment
+     */
+    select?: AssignmentSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Assignment
+     */
+    omit?: AssignmentOmit<ExtArgs> | null
+    /**
+     * The data used to create many Assignments.
+     */
+    data: AssignmentCreateManyInput | AssignmentCreateManyInput[]
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignmentIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Assignment update
+   */
+  export type AssignmentUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Assignment
+     */
+    select?: AssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Assignment
+     */
+    omit?: AssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignmentInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Assignment.
+     */
+    data: XOR<AssignmentUpdateInput, AssignmentUncheckedUpdateInput>
+    /**
+     * Choose, which Assignment to update.
+     */
+    where: AssignmentWhereUniqueInput
+  }
+
+  /**
+   * Assignment updateMany
+   */
+  export type AssignmentUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Assignments.
+     */
+    data: XOR<AssignmentUpdateManyMutationInput, AssignmentUncheckedUpdateManyInput>
+    /**
+     * Filter which Assignments to update
+     */
+    where?: AssignmentWhereInput
+    /**
+     * Limit how many Assignments to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Assignment updateManyAndReturn
+   */
+  export type AssignmentUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Assignment
+     */
+    select?: AssignmentSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Assignment
+     */
+    omit?: AssignmentOmit<ExtArgs> | null
+    /**
+     * The data used to update Assignments.
+     */
+    data: XOR<AssignmentUpdateManyMutationInput, AssignmentUncheckedUpdateManyInput>
+    /**
+     * Filter which Assignments to update
+     */
+    where?: AssignmentWhereInput
+    /**
+     * Limit how many Assignments to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignmentIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Assignment upsert
+   */
+  export type AssignmentUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Assignment
+     */
+    select?: AssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Assignment
+     */
+    omit?: AssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignmentInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Assignment to update in case it exists.
+     */
+    where: AssignmentWhereUniqueInput
+    /**
+     * In case the Assignment found by the `where` argument doesn't exist, create a new Assignment with this data.
+     */
+    create: XOR<AssignmentCreateInput, AssignmentUncheckedCreateInput>
+    /**
+     * In case the Assignment was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AssignmentUpdateInput, AssignmentUncheckedUpdateInput>
+  }
+
+  /**
+   * Assignment delete
+   */
+  export type AssignmentDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Assignment
+     */
+    select?: AssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Assignment
+     */
+    omit?: AssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignmentInclude<ExtArgs> | null
+    /**
+     * Filter which Assignment to delete.
+     */
+    where: AssignmentWhereUniqueInput
+  }
+
+  /**
+   * Assignment deleteMany
+   */
+  export type AssignmentDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Assignments to delete
+     */
+    where?: AssignmentWhereInput
+    /**
+     * Limit how many Assignments to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Assignment.fields
+   */
+  export type Assignment$fieldsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssignmentField
+     */
+    select?: AssignmentFieldSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssignmentField
+     */
+    omit?: AssignmentFieldOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignmentFieldInclude<ExtArgs> | null
+    where?: AssignmentFieldWhereInput
+    orderBy?: AssignmentFieldOrderByWithRelationInput | AssignmentFieldOrderByWithRelationInput[]
+    cursor?: AssignmentFieldWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AssignmentFieldScalarFieldEnum | AssignmentFieldScalarFieldEnum[]
+  }
+
+  /**
+   * Assignment.submissions
+   */
+  export type Assignment$submissionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssignmentSubmission
+     */
+    select?: AssignmentSubmissionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssignmentSubmission
+     */
+    omit?: AssignmentSubmissionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignmentSubmissionInclude<ExtArgs> | null
+    where?: AssignmentSubmissionWhereInput
+    orderBy?: AssignmentSubmissionOrderByWithRelationInput | AssignmentSubmissionOrderByWithRelationInput[]
+    cursor?: AssignmentSubmissionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AssignmentSubmissionScalarFieldEnum | AssignmentSubmissionScalarFieldEnum[]
+  }
+
+  /**
+   * Assignment.testAnswerFirsts
+   */
+  export type Assignment$testAnswerFirstsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TestAnswerFirst
+     */
+    select?: TestAnswerFirstSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TestAnswerFirst
+     */
+    omit?: TestAnswerFirstOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TestAnswerFirstInclude<ExtArgs> | null
+    where?: TestAnswerFirstWhereInput
+    orderBy?: TestAnswerFirstOrderByWithRelationInput | TestAnswerFirstOrderByWithRelationInput[]
+    cursor?: TestAnswerFirstWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TestAnswerFirstScalarFieldEnum | TestAnswerFirstScalarFieldEnum[]
+  }
+
+  /**
+   * Assignment without action
+   */
+  export type AssignmentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Assignment
+     */
+    select?: AssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Assignment
+     */
+    omit?: AssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignmentInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model AssignmentField
+   */
+
+  export type AggregateAssignmentField = {
+    _count: AssignmentFieldCountAggregateOutputType | null
+    _avg: AssignmentFieldAvgAggregateOutputType | null
+    _sum: AssignmentFieldSumAggregateOutputType | null
+    _min: AssignmentFieldMinAggregateOutputType | null
+    _max: AssignmentFieldMaxAggregateOutputType | null
+  }
+
+  export type AssignmentFieldAvgAggregateOutputType = {
+    id: number | null
+    assignmentId: number | null
+    order: number | null
+  }
+
+  export type AssignmentFieldSumAggregateOutputType = {
+    id: number | null
+    assignmentId: number | null
+    order: number | null
+  }
+
+  export type AssignmentFieldMinAggregateOutputType = {
+    id: number | null
+    assignmentId: number | null
+    fieldKey: string | null
+    label: string | null
+    fieldType: string | null
+    required: boolean | null
+    order: number | null
+    optionsJson: string | null
+    rulesJson: string | null
+  }
+
+  export type AssignmentFieldMaxAggregateOutputType = {
+    id: number | null
+    assignmentId: number | null
+    fieldKey: string | null
+    label: string | null
+    fieldType: string | null
+    required: boolean | null
+    order: number | null
+    optionsJson: string | null
+    rulesJson: string | null
+  }
+
+  export type AssignmentFieldCountAggregateOutputType = {
+    id: number
+    assignmentId: number
+    fieldKey: number
+    label: number
+    fieldType: number
+    required: number
+    order: number
+    optionsJson: number
+    rulesJson: number
+    _all: number
+  }
+
+
+  export type AssignmentFieldAvgAggregateInputType = {
+    id?: true
+    assignmentId?: true
+    order?: true
+  }
+
+  export type AssignmentFieldSumAggregateInputType = {
+    id?: true
+    assignmentId?: true
+    order?: true
+  }
+
+  export type AssignmentFieldMinAggregateInputType = {
+    id?: true
+    assignmentId?: true
+    fieldKey?: true
+    label?: true
+    fieldType?: true
+    required?: true
+    order?: true
+    optionsJson?: true
+    rulesJson?: true
+  }
+
+  export type AssignmentFieldMaxAggregateInputType = {
+    id?: true
+    assignmentId?: true
+    fieldKey?: true
+    label?: true
+    fieldType?: true
+    required?: true
+    order?: true
+    optionsJson?: true
+    rulesJson?: true
+  }
+
+  export type AssignmentFieldCountAggregateInputType = {
+    id?: true
+    assignmentId?: true
+    fieldKey?: true
+    label?: true
+    fieldType?: true
+    required?: true
+    order?: true
+    optionsJson?: true
+    rulesJson?: true
+    _all?: true
+  }
+
+  export type AssignmentFieldAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AssignmentField to aggregate.
+     */
+    where?: AssignmentFieldWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AssignmentFields to fetch.
+     */
+    orderBy?: AssignmentFieldOrderByWithRelationInput | AssignmentFieldOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AssignmentFieldWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AssignmentFields from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AssignmentFields.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned AssignmentFields
+    **/
+    _count?: true | AssignmentFieldCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: AssignmentFieldAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: AssignmentFieldSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AssignmentFieldMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AssignmentFieldMaxAggregateInputType
+  }
+
+  export type GetAssignmentFieldAggregateType<T extends AssignmentFieldAggregateArgs> = {
+        [P in keyof T & keyof AggregateAssignmentField]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAssignmentField[P]>
+      : GetScalarType<T[P], AggregateAssignmentField[P]>
+  }
+
+
+
+
+  export type AssignmentFieldGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AssignmentFieldWhereInput
+    orderBy?: AssignmentFieldOrderByWithAggregationInput | AssignmentFieldOrderByWithAggregationInput[]
+    by: AssignmentFieldScalarFieldEnum[] | AssignmentFieldScalarFieldEnum
+    having?: AssignmentFieldScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AssignmentFieldCountAggregateInputType | true
+    _avg?: AssignmentFieldAvgAggregateInputType
+    _sum?: AssignmentFieldSumAggregateInputType
+    _min?: AssignmentFieldMinAggregateInputType
+    _max?: AssignmentFieldMaxAggregateInputType
+  }
+
+  export type AssignmentFieldGroupByOutputType = {
+    id: number
+    assignmentId: number
+    fieldKey: string
+    label: string
+    fieldType: string
+    required: boolean
+    order: number
+    optionsJson: string | null
+    rulesJson: string | null
+    _count: AssignmentFieldCountAggregateOutputType | null
+    _avg: AssignmentFieldAvgAggregateOutputType | null
+    _sum: AssignmentFieldSumAggregateOutputType | null
+    _min: AssignmentFieldMinAggregateOutputType | null
+    _max: AssignmentFieldMaxAggregateOutputType | null
+  }
+
+  type GetAssignmentFieldGroupByPayload<T extends AssignmentFieldGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AssignmentFieldGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AssignmentFieldGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AssignmentFieldGroupByOutputType[P]>
+            : GetScalarType<T[P], AssignmentFieldGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AssignmentFieldSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    assignmentId?: boolean
+    fieldKey?: boolean
+    label?: boolean
+    fieldType?: boolean
+    required?: boolean
+    order?: boolean
+    optionsJson?: boolean
+    rulesJson?: boolean
+    assignment?: boolean | AssignmentDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["assignmentField"]>
+
+  export type AssignmentFieldSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    assignmentId?: boolean
+    fieldKey?: boolean
+    label?: boolean
+    fieldType?: boolean
+    required?: boolean
+    order?: boolean
+    optionsJson?: boolean
+    rulesJson?: boolean
+    assignment?: boolean | AssignmentDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["assignmentField"]>
+
+  export type AssignmentFieldSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    assignmentId?: boolean
+    fieldKey?: boolean
+    label?: boolean
+    fieldType?: boolean
+    required?: boolean
+    order?: boolean
+    optionsJson?: boolean
+    rulesJson?: boolean
+    assignment?: boolean | AssignmentDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["assignmentField"]>
+
+  export type AssignmentFieldSelectScalar = {
+    id?: boolean
+    assignmentId?: boolean
+    fieldKey?: boolean
+    label?: boolean
+    fieldType?: boolean
+    required?: boolean
+    order?: boolean
+    optionsJson?: boolean
+    rulesJson?: boolean
+  }
+
+  export type AssignmentFieldOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "assignmentId" | "fieldKey" | "label" | "fieldType" | "required" | "order" | "optionsJson" | "rulesJson", ExtArgs["result"]["assignmentField"]>
+  export type AssignmentFieldInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    assignment?: boolean | AssignmentDefaultArgs<ExtArgs>
+  }
+  export type AssignmentFieldIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    assignment?: boolean | AssignmentDefaultArgs<ExtArgs>
+  }
+  export type AssignmentFieldIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    assignment?: boolean | AssignmentDefaultArgs<ExtArgs>
+  }
+
+  export type $AssignmentFieldPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "AssignmentField"
+    objects: {
+      assignment: Prisma.$AssignmentPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      assignmentId: number
+      fieldKey: string
+      label: string
+      fieldType: string
+      required: boolean
+      order: number
+      optionsJson: string | null
+      rulesJson: string | null
+    }, ExtArgs["result"]["assignmentField"]>
+    composites: {}
+  }
+
+  type AssignmentFieldGetPayload<S extends boolean | null | undefined | AssignmentFieldDefaultArgs> = $Result.GetResult<Prisma.$AssignmentFieldPayload, S>
+
+  type AssignmentFieldCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AssignmentFieldFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AssignmentFieldCountAggregateInputType | true
+    }
+
+  export interface AssignmentFieldDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AssignmentField'], meta: { name: 'AssignmentField' } }
+    /**
+     * Find zero or one AssignmentField that matches the filter.
+     * @param {AssignmentFieldFindUniqueArgs} args - Arguments to find a AssignmentField
+     * @example
+     * // Get one AssignmentField
+     * const assignmentField = await prisma.assignmentField.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AssignmentFieldFindUniqueArgs>(args: SelectSubset<T, AssignmentFieldFindUniqueArgs<ExtArgs>>): Prisma__AssignmentFieldClient<$Result.GetResult<Prisma.$AssignmentFieldPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one AssignmentField that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {AssignmentFieldFindUniqueOrThrowArgs} args - Arguments to find a AssignmentField
+     * @example
+     * // Get one AssignmentField
+     * const assignmentField = await prisma.assignmentField.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AssignmentFieldFindUniqueOrThrowArgs>(args: SelectSubset<T, AssignmentFieldFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AssignmentFieldClient<$Result.GetResult<Prisma.$AssignmentFieldPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AssignmentField that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssignmentFieldFindFirstArgs} args - Arguments to find a AssignmentField
+     * @example
+     * // Get one AssignmentField
+     * const assignmentField = await prisma.assignmentField.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AssignmentFieldFindFirstArgs>(args?: SelectSubset<T, AssignmentFieldFindFirstArgs<ExtArgs>>): Prisma__AssignmentFieldClient<$Result.GetResult<Prisma.$AssignmentFieldPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AssignmentField that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssignmentFieldFindFirstOrThrowArgs} args - Arguments to find a AssignmentField
+     * @example
+     * // Get one AssignmentField
+     * const assignmentField = await prisma.assignmentField.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AssignmentFieldFindFirstOrThrowArgs>(args?: SelectSubset<T, AssignmentFieldFindFirstOrThrowArgs<ExtArgs>>): Prisma__AssignmentFieldClient<$Result.GetResult<Prisma.$AssignmentFieldPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more AssignmentFields that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssignmentFieldFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AssignmentFields
+     * const assignmentFields = await prisma.assignmentField.findMany()
+     * 
+     * // Get first 10 AssignmentFields
+     * const assignmentFields = await prisma.assignmentField.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const assignmentFieldWithIdOnly = await prisma.assignmentField.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AssignmentFieldFindManyArgs>(args?: SelectSubset<T, AssignmentFieldFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssignmentFieldPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a AssignmentField.
+     * @param {AssignmentFieldCreateArgs} args - Arguments to create a AssignmentField.
+     * @example
+     * // Create one AssignmentField
+     * const AssignmentField = await prisma.assignmentField.create({
+     *   data: {
+     *     // ... data to create a AssignmentField
+     *   }
+     * })
+     * 
+     */
+    create<T extends AssignmentFieldCreateArgs>(args: SelectSubset<T, AssignmentFieldCreateArgs<ExtArgs>>): Prisma__AssignmentFieldClient<$Result.GetResult<Prisma.$AssignmentFieldPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many AssignmentFields.
+     * @param {AssignmentFieldCreateManyArgs} args - Arguments to create many AssignmentFields.
+     * @example
+     * // Create many AssignmentFields
+     * const assignmentField = await prisma.assignmentField.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AssignmentFieldCreateManyArgs>(args?: SelectSubset<T, AssignmentFieldCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many AssignmentFields and returns the data saved in the database.
+     * @param {AssignmentFieldCreateManyAndReturnArgs} args - Arguments to create many AssignmentFields.
+     * @example
+     * // Create many AssignmentFields
+     * const assignmentField = await prisma.assignmentField.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many AssignmentFields and only return the `id`
+     * const assignmentFieldWithIdOnly = await prisma.assignmentField.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AssignmentFieldCreateManyAndReturnArgs>(args?: SelectSubset<T, AssignmentFieldCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssignmentFieldPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a AssignmentField.
+     * @param {AssignmentFieldDeleteArgs} args - Arguments to delete one AssignmentField.
+     * @example
+     * // Delete one AssignmentField
+     * const AssignmentField = await prisma.assignmentField.delete({
+     *   where: {
+     *     // ... filter to delete one AssignmentField
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AssignmentFieldDeleteArgs>(args: SelectSubset<T, AssignmentFieldDeleteArgs<ExtArgs>>): Prisma__AssignmentFieldClient<$Result.GetResult<Prisma.$AssignmentFieldPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one AssignmentField.
+     * @param {AssignmentFieldUpdateArgs} args - Arguments to update one AssignmentField.
+     * @example
+     * // Update one AssignmentField
+     * const assignmentField = await prisma.assignmentField.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AssignmentFieldUpdateArgs>(args: SelectSubset<T, AssignmentFieldUpdateArgs<ExtArgs>>): Prisma__AssignmentFieldClient<$Result.GetResult<Prisma.$AssignmentFieldPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more AssignmentFields.
+     * @param {AssignmentFieldDeleteManyArgs} args - Arguments to filter AssignmentFields to delete.
+     * @example
+     * // Delete a few AssignmentFields
+     * const { count } = await prisma.assignmentField.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AssignmentFieldDeleteManyArgs>(args?: SelectSubset<T, AssignmentFieldDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AssignmentFields.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssignmentFieldUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AssignmentFields
+     * const assignmentField = await prisma.assignmentField.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AssignmentFieldUpdateManyArgs>(args: SelectSubset<T, AssignmentFieldUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AssignmentFields and returns the data updated in the database.
+     * @param {AssignmentFieldUpdateManyAndReturnArgs} args - Arguments to update many AssignmentFields.
+     * @example
+     * // Update many AssignmentFields
+     * const assignmentField = await prisma.assignmentField.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more AssignmentFields and only return the `id`
+     * const assignmentFieldWithIdOnly = await prisma.assignmentField.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends AssignmentFieldUpdateManyAndReturnArgs>(args: SelectSubset<T, AssignmentFieldUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssignmentFieldPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one AssignmentField.
+     * @param {AssignmentFieldUpsertArgs} args - Arguments to update or create a AssignmentField.
+     * @example
+     * // Update or create a AssignmentField
+     * const assignmentField = await prisma.assignmentField.upsert({
+     *   create: {
+     *     // ... data to create a AssignmentField
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AssignmentField we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AssignmentFieldUpsertArgs>(args: SelectSubset<T, AssignmentFieldUpsertArgs<ExtArgs>>): Prisma__AssignmentFieldClient<$Result.GetResult<Prisma.$AssignmentFieldPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of AssignmentFields.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssignmentFieldCountArgs} args - Arguments to filter AssignmentFields to count.
+     * @example
+     * // Count the number of AssignmentFields
+     * const count = await prisma.assignmentField.count({
+     *   where: {
+     *     // ... the filter for the AssignmentFields we want to count
+     *   }
+     * })
+    **/
+    count<T extends AssignmentFieldCountArgs>(
+      args?: Subset<T, AssignmentFieldCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AssignmentFieldCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a AssignmentField.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssignmentFieldAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AssignmentFieldAggregateArgs>(args: Subset<T, AssignmentFieldAggregateArgs>): Prisma.PrismaPromise<GetAssignmentFieldAggregateType<T>>
+
+    /**
+     * Group by AssignmentField.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssignmentFieldGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AssignmentFieldGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AssignmentFieldGroupByArgs['orderBy'] }
+        : { orderBy?: AssignmentFieldGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AssignmentFieldGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAssignmentFieldGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the AssignmentField model
+   */
+  readonly fields: AssignmentFieldFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AssignmentField.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AssignmentFieldClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    assignment<T extends AssignmentDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AssignmentDefaultArgs<ExtArgs>>): Prisma__AssignmentClient<$Result.GetResult<Prisma.$AssignmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the AssignmentField model
+   */
+  interface AssignmentFieldFieldRefs {
+    readonly id: FieldRef<"AssignmentField", 'Int'>
+    readonly assignmentId: FieldRef<"AssignmentField", 'Int'>
+    readonly fieldKey: FieldRef<"AssignmentField", 'String'>
+    readonly label: FieldRef<"AssignmentField", 'String'>
+    readonly fieldType: FieldRef<"AssignmentField", 'String'>
+    readonly required: FieldRef<"AssignmentField", 'Boolean'>
+    readonly order: FieldRef<"AssignmentField", 'Int'>
+    readonly optionsJson: FieldRef<"AssignmentField", 'String'>
+    readonly rulesJson: FieldRef<"AssignmentField", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * AssignmentField findUnique
+   */
+  export type AssignmentFieldFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssignmentField
+     */
+    select?: AssignmentFieldSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssignmentField
+     */
+    omit?: AssignmentFieldOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignmentFieldInclude<ExtArgs> | null
+    /**
+     * Filter, which AssignmentField to fetch.
+     */
+    where: AssignmentFieldWhereUniqueInput
+  }
+
+  /**
+   * AssignmentField findUniqueOrThrow
+   */
+  export type AssignmentFieldFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssignmentField
+     */
+    select?: AssignmentFieldSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssignmentField
+     */
+    omit?: AssignmentFieldOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignmentFieldInclude<ExtArgs> | null
+    /**
+     * Filter, which AssignmentField to fetch.
+     */
+    where: AssignmentFieldWhereUniqueInput
+  }
+
+  /**
+   * AssignmentField findFirst
+   */
+  export type AssignmentFieldFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssignmentField
+     */
+    select?: AssignmentFieldSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssignmentField
+     */
+    omit?: AssignmentFieldOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignmentFieldInclude<ExtArgs> | null
+    /**
+     * Filter, which AssignmentField to fetch.
+     */
+    where?: AssignmentFieldWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AssignmentFields to fetch.
+     */
+    orderBy?: AssignmentFieldOrderByWithRelationInput | AssignmentFieldOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AssignmentFields.
+     */
+    cursor?: AssignmentFieldWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AssignmentFields from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AssignmentFields.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AssignmentFields.
+     */
+    distinct?: AssignmentFieldScalarFieldEnum | AssignmentFieldScalarFieldEnum[]
+  }
+
+  /**
+   * AssignmentField findFirstOrThrow
+   */
+  export type AssignmentFieldFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssignmentField
+     */
+    select?: AssignmentFieldSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssignmentField
+     */
+    omit?: AssignmentFieldOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignmentFieldInclude<ExtArgs> | null
+    /**
+     * Filter, which AssignmentField to fetch.
+     */
+    where?: AssignmentFieldWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AssignmentFields to fetch.
+     */
+    orderBy?: AssignmentFieldOrderByWithRelationInput | AssignmentFieldOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AssignmentFields.
+     */
+    cursor?: AssignmentFieldWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AssignmentFields from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AssignmentFields.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AssignmentFields.
+     */
+    distinct?: AssignmentFieldScalarFieldEnum | AssignmentFieldScalarFieldEnum[]
+  }
+
+  /**
+   * AssignmentField findMany
+   */
+  export type AssignmentFieldFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssignmentField
+     */
+    select?: AssignmentFieldSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssignmentField
+     */
+    omit?: AssignmentFieldOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignmentFieldInclude<ExtArgs> | null
+    /**
+     * Filter, which AssignmentFields to fetch.
+     */
+    where?: AssignmentFieldWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AssignmentFields to fetch.
+     */
+    orderBy?: AssignmentFieldOrderByWithRelationInput | AssignmentFieldOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AssignmentFields.
+     */
+    cursor?: AssignmentFieldWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AssignmentFields from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AssignmentFields.
+     */
+    skip?: number
+    distinct?: AssignmentFieldScalarFieldEnum | AssignmentFieldScalarFieldEnum[]
+  }
+
+  /**
+   * AssignmentField create
+   */
+  export type AssignmentFieldCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssignmentField
+     */
+    select?: AssignmentFieldSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssignmentField
+     */
+    omit?: AssignmentFieldOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignmentFieldInclude<ExtArgs> | null
+    /**
+     * The data needed to create a AssignmentField.
+     */
+    data: XOR<AssignmentFieldCreateInput, AssignmentFieldUncheckedCreateInput>
+  }
+
+  /**
+   * AssignmentField createMany
+   */
+  export type AssignmentFieldCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many AssignmentFields.
+     */
+    data: AssignmentFieldCreateManyInput | AssignmentFieldCreateManyInput[]
+  }
+
+  /**
+   * AssignmentField createManyAndReturn
+   */
+  export type AssignmentFieldCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssignmentField
+     */
+    select?: AssignmentFieldSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssignmentField
+     */
+    omit?: AssignmentFieldOmit<ExtArgs> | null
+    /**
+     * The data used to create many AssignmentFields.
+     */
+    data: AssignmentFieldCreateManyInput | AssignmentFieldCreateManyInput[]
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignmentFieldIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AssignmentField update
+   */
+  export type AssignmentFieldUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssignmentField
+     */
+    select?: AssignmentFieldSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssignmentField
+     */
+    omit?: AssignmentFieldOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignmentFieldInclude<ExtArgs> | null
+    /**
+     * The data needed to update a AssignmentField.
+     */
+    data: XOR<AssignmentFieldUpdateInput, AssignmentFieldUncheckedUpdateInput>
+    /**
+     * Choose, which AssignmentField to update.
+     */
+    where: AssignmentFieldWhereUniqueInput
+  }
+
+  /**
+   * AssignmentField updateMany
+   */
+  export type AssignmentFieldUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update AssignmentFields.
+     */
+    data: XOR<AssignmentFieldUpdateManyMutationInput, AssignmentFieldUncheckedUpdateManyInput>
+    /**
+     * Filter which AssignmentFields to update
+     */
+    where?: AssignmentFieldWhereInput
+    /**
+     * Limit how many AssignmentFields to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * AssignmentField updateManyAndReturn
+   */
+  export type AssignmentFieldUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssignmentField
+     */
+    select?: AssignmentFieldSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssignmentField
+     */
+    omit?: AssignmentFieldOmit<ExtArgs> | null
+    /**
+     * The data used to update AssignmentFields.
+     */
+    data: XOR<AssignmentFieldUpdateManyMutationInput, AssignmentFieldUncheckedUpdateManyInput>
+    /**
+     * Filter which AssignmentFields to update
+     */
+    where?: AssignmentFieldWhereInput
+    /**
+     * Limit how many AssignmentFields to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignmentFieldIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AssignmentField upsert
+   */
+  export type AssignmentFieldUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssignmentField
+     */
+    select?: AssignmentFieldSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssignmentField
+     */
+    omit?: AssignmentFieldOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignmentFieldInclude<ExtArgs> | null
+    /**
+     * The filter to search for the AssignmentField to update in case it exists.
+     */
+    where: AssignmentFieldWhereUniqueInput
+    /**
+     * In case the AssignmentField found by the `where` argument doesn't exist, create a new AssignmentField with this data.
+     */
+    create: XOR<AssignmentFieldCreateInput, AssignmentFieldUncheckedCreateInput>
+    /**
+     * In case the AssignmentField was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AssignmentFieldUpdateInput, AssignmentFieldUncheckedUpdateInput>
+  }
+
+  /**
+   * AssignmentField delete
+   */
+  export type AssignmentFieldDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssignmentField
+     */
+    select?: AssignmentFieldSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssignmentField
+     */
+    omit?: AssignmentFieldOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignmentFieldInclude<ExtArgs> | null
+    /**
+     * Filter which AssignmentField to delete.
+     */
+    where: AssignmentFieldWhereUniqueInput
+  }
+
+  /**
+   * AssignmentField deleteMany
+   */
+  export type AssignmentFieldDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AssignmentFields to delete
+     */
+    where?: AssignmentFieldWhereInput
+    /**
+     * Limit how many AssignmentFields to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * AssignmentField without action
+   */
+  export type AssignmentFieldDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssignmentField
+     */
+    select?: AssignmentFieldSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssignmentField
+     */
+    omit?: AssignmentFieldOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignmentFieldInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model AssignmentSubmission
+   */
+
+  export type AggregateAssignmentSubmission = {
+    _count: AssignmentSubmissionCountAggregateOutputType | null
+    _avg: AssignmentSubmissionAvgAggregateOutputType | null
+    _sum: AssignmentSubmissionSumAggregateOutputType | null
+    _min: AssignmentSubmissionMinAggregateOutputType | null
+    _max: AssignmentSubmissionMaxAggregateOutputType | null
+  }
+
+  export type AssignmentSubmissionAvgAggregateOutputType = {
+    id: number | null
+    assignmentId: number | null
+    studentId: number | null
+    score: number | null
+  }
+
+  export type AssignmentSubmissionSumAggregateOutputType = {
+    id: number | null
+    assignmentId: number | null
+    studentId: number | null
+    score: number | null
+  }
+
+  export type AssignmentSubmissionMinAggregateOutputType = {
+    id: number | null
+    assignmentId: number | null
+    studentId: number | null
+    status: string | null
+    answersJson: string | null
+    score: number | null
+    gradingJson: string | null
+    feedback: string | null
+    submittedAt: Date | null
+    checkedAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AssignmentSubmissionMaxAggregateOutputType = {
+    id: number | null
+    assignmentId: number | null
+    studentId: number | null
+    status: string | null
+    answersJson: string | null
+    score: number | null
+    gradingJson: string | null
+    feedback: string | null
+    submittedAt: Date | null
+    checkedAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AssignmentSubmissionCountAggregateOutputType = {
+    id: number
+    assignmentId: number
+    studentId: number
+    status: number
+    answersJson: number
+    score: number
+    gradingJson: number
+    feedback: number
+    submittedAt: number
+    checkedAt: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type AssignmentSubmissionAvgAggregateInputType = {
+    id?: true
+    assignmentId?: true
+    studentId?: true
+    score?: true
+  }
+
+  export type AssignmentSubmissionSumAggregateInputType = {
+    id?: true
+    assignmentId?: true
+    studentId?: true
+    score?: true
+  }
+
+  export type AssignmentSubmissionMinAggregateInputType = {
+    id?: true
+    assignmentId?: true
+    studentId?: true
+    status?: true
+    answersJson?: true
+    score?: true
+    gradingJson?: true
+    feedback?: true
+    submittedAt?: true
+    checkedAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AssignmentSubmissionMaxAggregateInputType = {
+    id?: true
+    assignmentId?: true
+    studentId?: true
+    status?: true
+    answersJson?: true
+    score?: true
+    gradingJson?: true
+    feedback?: true
+    submittedAt?: true
+    checkedAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AssignmentSubmissionCountAggregateInputType = {
+    id?: true
+    assignmentId?: true
+    studentId?: true
+    status?: true
+    answersJson?: true
+    score?: true
+    gradingJson?: true
+    feedback?: true
+    submittedAt?: true
+    checkedAt?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type AssignmentSubmissionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AssignmentSubmission to aggregate.
+     */
+    where?: AssignmentSubmissionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AssignmentSubmissions to fetch.
+     */
+    orderBy?: AssignmentSubmissionOrderByWithRelationInput | AssignmentSubmissionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AssignmentSubmissionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AssignmentSubmissions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AssignmentSubmissions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned AssignmentSubmissions
+    **/
+    _count?: true | AssignmentSubmissionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: AssignmentSubmissionAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: AssignmentSubmissionSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AssignmentSubmissionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AssignmentSubmissionMaxAggregateInputType
+  }
+
+  export type GetAssignmentSubmissionAggregateType<T extends AssignmentSubmissionAggregateArgs> = {
+        [P in keyof T & keyof AggregateAssignmentSubmission]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAssignmentSubmission[P]>
+      : GetScalarType<T[P], AggregateAssignmentSubmission[P]>
+  }
+
+
+
+
+  export type AssignmentSubmissionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AssignmentSubmissionWhereInput
+    orderBy?: AssignmentSubmissionOrderByWithAggregationInput | AssignmentSubmissionOrderByWithAggregationInput[]
+    by: AssignmentSubmissionScalarFieldEnum[] | AssignmentSubmissionScalarFieldEnum
+    having?: AssignmentSubmissionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AssignmentSubmissionCountAggregateInputType | true
+    _avg?: AssignmentSubmissionAvgAggregateInputType
+    _sum?: AssignmentSubmissionSumAggregateInputType
+    _min?: AssignmentSubmissionMinAggregateInputType
+    _max?: AssignmentSubmissionMaxAggregateInputType
+  }
+
+  export type AssignmentSubmissionGroupByOutputType = {
+    id: number
+    assignmentId: number
+    studentId: number
+    status: string
+    answersJson: string
+    score: number | null
+    gradingJson: string | null
+    feedback: string | null
+    submittedAt: Date | null
+    checkedAt: Date | null
+    createdAt: Date
+    updatedAt: Date
+    _count: AssignmentSubmissionCountAggregateOutputType | null
+    _avg: AssignmentSubmissionAvgAggregateOutputType | null
+    _sum: AssignmentSubmissionSumAggregateOutputType | null
+    _min: AssignmentSubmissionMinAggregateOutputType | null
+    _max: AssignmentSubmissionMaxAggregateOutputType | null
+  }
+
+  type GetAssignmentSubmissionGroupByPayload<T extends AssignmentSubmissionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AssignmentSubmissionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AssignmentSubmissionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AssignmentSubmissionGroupByOutputType[P]>
+            : GetScalarType<T[P], AssignmentSubmissionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AssignmentSubmissionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    assignmentId?: boolean
+    studentId?: boolean
+    status?: boolean
+    answersJson?: boolean
+    score?: boolean
+    gradingJson?: boolean
+    feedback?: boolean
+    submittedAt?: boolean
+    checkedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    assignment?: boolean | AssignmentDefaultArgs<ExtArgs>
+    student?: boolean | StudentDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["assignmentSubmission"]>
+
+  export type AssignmentSubmissionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    assignmentId?: boolean
+    studentId?: boolean
+    status?: boolean
+    answersJson?: boolean
+    score?: boolean
+    gradingJson?: boolean
+    feedback?: boolean
+    submittedAt?: boolean
+    checkedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    assignment?: boolean | AssignmentDefaultArgs<ExtArgs>
+    student?: boolean | StudentDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["assignmentSubmission"]>
+
+  export type AssignmentSubmissionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    assignmentId?: boolean
+    studentId?: boolean
+    status?: boolean
+    answersJson?: boolean
+    score?: boolean
+    gradingJson?: boolean
+    feedback?: boolean
+    submittedAt?: boolean
+    checkedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    assignment?: boolean | AssignmentDefaultArgs<ExtArgs>
+    student?: boolean | StudentDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["assignmentSubmission"]>
+
+  export type AssignmentSubmissionSelectScalar = {
+    id?: boolean
+    assignmentId?: boolean
+    studentId?: boolean
+    status?: boolean
+    answersJson?: boolean
+    score?: boolean
+    gradingJson?: boolean
+    feedback?: boolean
+    submittedAt?: boolean
+    checkedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type AssignmentSubmissionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "assignmentId" | "studentId" | "status" | "answersJson" | "score" | "gradingJson" | "feedback" | "submittedAt" | "checkedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["assignmentSubmission"]>
+  export type AssignmentSubmissionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    assignment?: boolean | AssignmentDefaultArgs<ExtArgs>
+    student?: boolean | StudentDefaultArgs<ExtArgs>
+  }
+  export type AssignmentSubmissionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    assignment?: boolean | AssignmentDefaultArgs<ExtArgs>
+    student?: boolean | StudentDefaultArgs<ExtArgs>
+  }
+  export type AssignmentSubmissionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    assignment?: boolean | AssignmentDefaultArgs<ExtArgs>
+    student?: boolean | StudentDefaultArgs<ExtArgs>
+  }
+
+  export type $AssignmentSubmissionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "AssignmentSubmission"
+    objects: {
+      assignment: Prisma.$AssignmentPayload<ExtArgs>
+      student: Prisma.$StudentPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      assignmentId: number
+      studentId: number
+      status: string
+      answersJson: string
+      score: number | null
+      gradingJson: string | null
+      feedback: string | null
+      submittedAt: Date | null
+      checkedAt: Date | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["assignmentSubmission"]>
+    composites: {}
+  }
+
+  type AssignmentSubmissionGetPayload<S extends boolean | null | undefined | AssignmentSubmissionDefaultArgs> = $Result.GetResult<Prisma.$AssignmentSubmissionPayload, S>
+
+  type AssignmentSubmissionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AssignmentSubmissionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AssignmentSubmissionCountAggregateInputType | true
+    }
+
+  export interface AssignmentSubmissionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AssignmentSubmission'], meta: { name: 'AssignmentSubmission' } }
+    /**
+     * Find zero or one AssignmentSubmission that matches the filter.
+     * @param {AssignmentSubmissionFindUniqueArgs} args - Arguments to find a AssignmentSubmission
+     * @example
+     * // Get one AssignmentSubmission
+     * const assignmentSubmission = await prisma.assignmentSubmission.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AssignmentSubmissionFindUniqueArgs>(args: SelectSubset<T, AssignmentSubmissionFindUniqueArgs<ExtArgs>>): Prisma__AssignmentSubmissionClient<$Result.GetResult<Prisma.$AssignmentSubmissionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one AssignmentSubmission that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {AssignmentSubmissionFindUniqueOrThrowArgs} args - Arguments to find a AssignmentSubmission
+     * @example
+     * // Get one AssignmentSubmission
+     * const assignmentSubmission = await prisma.assignmentSubmission.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AssignmentSubmissionFindUniqueOrThrowArgs>(args: SelectSubset<T, AssignmentSubmissionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AssignmentSubmissionClient<$Result.GetResult<Prisma.$AssignmentSubmissionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AssignmentSubmission that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssignmentSubmissionFindFirstArgs} args - Arguments to find a AssignmentSubmission
+     * @example
+     * // Get one AssignmentSubmission
+     * const assignmentSubmission = await prisma.assignmentSubmission.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AssignmentSubmissionFindFirstArgs>(args?: SelectSubset<T, AssignmentSubmissionFindFirstArgs<ExtArgs>>): Prisma__AssignmentSubmissionClient<$Result.GetResult<Prisma.$AssignmentSubmissionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AssignmentSubmission that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssignmentSubmissionFindFirstOrThrowArgs} args - Arguments to find a AssignmentSubmission
+     * @example
+     * // Get one AssignmentSubmission
+     * const assignmentSubmission = await prisma.assignmentSubmission.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AssignmentSubmissionFindFirstOrThrowArgs>(args?: SelectSubset<T, AssignmentSubmissionFindFirstOrThrowArgs<ExtArgs>>): Prisma__AssignmentSubmissionClient<$Result.GetResult<Prisma.$AssignmentSubmissionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more AssignmentSubmissions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssignmentSubmissionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AssignmentSubmissions
+     * const assignmentSubmissions = await prisma.assignmentSubmission.findMany()
+     * 
+     * // Get first 10 AssignmentSubmissions
+     * const assignmentSubmissions = await prisma.assignmentSubmission.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const assignmentSubmissionWithIdOnly = await prisma.assignmentSubmission.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AssignmentSubmissionFindManyArgs>(args?: SelectSubset<T, AssignmentSubmissionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssignmentSubmissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a AssignmentSubmission.
+     * @param {AssignmentSubmissionCreateArgs} args - Arguments to create a AssignmentSubmission.
+     * @example
+     * // Create one AssignmentSubmission
+     * const AssignmentSubmission = await prisma.assignmentSubmission.create({
+     *   data: {
+     *     // ... data to create a AssignmentSubmission
+     *   }
+     * })
+     * 
+     */
+    create<T extends AssignmentSubmissionCreateArgs>(args: SelectSubset<T, AssignmentSubmissionCreateArgs<ExtArgs>>): Prisma__AssignmentSubmissionClient<$Result.GetResult<Prisma.$AssignmentSubmissionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many AssignmentSubmissions.
+     * @param {AssignmentSubmissionCreateManyArgs} args - Arguments to create many AssignmentSubmissions.
+     * @example
+     * // Create many AssignmentSubmissions
+     * const assignmentSubmission = await prisma.assignmentSubmission.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AssignmentSubmissionCreateManyArgs>(args?: SelectSubset<T, AssignmentSubmissionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many AssignmentSubmissions and returns the data saved in the database.
+     * @param {AssignmentSubmissionCreateManyAndReturnArgs} args - Arguments to create many AssignmentSubmissions.
+     * @example
+     * // Create many AssignmentSubmissions
+     * const assignmentSubmission = await prisma.assignmentSubmission.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many AssignmentSubmissions and only return the `id`
+     * const assignmentSubmissionWithIdOnly = await prisma.assignmentSubmission.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AssignmentSubmissionCreateManyAndReturnArgs>(args?: SelectSubset<T, AssignmentSubmissionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssignmentSubmissionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a AssignmentSubmission.
+     * @param {AssignmentSubmissionDeleteArgs} args - Arguments to delete one AssignmentSubmission.
+     * @example
+     * // Delete one AssignmentSubmission
+     * const AssignmentSubmission = await prisma.assignmentSubmission.delete({
+     *   where: {
+     *     // ... filter to delete one AssignmentSubmission
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AssignmentSubmissionDeleteArgs>(args: SelectSubset<T, AssignmentSubmissionDeleteArgs<ExtArgs>>): Prisma__AssignmentSubmissionClient<$Result.GetResult<Prisma.$AssignmentSubmissionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one AssignmentSubmission.
+     * @param {AssignmentSubmissionUpdateArgs} args - Arguments to update one AssignmentSubmission.
+     * @example
+     * // Update one AssignmentSubmission
+     * const assignmentSubmission = await prisma.assignmentSubmission.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AssignmentSubmissionUpdateArgs>(args: SelectSubset<T, AssignmentSubmissionUpdateArgs<ExtArgs>>): Prisma__AssignmentSubmissionClient<$Result.GetResult<Prisma.$AssignmentSubmissionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more AssignmentSubmissions.
+     * @param {AssignmentSubmissionDeleteManyArgs} args - Arguments to filter AssignmentSubmissions to delete.
+     * @example
+     * // Delete a few AssignmentSubmissions
+     * const { count } = await prisma.assignmentSubmission.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AssignmentSubmissionDeleteManyArgs>(args?: SelectSubset<T, AssignmentSubmissionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AssignmentSubmissions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssignmentSubmissionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AssignmentSubmissions
+     * const assignmentSubmission = await prisma.assignmentSubmission.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AssignmentSubmissionUpdateManyArgs>(args: SelectSubset<T, AssignmentSubmissionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AssignmentSubmissions and returns the data updated in the database.
+     * @param {AssignmentSubmissionUpdateManyAndReturnArgs} args - Arguments to update many AssignmentSubmissions.
+     * @example
+     * // Update many AssignmentSubmissions
+     * const assignmentSubmission = await prisma.assignmentSubmission.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more AssignmentSubmissions and only return the `id`
+     * const assignmentSubmissionWithIdOnly = await prisma.assignmentSubmission.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends AssignmentSubmissionUpdateManyAndReturnArgs>(args: SelectSubset<T, AssignmentSubmissionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssignmentSubmissionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one AssignmentSubmission.
+     * @param {AssignmentSubmissionUpsertArgs} args - Arguments to update or create a AssignmentSubmission.
+     * @example
+     * // Update or create a AssignmentSubmission
+     * const assignmentSubmission = await prisma.assignmentSubmission.upsert({
+     *   create: {
+     *     // ... data to create a AssignmentSubmission
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AssignmentSubmission we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AssignmentSubmissionUpsertArgs>(args: SelectSubset<T, AssignmentSubmissionUpsertArgs<ExtArgs>>): Prisma__AssignmentSubmissionClient<$Result.GetResult<Prisma.$AssignmentSubmissionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of AssignmentSubmissions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssignmentSubmissionCountArgs} args - Arguments to filter AssignmentSubmissions to count.
+     * @example
+     * // Count the number of AssignmentSubmissions
+     * const count = await prisma.assignmentSubmission.count({
+     *   where: {
+     *     // ... the filter for the AssignmentSubmissions we want to count
+     *   }
+     * })
+    **/
+    count<T extends AssignmentSubmissionCountArgs>(
+      args?: Subset<T, AssignmentSubmissionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AssignmentSubmissionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a AssignmentSubmission.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssignmentSubmissionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AssignmentSubmissionAggregateArgs>(args: Subset<T, AssignmentSubmissionAggregateArgs>): Prisma.PrismaPromise<GetAssignmentSubmissionAggregateType<T>>
+
+    /**
+     * Group by AssignmentSubmission.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssignmentSubmissionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AssignmentSubmissionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AssignmentSubmissionGroupByArgs['orderBy'] }
+        : { orderBy?: AssignmentSubmissionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AssignmentSubmissionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAssignmentSubmissionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the AssignmentSubmission model
+   */
+  readonly fields: AssignmentSubmissionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AssignmentSubmission.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AssignmentSubmissionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    assignment<T extends AssignmentDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AssignmentDefaultArgs<ExtArgs>>): Prisma__AssignmentClient<$Result.GetResult<Prisma.$AssignmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    student<T extends StudentDefaultArgs<ExtArgs> = {}>(args?: Subset<T, StudentDefaultArgs<ExtArgs>>): Prisma__StudentClient<$Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the AssignmentSubmission model
+   */
+  interface AssignmentSubmissionFieldRefs {
+    readonly id: FieldRef<"AssignmentSubmission", 'Int'>
+    readonly assignmentId: FieldRef<"AssignmentSubmission", 'Int'>
+    readonly studentId: FieldRef<"AssignmentSubmission", 'Int'>
+    readonly status: FieldRef<"AssignmentSubmission", 'String'>
+    readonly answersJson: FieldRef<"AssignmentSubmission", 'String'>
+    readonly score: FieldRef<"AssignmentSubmission", 'Int'>
+    readonly gradingJson: FieldRef<"AssignmentSubmission", 'String'>
+    readonly feedback: FieldRef<"AssignmentSubmission", 'String'>
+    readonly submittedAt: FieldRef<"AssignmentSubmission", 'DateTime'>
+    readonly checkedAt: FieldRef<"AssignmentSubmission", 'DateTime'>
+    readonly createdAt: FieldRef<"AssignmentSubmission", 'DateTime'>
+    readonly updatedAt: FieldRef<"AssignmentSubmission", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * AssignmentSubmission findUnique
+   */
+  export type AssignmentSubmissionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssignmentSubmission
+     */
+    select?: AssignmentSubmissionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssignmentSubmission
+     */
+    omit?: AssignmentSubmissionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignmentSubmissionInclude<ExtArgs> | null
+    /**
+     * Filter, which AssignmentSubmission to fetch.
+     */
+    where: AssignmentSubmissionWhereUniqueInput
+  }
+
+  /**
+   * AssignmentSubmission findUniqueOrThrow
+   */
+  export type AssignmentSubmissionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssignmentSubmission
+     */
+    select?: AssignmentSubmissionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssignmentSubmission
+     */
+    omit?: AssignmentSubmissionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignmentSubmissionInclude<ExtArgs> | null
+    /**
+     * Filter, which AssignmentSubmission to fetch.
+     */
+    where: AssignmentSubmissionWhereUniqueInput
+  }
+
+  /**
+   * AssignmentSubmission findFirst
+   */
+  export type AssignmentSubmissionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssignmentSubmission
+     */
+    select?: AssignmentSubmissionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssignmentSubmission
+     */
+    omit?: AssignmentSubmissionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignmentSubmissionInclude<ExtArgs> | null
+    /**
+     * Filter, which AssignmentSubmission to fetch.
+     */
+    where?: AssignmentSubmissionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AssignmentSubmissions to fetch.
+     */
+    orderBy?: AssignmentSubmissionOrderByWithRelationInput | AssignmentSubmissionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AssignmentSubmissions.
+     */
+    cursor?: AssignmentSubmissionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AssignmentSubmissions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AssignmentSubmissions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AssignmentSubmissions.
+     */
+    distinct?: AssignmentSubmissionScalarFieldEnum | AssignmentSubmissionScalarFieldEnum[]
+  }
+
+  /**
+   * AssignmentSubmission findFirstOrThrow
+   */
+  export type AssignmentSubmissionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssignmentSubmission
+     */
+    select?: AssignmentSubmissionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssignmentSubmission
+     */
+    omit?: AssignmentSubmissionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignmentSubmissionInclude<ExtArgs> | null
+    /**
+     * Filter, which AssignmentSubmission to fetch.
+     */
+    where?: AssignmentSubmissionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AssignmentSubmissions to fetch.
+     */
+    orderBy?: AssignmentSubmissionOrderByWithRelationInput | AssignmentSubmissionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AssignmentSubmissions.
+     */
+    cursor?: AssignmentSubmissionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AssignmentSubmissions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AssignmentSubmissions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AssignmentSubmissions.
+     */
+    distinct?: AssignmentSubmissionScalarFieldEnum | AssignmentSubmissionScalarFieldEnum[]
+  }
+
+  /**
+   * AssignmentSubmission findMany
+   */
+  export type AssignmentSubmissionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssignmentSubmission
+     */
+    select?: AssignmentSubmissionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssignmentSubmission
+     */
+    omit?: AssignmentSubmissionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignmentSubmissionInclude<ExtArgs> | null
+    /**
+     * Filter, which AssignmentSubmissions to fetch.
+     */
+    where?: AssignmentSubmissionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AssignmentSubmissions to fetch.
+     */
+    orderBy?: AssignmentSubmissionOrderByWithRelationInput | AssignmentSubmissionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AssignmentSubmissions.
+     */
+    cursor?: AssignmentSubmissionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AssignmentSubmissions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AssignmentSubmissions.
+     */
+    skip?: number
+    distinct?: AssignmentSubmissionScalarFieldEnum | AssignmentSubmissionScalarFieldEnum[]
+  }
+
+  /**
+   * AssignmentSubmission create
+   */
+  export type AssignmentSubmissionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssignmentSubmission
+     */
+    select?: AssignmentSubmissionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssignmentSubmission
+     */
+    omit?: AssignmentSubmissionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignmentSubmissionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a AssignmentSubmission.
+     */
+    data: XOR<AssignmentSubmissionCreateInput, AssignmentSubmissionUncheckedCreateInput>
+  }
+
+  /**
+   * AssignmentSubmission createMany
+   */
+  export type AssignmentSubmissionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many AssignmentSubmissions.
+     */
+    data: AssignmentSubmissionCreateManyInput | AssignmentSubmissionCreateManyInput[]
+  }
+
+  /**
+   * AssignmentSubmission createManyAndReturn
+   */
+  export type AssignmentSubmissionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssignmentSubmission
+     */
+    select?: AssignmentSubmissionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssignmentSubmission
+     */
+    omit?: AssignmentSubmissionOmit<ExtArgs> | null
+    /**
+     * The data used to create many AssignmentSubmissions.
+     */
+    data: AssignmentSubmissionCreateManyInput | AssignmentSubmissionCreateManyInput[]
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignmentSubmissionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AssignmentSubmission update
+   */
+  export type AssignmentSubmissionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssignmentSubmission
+     */
+    select?: AssignmentSubmissionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssignmentSubmission
+     */
+    omit?: AssignmentSubmissionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignmentSubmissionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a AssignmentSubmission.
+     */
+    data: XOR<AssignmentSubmissionUpdateInput, AssignmentSubmissionUncheckedUpdateInput>
+    /**
+     * Choose, which AssignmentSubmission to update.
+     */
+    where: AssignmentSubmissionWhereUniqueInput
+  }
+
+  /**
+   * AssignmentSubmission updateMany
+   */
+  export type AssignmentSubmissionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update AssignmentSubmissions.
+     */
+    data: XOR<AssignmentSubmissionUpdateManyMutationInput, AssignmentSubmissionUncheckedUpdateManyInput>
+    /**
+     * Filter which AssignmentSubmissions to update
+     */
+    where?: AssignmentSubmissionWhereInput
+    /**
+     * Limit how many AssignmentSubmissions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * AssignmentSubmission updateManyAndReturn
+   */
+  export type AssignmentSubmissionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssignmentSubmission
+     */
+    select?: AssignmentSubmissionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssignmentSubmission
+     */
+    omit?: AssignmentSubmissionOmit<ExtArgs> | null
+    /**
+     * The data used to update AssignmentSubmissions.
+     */
+    data: XOR<AssignmentSubmissionUpdateManyMutationInput, AssignmentSubmissionUncheckedUpdateManyInput>
+    /**
+     * Filter which AssignmentSubmissions to update
+     */
+    where?: AssignmentSubmissionWhereInput
+    /**
+     * Limit how many AssignmentSubmissions to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignmentSubmissionIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AssignmentSubmission upsert
+   */
+  export type AssignmentSubmissionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssignmentSubmission
+     */
+    select?: AssignmentSubmissionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssignmentSubmission
+     */
+    omit?: AssignmentSubmissionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignmentSubmissionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the AssignmentSubmission to update in case it exists.
+     */
+    where: AssignmentSubmissionWhereUniqueInput
+    /**
+     * In case the AssignmentSubmission found by the `where` argument doesn't exist, create a new AssignmentSubmission with this data.
+     */
+    create: XOR<AssignmentSubmissionCreateInput, AssignmentSubmissionUncheckedCreateInput>
+    /**
+     * In case the AssignmentSubmission was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AssignmentSubmissionUpdateInput, AssignmentSubmissionUncheckedUpdateInput>
+  }
+
+  /**
+   * AssignmentSubmission delete
+   */
+  export type AssignmentSubmissionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssignmentSubmission
+     */
+    select?: AssignmentSubmissionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssignmentSubmission
+     */
+    omit?: AssignmentSubmissionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignmentSubmissionInclude<ExtArgs> | null
+    /**
+     * Filter which AssignmentSubmission to delete.
+     */
+    where: AssignmentSubmissionWhereUniqueInput
+  }
+
+  /**
+   * AssignmentSubmission deleteMany
+   */
+  export type AssignmentSubmissionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AssignmentSubmissions to delete
+     */
+    where?: AssignmentSubmissionWhereInput
+    /**
+     * Limit how many AssignmentSubmissions to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * AssignmentSubmission without action
+   */
+  export type AssignmentSubmissionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssignmentSubmission
+     */
+    select?: AssignmentSubmissionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssignmentSubmission
+     */
+    omit?: AssignmentSubmissionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignmentSubmissionInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model TestAnswerFirst
+   */
+
+  export type AggregateTestAnswerFirst = {
+    _count: TestAnswerFirstCountAggregateOutputType | null
+    _avg: TestAnswerFirstAvgAggregateOutputType | null
+    _sum: TestAnswerFirstSumAggregateOutputType | null
+    _min: TestAnswerFirstMinAggregateOutputType | null
+    _max: TestAnswerFirstMaxAggregateOutputType | null
+  }
+
+  export type TestAnswerFirstAvgAggregateOutputType = {
+    id: number | null
+    studentId: number | null
+    assignmentId: number | null
+  }
+
+  export type TestAnswerFirstSumAggregateOutputType = {
+    id: number | null
+    studentId: number | null
+    assignmentId: number | null
+  }
+
+  export type TestAnswerFirstMinAggregateOutputType = {
+    id: number | null
+    studentId: number | null
+    assignmentId: number | null
+    blockId: string | null
+    optionKey: string | null
+    createdAt: Date | null
+  }
+
+  export type TestAnswerFirstMaxAggregateOutputType = {
+    id: number | null
+    studentId: number | null
+    assignmentId: number | null
+    blockId: string | null
+    optionKey: string | null
+    createdAt: Date | null
+  }
+
+  export type TestAnswerFirstCountAggregateOutputType = {
+    id: number
+    studentId: number
+    assignmentId: number
+    blockId: number
+    optionKey: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type TestAnswerFirstAvgAggregateInputType = {
+    id?: true
+    studentId?: true
+    assignmentId?: true
+  }
+
+  export type TestAnswerFirstSumAggregateInputType = {
+    id?: true
+    studentId?: true
+    assignmentId?: true
+  }
+
+  export type TestAnswerFirstMinAggregateInputType = {
+    id?: true
+    studentId?: true
+    assignmentId?: true
+    blockId?: true
+    optionKey?: true
+    createdAt?: true
+  }
+
+  export type TestAnswerFirstMaxAggregateInputType = {
+    id?: true
+    studentId?: true
+    assignmentId?: true
+    blockId?: true
+    optionKey?: true
+    createdAt?: true
+  }
+
+  export type TestAnswerFirstCountAggregateInputType = {
+    id?: true
+    studentId?: true
+    assignmentId?: true
+    blockId?: true
+    optionKey?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type TestAnswerFirstAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TestAnswerFirst to aggregate.
+     */
+    where?: TestAnswerFirstWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TestAnswerFirsts to fetch.
+     */
+    orderBy?: TestAnswerFirstOrderByWithRelationInput | TestAnswerFirstOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: TestAnswerFirstWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TestAnswerFirsts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TestAnswerFirsts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned TestAnswerFirsts
+    **/
+    _count?: true | TestAnswerFirstCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: TestAnswerFirstAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: TestAnswerFirstSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TestAnswerFirstMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TestAnswerFirstMaxAggregateInputType
+  }
+
+  export type GetTestAnswerFirstAggregateType<T extends TestAnswerFirstAggregateArgs> = {
+        [P in keyof T & keyof AggregateTestAnswerFirst]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTestAnswerFirst[P]>
+      : GetScalarType<T[P], AggregateTestAnswerFirst[P]>
+  }
+
+
+
+
+  export type TestAnswerFirstGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TestAnswerFirstWhereInput
+    orderBy?: TestAnswerFirstOrderByWithAggregationInput | TestAnswerFirstOrderByWithAggregationInput[]
+    by: TestAnswerFirstScalarFieldEnum[] | TestAnswerFirstScalarFieldEnum
+    having?: TestAnswerFirstScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TestAnswerFirstCountAggregateInputType | true
+    _avg?: TestAnswerFirstAvgAggregateInputType
+    _sum?: TestAnswerFirstSumAggregateInputType
+    _min?: TestAnswerFirstMinAggregateInputType
+    _max?: TestAnswerFirstMaxAggregateInputType
+  }
+
+  export type TestAnswerFirstGroupByOutputType = {
+    id: number
+    studentId: number
+    assignmentId: number
+    blockId: string
+    optionKey: string
+    createdAt: Date
+    _count: TestAnswerFirstCountAggregateOutputType | null
+    _avg: TestAnswerFirstAvgAggregateOutputType | null
+    _sum: TestAnswerFirstSumAggregateOutputType | null
+    _min: TestAnswerFirstMinAggregateOutputType | null
+    _max: TestAnswerFirstMaxAggregateOutputType | null
+  }
+
+  type GetTestAnswerFirstGroupByPayload<T extends TestAnswerFirstGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TestAnswerFirstGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TestAnswerFirstGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TestAnswerFirstGroupByOutputType[P]>
+            : GetScalarType<T[P], TestAnswerFirstGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TestAnswerFirstSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    studentId?: boolean
+    assignmentId?: boolean
+    blockId?: boolean
+    optionKey?: boolean
+    createdAt?: boolean
+    student?: boolean | StudentDefaultArgs<ExtArgs>
+    assignment?: boolean | AssignmentDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["testAnswerFirst"]>
+
+  export type TestAnswerFirstSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    studentId?: boolean
+    assignmentId?: boolean
+    blockId?: boolean
+    optionKey?: boolean
+    createdAt?: boolean
+    student?: boolean | StudentDefaultArgs<ExtArgs>
+    assignment?: boolean | AssignmentDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["testAnswerFirst"]>
+
+  export type TestAnswerFirstSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    studentId?: boolean
+    assignmentId?: boolean
+    blockId?: boolean
+    optionKey?: boolean
+    createdAt?: boolean
+    student?: boolean | StudentDefaultArgs<ExtArgs>
+    assignment?: boolean | AssignmentDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["testAnswerFirst"]>
+
+  export type TestAnswerFirstSelectScalar = {
+    id?: boolean
+    studentId?: boolean
+    assignmentId?: boolean
+    blockId?: boolean
+    optionKey?: boolean
+    createdAt?: boolean
+  }
+
+  export type TestAnswerFirstOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "studentId" | "assignmentId" | "blockId" | "optionKey" | "createdAt", ExtArgs["result"]["testAnswerFirst"]>
+  export type TestAnswerFirstInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    student?: boolean | StudentDefaultArgs<ExtArgs>
+    assignment?: boolean | AssignmentDefaultArgs<ExtArgs>
+  }
+  export type TestAnswerFirstIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    student?: boolean | StudentDefaultArgs<ExtArgs>
+    assignment?: boolean | AssignmentDefaultArgs<ExtArgs>
+  }
+  export type TestAnswerFirstIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    student?: boolean | StudentDefaultArgs<ExtArgs>
+    assignment?: boolean | AssignmentDefaultArgs<ExtArgs>
+  }
+
+  export type $TestAnswerFirstPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "TestAnswerFirst"
+    objects: {
+      student: Prisma.$StudentPayload<ExtArgs>
+      assignment: Prisma.$AssignmentPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      studentId: number
+      assignmentId: number
+      blockId: string
+      optionKey: string
+      createdAt: Date
+    }, ExtArgs["result"]["testAnswerFirst"]>
+    composites: {}
+  }
+
+  type TestAnswerFirstGetPayload<S extends boolean | null | undefined | TestAnswerFirstDefaultArgs> = $Result.GetResult<Prisma.$TestAnswerFirstPayload, S>
+
+  type TestAnswerFirstCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<TestAnswerFirstFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TestAnswerFirstCountAggregateInputType | true
+    }
+
+  export interface TestAnswerFirstDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['TestAnswerFirst'], meta: { name: 'TestAnswerFirst' } }
+    /**
+     * Find zero or one TestAnswerFirst that matches the filter.
+     * @param {TestAnswerFirstFindUniqueArgs} args - Arguments to find a TestAnswerFirst
+     * @example
+     * // Get one TestAnswerFirst
+     * const testAnswerFirst = await prisma.testAnswerFirst.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends TestAnswerFirstFindUniqueArgs>(args: SelectSubset<T, TestAnswerFirstFindUniqueArgs<ExtArgs>>): Prisma__TestAnswerFirstClient<$Result.GetResult<Prisma.$TestAnswerFirstPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one TestAnswerFirst that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {TestAnswerFirstFindUniqueOrThrowArgs} args - Arguments to find a TestAnswerFirst
+     * @example
+     * // Get one TestAnswerFirst
+     * const testAnswerFirst = await prisma.testAnswerFirst.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends TestAnswerFirstFindUniqueOrThrowArgs>(args: SelectSubset<T, TestAnswerFirstFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TestAnswerFirstClient<$Result.GetResult<Prisma.$TestAnswerFirstPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TestAnswerFirst that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TestAnswerFirstFindFirstArgs} args - Arguments to find a TestAnswerFirst
+     * @example
+     * // Get one TestAnswerFirst
+     * const testAnswerFirst = await prisma.testAnswerFirst.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends TestAnswerFirstFindFirstArgs>(args?: SelectSubset<T, TestAnswerFirstFindFirstArgs<ExtArgs>>): Prisma__TestAnswerFirstClient<$Result.GetResult<Prisma.$TestAnswerFirstPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TestAnswerFirst that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TestAnswerFirstFindFirstOrThrowArgs} args - Arguments to find a TestAnswerFirst
+     * @example
+     * // Get one TestAnswerFirst
+     * const testAnswerFirst = await prisma.testAnswerFirst.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends TestAnswerFirstFindFirstOrThrowArgs>(args?: SelectSubset<T, TestAnswerFirstFindFirstOrThrowArgs<ExtArgs>>): Prisma__TestAnswerFirstClient<$Result.GetResult<Prisma.$TestAnswerFirstPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more TestAnswerFirsts that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TestAnswerFirstFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all TestAnswerFirsts
+     * const testAnswerFirsts = await prisma.testAnswerFirst.findMany()
+     * 
+     * // Get first 10 TestAnswerFirsts
+     * const testAnswerFirsts = await prisma.testAnswerFirst.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const testAnswerFirstWithIdOnly = await prisma.testAnswerFirst.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends TestAnswerFirstFindManyArgs>(args?: SelectSubset<T, TestAnswerFirstFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TestAnswerFirstPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a TestAnswerFirst.
+     * @param {TestAnswerFirstCreateArgs} args - Arguments to create a TestAnswerFirst.
+     * @example
+     * // Create one TestAnswerFirst
+     * const TestAnswerFirst = await prisma.testAnswerFirst.create({
+     *   data: {
+     *     // ... data to create a TestAnswerFirst
+     *   }
+     * })
+     * 
+     */
+    create<T extends TestAnswerFirstCreateArgs>(args: SelectSubset<T, TestAnswerFirstCreateArgs<ExtArgs>>): Prisma__TestAnswerFirstClient<$Result.GetResult<Prisma.$TestAnswerFirstPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many TestAnswerFirsts.
+     * @param {TestAnswerFirstCreateManyArgs} args - Arguments to create many TestAnswerFirsts.
+     * @example
+     * // Create many TestAnswerFirsts
+     * const testAnswerFirst = await prisma.testAnswerFirst.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends TestAnswerFirstCreateManyArgs>(args?: SelectSubset<T, TestAnswerFirstCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many TestAnswerFirsts and returns the data saved in the database.
+     * @param {TestAnswerFirstCreateManyAndReturnArgs} args - Arguments to create many TestAnswerFirsts.
+     * @example
+     * // Create many TestAnswerFirsts
+     * const testAnswerFirst = await prisma.testAnswerFirst.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many TestAnswerFirsts and only return the `id`
+     * const testAnswerFirstWithIdOnly = await prisma.testAnswerFirst.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends TestAnswerFirstCreateManyAndReturnArgs>(args?: SelectSubset<T, TestAnswerFirstCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TestAnswerFirstPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a TestAnswerFirst.
+     * @param {TestAnswerFirstDeleteArgs} args - Arguments to delete one TestAnswerFirst.
+     * @example
+     * // Delete one TestAnswerFirst
+     * const TestAnswerFirst = await prisma.testAnswerFirst.delete({
+     *   where: {
+     *     // ... filter to delete one TestAnswerFirst
+     *   }
+     * })
+     * 
+     */
+    delete<T extends TestAnswerFirstDeleteArgs>(args: SelectSubset<T, TestAnswerFirstDeleteArgs<ExtArgs>>): Prisma__TestAnswerFirstClient<$Result.GetResult<Prisma.$TestAnswerFirstPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one TestAnswerFirst.
+     * @param {TestAnswerFirstUpdateArgs} args - Arguments to update one TestAnswerFirst.
+     * @example
+     * // Update one TestAnswerFirst
+     * const testAnswerFirst = await prisma.testAnswerFirst.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends TestAnswerFirstUpdateArgs>(args: SelectSubset<T, TestAnswerFirstUpdateArgs<ExtArgs>>): Prisma__TestAnswerFirstClient<$Result.GetResult<Prisma.$TestAnswerFirstPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more TestAnswerFirsts.
+     * @param {TestAnswerFirstDeleteManyArgs} args - Arguments to filter TestAnswerFirsts to delete.
+     * @example
+     * // Delete a few TestAnswerFirsts
+     * const { count } = await prisma.testAnswerFirst.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends TestAnswerFirstDeleteManyArgs>(args?: SelectSubset<T, TestAnswerFirstDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TestAnswerFirsts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TestAnswerFirstUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many TestAnswerFirsts
+     * const testAnswerFirst = await prisma.testAnswerFirst.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends TestAnswerFirstUpdateManyArgs>(args: SelectSubset<T, TestAnswerFirstUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TestAnswerFirsts and returns the data updated in the database.
+     * @param {TestAnswerFirstUpdateManyAndReturnArgs} args - Arguments to update many TestAnswerFirsts.
+     * @example
+     * // Update many TestAnswerFirsts
+     * const testAnswerFirst = await prisma.testAnswerFirst.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more TestAnswerFirsts and only return the `id`
+     * const testAnswerFirstWithIdOnly = await prisma.testAnswerFirst.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends TestAnswerFirstUpdateManyAndReturnArgs>(args: SelectSubset<T, TestAnswerFirstUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TestAnswerFirstPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one TestAnswerFirst.
+     * @param {TestAnswerFirstUpsertArgs} args - Arguments to update or create a TestAnswerFirst.
+     * @example
+     * // Update or create a TestAnswerFirst
+     * const testAnswerFirst = await prisma.testAnswerFirst.upsert({
+     *   create: {
+     *     // ... data to create a TestAnswerFirst
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the TestAnswerFirst we want to update
+     *   }
+     * })
+     */
+    upsert<T extends TestAnswerFirstUpsertArgs>(args: SelectSubset<T, TestAnswerFirstUpsertArgs<ExtArgs>>): Prisma__TestAnswerFirstClient<$Result.GetResult<Prisma.$TestAnswerFirstPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of TestAnswerFirsts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TestAnswerFirstCountArgs} args - Arguments to filter TestAnswerFirsts to count.
+     * @example
+     * // Count the number of TestAnswerFirsts
+     * const count = await prisma.testAnswerFirst.count({
+     *   where: {
+     *     // ... the filter for the TestAnswerFirsts we want to count
+     *   }
+     * })
+    **/
+    count<T extends TestAnswerFirstCountArgs>(
+      args?: Subset<T, TestAnswerFirstCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TestAnswerFirstCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a TestAnswerFirst.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TestAnswerFirstAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TestAnswerFirstAggregateArgs>(args: Subset<T, TestAnswerFirstAggregateArgs>): Prisma.PrismaPromise<GetTestAnswerFirstAggregateType<T>>
+
+    /**
+     * Group by TestAnswerFirst.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TestAnswerFirstGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TestAnswerFirstGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TestAnswerFirstGroupByArgs['orderBy'] }
+        : { orderBy?: TestAnswerFirstGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TestAnswerFirstGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTestAnswerFirstGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the TestAnswerFirst model
+   */
+  readonly fields: TestAnswerFirstFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for TestAnswerFirst.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__TestAnswerFirstClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    student<T extends StudentDefaultArgs<ExtArgs> = {}>(args?: Subset<T, StudentDefaultArgs<ExtArgs>>): Prisma__StudentClient<$Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    assignment<T extends AssignmentDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AssignmentDefaultArgs<ExtArgs>>): Prisma__AssignmentClient<$Result.GetResult<Prisma.$AssignmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the TestAnswerFirst model
+   */
+  interface TestAnswerFirstFieldRefs {
+    readonly id: FieldRef<"TestAnswerFirst", 'Int'>
+    readonly studentId: FieldRef<"TestAnswerFirst", 'Int'>
+    readonly assignmentId: FieldRef<"TestAnswerFirst", 'Int'>
+    readonly blockId: FieldRef<"TestAnswerFirst", 'String'>
+    readonly optionKey: FieldRef<"TestAnswerFirst", 'String'>
+    readonly createdAt: FieldRef<"TestAnswerFirst", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * TestAnswerFirst findUnique
+   */
+  export type TestAnswerFirstFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TestAnswerFirst
+     */
+    select?: TestAnswerFirstSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TestAnswerFirst
+     */
+    omit?: TestAnswerFirstOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TestAnswerFirstInclude<ExtArgs> | null
+    /**
+     * Filter, which TestAnswerFirst to fetch.
+     */
+    where: TestAnswerFirstWhereUniqueInput
+  }
+
+  /**
+   * TestAnswerFirst findUniqueOrThrow
+   */
+  export type TestAnswerFirstFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TestAnswerFirst
+     */
+    select?: TestAnswerFirstSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TestAnswerFirst
+     */
+    omit?: TestAnswerFirstOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TestAnswerFirstInclude<ExtArgs> | null
+    /**
+     * Filter, which TestAnswerFirst to fetch.
+     */
+    where: TestAnswerFirstWhereUniqueInput
+  }
+
+  /**
+   * TestAnswerFirst findFirst
+   */
+  export type TestAnswerFirstFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TestAnswerFirst
+     */
+    select?: TestAnswerFirstSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TestAnswerFirst
+     */
+    omit?: TestAnswerFirstOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TestAnswerFirstInclude<ExtArgs> | null
+    /**
+     * Filter, which TestAnswerFirst to fetch.
+     */
+    where?: TestAnswerFirstWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TestAnswerFirsts to fetch.
+     */
+    orderBy?: TestAnswerFirstOrderByWithRelationInput | TestAnswerFirstOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TestAnswerFirsts.
+     */
+    cursor?: TestAnswerFirstWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TestAnswerFirsts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TestAnswerFirsts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TestAnswerFirsts.
+     */
+    distinct?: TestAnswerFirstScalarFieldEnum | TestAnswerFirstScalarFieldEnum[]
+  }
+
+  /**
+   * TestAnswerFirst findFirstOrThrow
+   */
+  export type TestAnswerFirstFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TestAnswerFirst
+     */
+    select?: TestAnswerFirstSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TestAnswerFirst
+     */
+    omit?: TestAnswerFirstOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TestAnswerFirstInclude<ExtArgs> | null
+    /**
+     * Filter, which TestAnswerFirst to fetch.
+     */
+    where?: TestAnswerFirstWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TestAnswerFirsts to fetch.
+     */
+    orderBy?: TestAnswerFirstOrderByWithRelationInput | TestAnswerFirstOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TestAnswerFirsts.
+     */
+    cursor?: TestAnswerFirstWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TestAnswerFirsts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TestAnswerFirsts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TestAnswerFirsts.
+     */
+    distinct?: TestAnswerFirstScalarFieldEnum | TestAnswerFirstScalarFieldEnum[]
+  }
+
+  /**
+   * TestAnswerFirst findMany
+   */
+  export type TestAnswerFirstFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TestAnswerFirst
+     */
+    select?: TestAnswerFirstSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TestAnswerFirst
+     */
+    omit?: TestAnswerFirstOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TestAnswerFirstInclude<ExtArgs> | null
+    /**
+     * Filter, which TestAnswerFirsts to fetch.
+     */
+    where?: TestAnswerFirstWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TestAnswerFirsts to fetch.
+     */
+    orderBy?: TestAnswerFirstOrderByWithRelationInput | TestAnswerFirstOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing TestAnswerFirsts.
+     */
+    cursor?: TestAnswerFirstWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TestAnswerFirsts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TestAnswerFirsts.
+     */
+    skip?: number
+    distinct?: TestAnswerFirstScalarFieldEnum | TestAnswerFirstScalarFieldEnum[]
+  }
+
+  /**
+   * TestAnswerFirst create
+   */
+  export type TestAnswerFirstCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TestAnswerFirst
+     */
+    select?: TestAnswerFirstSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TestAnswerFirst
+     */
+    omit?: TestAnswerFirstOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TestAnswerFirstInclude<ExtArgs> | null
+    /**
+     * The data needed to create a TestAnswerFirst.
+     */
+    data: XOR<TestAnswerFirstCreateInput, TestAnswerFirstUncheckedCreateInput>
+  }
+
+  /**
+   * TestAnswerFirst createMany
+   */
+  export type TestAnswerFirstCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many TestAnswerFirsts.
+     */
+    data: TestAnswerFirstCreateManyInput | TestAnswerFirstCreateManyInput[]
+  }
+
+  /**
+   * TestAnswerFirst createManyAndReturn
+   */
+  export type TestAnswerFirstCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TestAnswerFirst
+     */
+    select?: TestAnswerFirstSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TestAnswerFirst
+     */
+    omit?: TestAnswerFirstOmit<ExtArgs> | null
+    /**
+     * The data used to create many TestAnswerFirsts.
+     */
+    data: TestAnswerFirstCreateManyInput | TestAnswerFirstCreateManyInput[]
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TestAnswerFirstIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TestAnswerFirst update
+   */
+  export type TestAnswerFirstUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TestAnswerFirst
+     */
+    select?: TestAnswerFirstSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TestAnswerFirst
+     */
+    omit?: TestAnswerFirstOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TestAnswerFirstInclude<ExtArgs> | null
+    /**
+     * The data needed to update a TestAnswerFirst.
+     */
+    data: XOR<TestAnswerFirstUpdateInput, TestAnswerFirstUncheckedUpdateInput>
+    /**
+     * Choose, which TestAnswerFirst to update.
+     */
+    where: TestAnswerFirstWhereUniqueInput
+  }
+
+  /**
+   * TestAnswerFirst updateMany
+   */
+  export type TestAnswerFirstUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update TestAnswerFirsts.
+     */
+    data: XOR<TestAnswerFirstUpdateManyMutationInput, TestAnswerFirstUncheckedUpdateManyInput>
+    /**
+     * Filter which TestAnswerFirsts to update
+     */
+    where?: TestAnswerFirstWhereInput
+    /**
+     * Limit how many TestAnswerFirsts to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * TestAnswerFirst updateManyAndReturn
+   */
+  export type TestAnswerFirstUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TestAnswerFirst
+     */
+    select?: TestAnswerFirstSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TestAnswerFirst
+     */
+    omit?: TestAnswerFirstOmit<ExtArgs> | null
+    /**
+     * The data used to update TestAnswerFirsts.
+     */
+    data: XOR<TestAnswerFirstUpdateManyMutationInput, TestAnswerFirstUncheckedUpdateManyInput>
+    /**
+     * Filter which TestAnswerFirsts to update
+     */
+    where?: TestAnswerFirstWhereInput
+    /**
+     * Limit how many TestAnswerFirsts to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TestAnswerFirstIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TestAnswerFirst upsert
+   */
+  export type TestAnswerFirstUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TestAnswerFirst
+     */
+    select?: TestAnswerFirstSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TestAnswerFirst
+     */
+    omit?: TestAnswerFirstOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TestAnswerFirstInclude<ExtArgs> | null
+    /**
+     * The filter to search for the TestAnswerFirst to update in case it exists.
+     */
+    where: TestAnswerFirstWhereUniqueInput
+    /**
+     * In case the TestAnswerFirst found by the `where` argument doesn't exist, create a new TestAnswerFirst with this data.
+     */
+    create: XOR<TestAnswerFirstCreateInput, TestAnswerFirstUncheckedCreateInput>
+    /**
+     * In case the TestAnswerFirst was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TestAnswerFirstUpdateInput, TestAnswerFirstUncheckedUpdateInput>
+  }
+
+  /**
+   * TestAnswerFirst delete
+   */
+  export type TestAnswerFirstDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TestAnswerFirst
+     */
+    select?: TestAnswerFirstSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TestAnswerFirst
+     */
+    omit?: TestAnswerFirstOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TestAnswerFirstInclude<ExtArgs> | null
+    /**
+     * Filter which TestAnswerFirst to delete.
+     */
+    where: TestAnswerFirstWhereUniqueInput
+  }
+
+  /**
+   * TestAnswerFirst deleteMany
+   */
+  export type TestAnswerFirstDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TestAnswerFirsts to delete
+     */
+    where?: TestAnswerFirstWhereInput
+    /**
+     * Limit how many TestAnswerFirsts to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * TestAnswerFirst without action
+   */
+  export type TestAnswerFirstDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TestAnswerFirst
+     */
+    select?: TestAnswerFirstSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TestAnswerFirst
+     */
+    omit?: TestAnswerFirstOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TestAnswerFirstInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -9474,6 +15917,84 @@ export namespace Prisma {
   export type AttemptScalarFieldEnum = (typeof AttemptScalarFieldEnum)[keyof typeof AttemptScalarFieldEnum]
 
 
+  export const AssignmentTemplateScalarFieldEnum: {
+    id: 'id',
+    key: 'key',
+    title: 'title',
+    description: 'description',
+    configJson: 'configJson',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type AssignmentTemplateScalarFieldEnum = (typeof AssignmentTemplateScalarFieldEnum)[keyof typeof AssignmentTemplateScalarFieldEnum]
+
+
+  export const AssignmentScalarFieldEnum: {
+    id: 'id',
+    lessonId: 'lessonId',
+    title: 'title',
+    goal: 'goal',
+    instruction: 'instruction',
+    taskType: 'taskType',
+    answerFormat: 'answerFormat',
+    gradingMode: 'gradingMode',
+    maxScore: 'maxScore',
+    order: 'order',
+    isPublished: 'isPublished',
+    configJson: 'configJson',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type AssignmentScalarFieldEnum = (typeof AssignmentScalarFieldEnum)[keyof typeof AssignmentScalarFieldEnum]
+
+
+  export const AssignmentFieldScalarFieldEnum: {
+    id: 'id',
+    assignmentId: 'assignmentId',
+    fieldKey: 'fieldKey',
+    label: 'label',
+    fieldType: 'fieldType',
+    required: 'required',
+    order: 'order',
+    optionsJson: 'optionsJson',
+    rulesJson: 'rulesJson'
+  };
+
+  export type AssignmentFieldScalarFieldEnum = (typeof AssignmentFieldScalarFieldEnum)[keyof typeof AssignmentFieldScalarFieldEnum]
+
+
+  export const AssignmentSubmissionScalarFieldEnum: {
+    id: 'id',
+    assignmentId: 'assignmentId',
+    studentId: 'studentId',
+    status: 'status',
+    answersJson: 'answersJson',
+    score: 'score',
+    gradingJson: 'gradingJson',
+    feedback: 'feedback',
+    submittedAt: 'submittedAt',
+    checkedAt: 'checkedAt',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type AssignmentSubmissionScalarFieldEnum = (typeof AssignmentSubmissionScalarFieldEnum)[keyof typeof AssignmentSubmissionScalarFieldEnum]
+
+
+  export const TestAnswerFirstScalarFieldEnum: {
+    id: 'id',
+    studentId: 'studentId',
+    assignmentId: 'assignmentId',
+    blockId: 'blockId',
+    optionKey: 'optionKey',
+    createdAt: 'createdAt'
+  };
+
+  export type TestAnswerFirstScalarFieldEnum = (typeof TestAnswerFirstScalarFieldEnum)[keyof typeof TestAnswerFirstScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -9513,6 +16034,13 @@ export namespace Prisma {
    * Reference to a field of type 'DateTime'
    */
   export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
+    
+
+
+  /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -9592,6 +16120,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Student"> | Date | string
     school?: XOR<SchoolScalarRelationFilter, SchoolWhereInput>
     attempts?: AttemptListRelationFilter
+    submissions?: AssignmentSubmissionListRelationFilter
+    testAnswerFirsts?: TestAnswerFirstListRelationFilter
   }
 
   export type StudentOrderByWithRelationInput = {
@@ -9607,6 +16137,8 @@ export namespace Prisma {
     updatedAt?: SortOrder
     school?: SchoolOrderByWithRelationInput
     attempts?: AttemptOrderByRelationAggregateInput
+    submissions?: AssignmentSubmissionOrderByRelationAggregateInput
+    testAnswerFirsts?: TestAnswerFirstOrderByRelationAggregateInput
   }
 
   export type StudentWhereUniqueInput = Prisma.AtLeast<{
@@ -9625,6 +16157,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Student"> | Date | string
     school?: XOR<SchoolScalarRelationFilter, SchoolWhereInput>
     attempts?: AttemptListRelationFilter
+    submissions?: AssignmentSubmissionListRelationFilter
+    testAnswerFirsts?: TestAnswerFirstListRelationFilter
   }, "id" | "phone">
 
   export type StudentOrderByWithAggregationInput = {
@@ -9833,6 +16367,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Lesson"> | Date | string
     course?: XOR<CourseScalarRelationFilter, CourseWhereInput>
     attempts?: AttemptListRelationFilter
+    assignments?: AssignmentListRelationFilter
   }
 
   export type LessonOrderByWithRelationInput = {
@@ -9844,6 +16379,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     course?: CourseOrderByWithRelationInput
     attempts?: AttemptOrderByRelationAggregateInput
+    assignments?: AssignmentOrderByRelationAggregateInput
   }
 
   export type LessonWhereUniqueInput = Prisma.AtLeast<{
@@ -9858,6 +16394,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Lesson"> | Date | string
     course?: XOR<CourseScalarRelationFilter, CourseWhereInput>
     attempts?: AttemptListRelationFilter
+    assignments?: AssignmentListRelationFilter
   }, "id">
 
   export type LessonOrderByWithAggregationInput = {
@@ -9947,6 +16484,420 @@ export namespace Prisma {
     completedAt?: DateTimeWithAggregatesFilter<"Attempt"> | Date | string
   }
 
+  export type AssignmentTemplateWhereInput = {
+    AND?: AssignmentTemplateWhereInput | AssignmentTemplateWhereInput[]
+    OR?: AssignmentTemplateWhereInput[]
+    NOT?: AssignmentTemplateWhereInput | AssignmentTemplateWhereInput[]
+    id?: IntFilter<"AssignmentTemplate"> | number
+    key?: StringFilter<"AssignmentTemplate"> | string
+    title?: StringFilter<"AssignmentTemplate"> | string
+    description?: StringNullableFilter<"AssignmentTemplate"> | string | null
+    configJson?: StringNullableFilter<"AssignmentTemplate"> | string | null
+    createdAt?: DateTimeFilter<"AssignmentTemplate"> | Date | string
+    updatedAt?: DateTimeFilter<"AssignmentTemplate"> | Date | string
+  }
+
+  export type AssignmentTemplateOrderByWithRelationInput = {
+    id?: SortOrder
+    key?: SortOrder
+    title?: SortOrder
+    description?: SortOrderInput | SortOrder
+    configJson?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AssignmentTemplateWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    key?: string
+    AND?: AssignmentTemplateWhereInput | AssignmentTemplateWhereInput[]
+    OR?: AssignmentTemplateWhereInput[]
+    NOT?: AssignmentTemplateWhereInput | AssignmentTemplateWhereInput[]
+    title?: StringFilter<"AssignmentTemplate"> | string
+    description?: StringNullableFilter<"AssignmentTemplate"> | string | null
+    configJson?: StringNullableFilter<"AssignmentTemplate"> | string | null
+    createdAt?: DateTimeFilter<"AssignmentTemplate"> | Date | string
+    updatedAt?: DateTimeFilter<"AssignmentTemplate"> | Date | string
+  }, "id" | "key">
+
+  export type AssignmentTemplateOrderByWithAggregationInput = {
+    id?: SortOrder
+    key?: SortOrder
+    title?: SortOrder
+    description?: SortOrderInput | SortOrder
+    configJson?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: AssignmentTemplateCountOrderByAggregateInput
+    _avg?: AssignmentTemplateAvgOrderByAggregateInput
+    _max?: AssignmentTemplateMaxOrderByAggregateInput
+    _min?: AssignmentTemplateMinOrderByAggregateInput
+    _sum?: AssignmentTemplateSumOrderByAggregateInput
+  }
+
+  export type AssignmentTemplateScalarWhereWithAggregatesInput = {
+    AND?: AssignmentTemplateScalarWhereWithAggregatesInput | AssignmentTemplateScalarWhereWithAggregatesInput[]
+    OR?: AssignmentTemplateScalarWhereWithAggregatesInput[]
+    NOT?: AssignmentTemplateScalarWhereWithAggregatesInput | AssignmentTemplateScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"AssignmentTemplate"> | number
+    key?: StringWithAggregatesFilter<"AssignmentTemplate"> | string
+    title?: StringWithAggregatesFilter<"AssignmentTemplate"> | string
+    description?: StringNullableWithAggregatesFilter<"AssignmentTemplate"> | string | null
+    configJson?: StringNullableWithAggregatesFilter<"AssignmentTemplate"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"AssignmentTemplate"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"AssignmentTemplate"> | Date | string
+  }
+
+  export type AssignmentWhereInput = {
+    AND?: AssignmentWhereInput | AssignmentWhereInput[]
+    OR?: AssignmentWhereInput[]
+    NOT?: AssignmentWhereInput | AssignmentWhereInput[]
+    id?: IntFilter<"Assignment"> | number
+    lessonId?: IntFilter<"Assignment"> | number
+    title?: StringFilter<"Assignment"> | string
+    goal?: StringNullableFilter<"Assignment"> | string | null
+    instruction?: StringFilter<"Assignment"> | string
+    taskType?: StringFilter<"Assignment"> | string
+    answerFormat?: StringFilter<"Assignment"> | string
+    gradingMode?: StringFilter<"Assignment"> | string
+    maxScore?: IntNullableFilter<"Assignment"> | number | null
+    order?: IntFilter<"Assignment"> | number
+    isPublished?: BoolFilter<"Assignment"> | boolean
+    configJson?: StringNullableFilter<"Assignment"> | string | null
+    createdAt?: DateTimeFilter<"Assignment"> | Date | string
+    updatedAt?: DateTimeFilter<"Assignment"> | Date | string
+    lesson?: XOR<LessonScalarRelationFilter, LessonWhereInput>
+    fields?: AssignmentFieldListRelationFilter
+    submissions?: AssignmentSubmissionListRelationFilter
+    testAnswerFirsts?: TestAnswerFirstListRelationFilter
+  }
+
+  export type AssignmentOrderByWithRelationInput = {
+    id?: SortOrder
+    lessonId?: SortOrder
+    title?: SortOrder
+    goal?: SortOrderInput | SortOrder
+    instruction?: SortOrder
+    taskType?: SortOrder
+    answerFormat?: SortOrder
+    gradingMode?: SortOrder
+    maxScore?: SortOrderInput | SortOrder
+    order?: SortOrder
+    isPublished?: SortOrder
+    configJson?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    lesson?: LessonOrderByWithRelationInput
+    fields?: AssignmentFieldOrderByRelationAggregateInput
+    submissions?: AssignmentSubmissionOrderByRelationAggregateInput
+    testAnswerFirsts?: TestAnswerFirstOrderByRelationAggregateInput
+  }
+
+  export type AssignmentWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: AssignmentWhereInput | AssignmentWhereInput[]
+    OR?: AssignmentWhereInput[]
+    NOT?: AssignmentWhereInput | AssignmentWhereInput[]
+    lessonId?: IntFilter<"Assignment"> | number
+    title?: StringFilter<"Assignment"> | string
+    goal?: StringNullableFilter<"Assignment"> | string | null
+    instruction?: StringFilter<"Assignment"> | string
+    taskType?: StringFilter<"Assignment"> | string
+    answerFormat?: StringFilter<"Assignment"> | string
+    gradingMode?: StringFilter<"Assignment"> | string
+    maxScore?: IntNullableFilter<"Assignment"> | number | null
+    order?: IntFilter<"Assignment"> | number
+    isPublished?: BoolFilter<"Assignment"> | boolean
+    configJson?: StringNullableFilter<"Assignment"> | string | null
+    createdAt?: DateTimeFilter<"Assignment"> | Date | string
+    updatedAt?: DateTimeFilter<"Assignment"> | Date | string
+    lesson?: XOR<LessonScalarRelationFilter, LessonWhereInput>
+    fields?: AssignmentFieldListRelationFilter
+    submissions?: AssignmentSubmissionListRelationFilter
+    testAnswerFirsts?: TestAnswerFirstListRelationFilter
+  }, "id">
+
+  export type AssignmentOrderByWithAggregationInput = {
+    id?: SortOrder
+    lessonId?: SortOrder
+    title?: SortOrder
+    goal?: SortOrderInput | SortOrder
+    instruction?: SortOrder
+    taskType?: SortOrder
+    answerFormat?: SortOrder
+    gradingMode?: SortOrder
+    maxScore?: SortOrderInput | SortOrder
+    order?: SortOrder
+    isPublished?: SortOrder
+    configJson?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: AssignmentCountOrderByAggregateInput
+    _avg?: AssignmentAvgOrderByAggregateInput
+    _max?: AssignmentMaxOrderByAggregateInput
+    _min?: AssignmentMinOrderByAggregateInput
+    _sum?: AssignmentSumOrderByAggregateInput
+  }
+
+  export type AssignmentScalarWhereWithAggregatesInput = {
+    AND?: AssignmentScalarWhereWithAggregatesInput | AssignmentScalarWhereWithAggregatesInput[]
+    OR?: AssignmentScalarWhereWithAggregatesInput[]
+    NOT?: AssignmentScalarWhereWithAggregatesInput | AssignmentScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"Assignment"> | number
+    lessonId?: IntWithAggregatesFilter<"Assignment"> | number
+    title?: StringWithAggregatesFilter<"Assignment"> | string
+    goal?: StringNullableWithAggregatesFilter<"Assignment"> | string | null
+    instruction?: StringWithAggregatesFilter<"Assignment"> | string
+    taskType?: StringWithAggregatesFilter<"Assignment"> | string
+    answerFormat?: StringWithAggregatesFilter<"Assignment"> | string
+    gradingMode?: StringWithAggregatesFilter<"Assignment"> | string
+    maxScore?: IntNullableWithAggregatesFilter<"Assignment"> | number | null
+    order?: IntWithAggregatesFilter<"Assignment"> | number
+    isPublished?: BoolWithAggregatesFilter<"Assignment"> | boolean
+    configJson?: StringNullableWithAggregatesFilter<"Assignment"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Assignment"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Assignment"> | Date | string
+  }
+
+  export type AssignmentFieldWhereInput = {
+    AND?: AssignmentFieldWhereInput | AssignmentFieldWhereInput[]
+    OR?: AssignmentFieldWhereInput[]
+    NOT?: AssignmentFieldWhereInput | AssignmentFieldWhereInput[]
+    id?: IntFilter<"AssignmentField"> | number
+    assignmentId?: IntFilter<"AssignmentField"> | number
+    fieldKey?: StringFilter<"AssignmentField"> | string
+    label?: StringFilter<"AssignmentField"> | string
+    fieldType?: StringFilter<"AssignmentField"> | string
+    required?: BoolFilter<"AssignmentField"> | boolean
+    order?: IntFilter<"AssignmentField"> | number
+    optionsJson?: StringNullableFilter<"AssignmentField"> | string | null
+    rulesJson?: StringNullableFilter<"AssignmentField"> | string | null
+    assignment?: XOR<AssignmentScalarRelationFilter, AssignmentWhereInput>
+  }
+
+  export type AssignmentFieldOrderByWithRelationInput = {
+    id?: SortOrder
+    assignmentId?: SortOrder
+    fieldKey?: SortOrder
+    label?: SortOrder
+    fieldType?: SortOrder
+    required?: SortOrder
+    order?: SortOrder
+    optionsJson?: SortOrderInput | SortOrder
+    rulesJson?: SortOrderInput | SortOrder
+    assignment?: AssignmentOrderByWithRelationInput
+  }
+
+  export type AssignmentFieldWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: AssignmentFieldWhereInput | AssignmentFieldWhereInput[]
+    OR?: AssignmentFieldWhereInput[]
+    NOT?: AssignmentFieldWhereInput | AssignmentFieldWhereInput[]
+    assignmentId?: IntFilter<"AssignmentField"> | number
+    fieldKey?: StringFilter<"AssignmentField"> | string
+    label?: StringFilter<"AssignmentField"> | string
+    fieldType?: StringFilter<"AssignmentField"> | string
+    required?: BoolFilter<"AssignmentField"> | boolean
+    order?: IntFilter<"AssignmentField"> | number
+    optionsJson?: StringNullableFilter<"AssignmentField"> | string | null
+    rulesJson?: StringNullableFilter<"AssignmentField"> | string | null
+    assignment?: XOR<AssignmentScalarRelationFilter, AssignmentWhereInput>
+  }, "id">
+
+  export type AssignmentFieldOrderByWithAggregationInput = {
+    id?: SortOrder
+    assignmentId?: SortOrder
+    fieldKey?: SortOrder
+    label?: SortOrder
+    fieldType?: SortOrder
+    required?: SortOrder
+    order?: SortOrder
+    optionsJson?: SortOrderInput | SortOrder
+    rulesJson?: SortOrderInput | SortOrder
+    _count?: AssignmentFieldCountOrderByAggregateInput
+    _avg?: AssignmentFieldAvgOrderByAggregateInput
+    _max?: AssignmentFieldMaxOrderByAggregateInput
+    _min?: AssignmentFieldMinOrderByAggregateInput
+    _sum?: AssignmentFieldSumOrderByAggregateInput
+  }
+
+  export type AssignmentFieldScalarWhereWithAggregatesInput = {
+    AND?: AssignmentFieldScalarWhereWithAggregatesInput | AssignmentFieldScalarWhereWithAggregatesInput[]
+    OR?: AssignmentFieldScalarWhereWithAggregatesInput[]
+    NOT?: AssignmentFieldScalarWhereWithAggregatesInput | AssignmentFieldScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"AssignmentField"> | number
+    assignmentId?: IntWithAggregatesFilter<"AssignmentField"> | number
+    fieldKey?: StringWithAggregatesFilter<"AssignmentField"> | string
+    label?: StringWithAggregatesFilter<"AssignmentField"> | string
+    fieldType?: StringWithAggregatesFilter<"AssignmentField"> | string
+    required?: BoolWithAggregatesFilter<"AssignmentField"> | boolean
+    order?: IntWithAggregatesFilter<"AssignmentField"> | number
+    optionsJson?: StringNullableWithAggregatesFilter<"AssignmentField"> | string | null
+    rulesJson?: StringNullableWithAggregatesFilter<"AssignmentField"> | string | null
+  }
+
+  export type AssignmentSubmissionWhereInput = {
+    AND?: AssignmentSubmissionWhereInput | AssignmentSubmissionWhereInput[]
+    OR?: AssignmentSubmissionWhereInput[]
+    NOT?: AssignmentSubmissionWhereInput | AssignmentSubmissionWhereInput[]
+    id?: IntFilter<"AssignmentSubmission"> | number
+    assignmentId?: IntFilter<"AssignmentSubmission"> | number
+    studentId?: IntFilter<"AssignmentSubmission"> | number
+    status?: StringFilter<"AssignmentSubmission"> | string
+    answersJson?: StringFilter<"AssignmentSubmission"> | string
+    score?: IntNullableFilter<"AssignmentSubmission"> | number | null
+    gradingJson?: StringNullableFilter<"AssignmentSubmission"> | string | null
+    feedback?: StringNullableFilter<"AssignmentSubmission"> | string | null
+    submittedAt?: DateTimeNullableFilter<"AssignmentSubmission"> | Date | string | null
+    checkedAt?: DateTimeNullableFilter<"AssignmentSubmission"> | Date | string | null
+    createdAt?: DateTimeFilter<"AssignmentSubmission"> | Date | string
+    updatedAt?: DateTimeFilter<"AssignmentSubmission"> | Date | string
+    assignment?: XOR<AssignmentScalarRelationFilter, AssignmentWhereInput>
+    student?: XOR<StudentScalarRelationFilter, StudentWhereInput>
+  }
+
+  export type AssignmentSubmissionOrderByWithRelationInput = {
+    id?: SortOrder
+    assignmentId?: SortOrder
+    studentId?: SortOrder
+    status?: SortOrder
+    answersJson?: SortOrder
+    score?: SortOrderInput | SortOrder
+    gradingJson?: SortOrderInput | SortOrder
+    feedback?: SortOrderInput | SortOrder
+    submittedAt?: SortOrderInput | SortOrder
+    checkedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    assignment?: AssignmentOrderByWithRelationInput
+    student?: StudentOrderByWithRelationInput
+  }
+
+  export type AssignmentSubmissionWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    assignmentId_studentId?: AssignmentSubmissionAssignmentIdStudentIdCompoundUniqueInput
+    AND?: AssignmentSubmissionWhereInput | AssignmentSubmissionWhereInput[]
+    OR?: AssignmentSubmissionWhereInput[]
+    NOT?: AssignmentSubmissionWhereInput | AssignmentSubmissionWhereInput[]
+    assignmentId?: IntFilter<"AssignmentSubmission"> | number
+    studentId?: IntFilter<"AssignmentSubmission"> | number
+    status?: StringFilter<"AssignmentSubmission"> | string
+    answersJson?: StringFilter<"AssignmentSubmission"> | string
+    score?: IntNullableFilter<"AssignmentSubmission"> | number | null
+    gradingJson?: StringNullableFilter<"AssignmentSubmission"> | string | null
+    feedback?: StringNullableFilter<"AssignmentSubmission"> | string | null
+    submittedAt?: DateTimeNullableFilter<"AssignmentSubmission"> | Date | string | null
+    checkedAt?: DateTimeNullableFilter<"AssignmentSubmission"> | Date | string | null
+    createdAt?: DateTimeFilter<"AssignmentSubmission"> | Date | string
+    updatedAt?: DateTimeFilter<"AssignmentSubmission"> | Date | string
+    assignment?: XOR<AssignmentScalarRelationFilter, AssignmentWhereInput>
+    student?: XOR<StudentScalarRelationFilter, StudentWhereInput>
+  }, "id" | "assignmentId_studentId">
+
+  export type AssignmentSubmissionOrderByWithAggregationInput = {
+    id?: SortOrder
+    assignmentId?: SortOrder
+    studentId?: SortOrder
+    status?: SortOrder
+    answersJson?: SortOrder
+    score?: SortOrderInput | SortOrder
+    gradingJson?: SortOrderInput | SortOrder
+    feedback?: SortOrderInput | SortOrder
+    submittedAt?: SortOrderInput | SortOrder
+    checkedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: AssignmentSubmissionCountOrderByAggregateInput
+    _avg?: AssignmentSubmissionAvgOrderByAggregateInput
+    _max?: AssignmentSubmissionMaxOrderByAggregateInput
+    _min?: AssignmentSubmissionMinOrderByAggregateInput
+    _sum?: AssignmentSubmissionSumOrderByAggregateInput
+  }
+
+  export type AssignmentSubmissionScalarWhereWithAggregatesInput = {
+    AND?: AssignmentSubmissionScalarWhereWithAggregatesInput | AssignmentSubmissionScalarWhereWithAggregatesInput[]
+    OR?: AssignmentSubmissionScalarWhereWithAggregatesInput[]
+    NOT?: AssignmentSubmissionScalarWhereWithAggregatesInput | AssignmentSubmissionScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"AssignmentSubmission"> | number
+    assignmentId?: IntWithAggregatesFilter<"AssignmentSubmission"> | number
+    studentId?: IntWithAggregatesFilter<"AssignmentSubmission"> | number
+    status?: StringWithAggregatesFilter<"AssignmentSubmission"> | string
+    answersJson?: StringWithAggregatesFilter<"AssignmentSubmission"> | string
+    score?: IntNullableWithAggregatesFilter<"AssignmentSubmission"> | number | null
+    gradingJson?: StringNullableWithAggregatesFilter<"AssignmentSubmission"> | string | null
+    feedback?: StringNullableWithAggregatesFilter<"AssignmentSubmission"> | string | null
+    submittedAt?: DateTimeNullableWithAggregatesFilter<"AssignmentSubmission"> | Date | string | null
+    checkedAt?: DateTimeNullableWithAggregatesFilter<"AssignmentSubmission"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"AssignmentSubmission"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"AssignmentSubmission"> | Date | string
+  }
+
+  export type TestAnswerFirstWhereInput = {
+    AND?: TestAnswerFirstWhereInput | TestAnswerFirstWhereInput[]
+    OR?: TestAnswerFirstWhereInput[]
+    NOT?: TestAnswerFirstWhereInput | TestAnswerFirstWhereInput[]
+    id?: IntFilter<"TestAnswerFirst"> | number
+    studentId?: IntFilter<"TestAnswerFirst"> | number
+    assignmentId?: IntFilter<"TestAnswerFirst"> | number
+    blockId?: StringFilter<"TestAnswerFirst"> | string
+    optionKey?: StringFilter<"TestAnswerFirst"> | string
+    createdAt?: DateTimeFilter<"TestAnswerFirst"> | Date | string
+    student?: XOR<StudentScalarRelationFilter, StudentWhereInput>
+    assignment?: XOR<AssignmentScalarRelationFilter, AssignmentWhereInput>
+  }
+
+  export type TestAnswerFirstOrderByWithRelationInput = {
+    id?: SortOrder
+    studentId?: SortOrder
+    assignmentId?: SortOrder
+    blockId?: SortOrder
+    optionKey?: SortOrder
+    createdAt?: SortOrder
+    student?: StudentOrderByWithRelationInput
+    assignment?: AssignmentOrderByWithRelationInput
+  }
+
+  export type TestAnswerFirstWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    studentId_assignmentId_blockId?: TestAnswerFirstStudentIdAssignmentIdBlockIdCompoundUniqueInput
+    AND?: TestAnswerFirstWhereInput | TestAnswerFirstWhereInput[]
+    OR?: TestAnswerFirstWhereInput[]
+    NOT?: TestAnswerFirstWhereInput | TestAnswerFirstWhereInput[]
+    studentId?: IntFilter<"TestAnswerFirst"> | number
+    assignmentId?: IntFilter<"TestAnswerFirst"> | number
+    blockId?: StringFilter<"TestAnswerFirst"> | string
+    optionKey?: StringFilter<"TestAnswerFirst"> | string
+    createdAt?: DateTimeFilter<"TestAnswerFirst"> | Date | string
+    student?: XOR<StudentScalarRelationFilter, StudentWhereInput>
+    assignment?: XOR<AssignmentScalarRelationFilter, AssignmentWhereInput>
+  }, "id" | "studentId_assignmentId_blockId">
+
+  export type TestAnswerFirstOrderByWithAggregationInput = {
+    id?: SortOrder
+    studentId?: SortOrder
+    assignmentId?: SortOrder
+    blockId?: SortOrder
+    optionKey?: SortOrder
+    createdAt?: SortOrder
+    _count?: TestAnswerFirstCountOrderByAggregateInput
+    _avg?: TestAnswerFirstAvgOrderByAggregateInput
+    _max?: TestAnswerFirstMaxOrderByAggregateInput
+    _min?: TestAnswerFirstMinOrderByAggregateInput
+    _sum?: TestAnswerFirstSumOrderByAggregateInput
+  }
+
+  export type TestAnswerFirstScalarWhereWithAggregatesInput = {
+    AND?: TestAnswerFirstScalarWhereWithAggregatesInput | TestAnswerFirstScalarWhereWithAggregatesInput[]
+    OR?: TestAnswerFirstScalarWhereWithAggregatesInput[]
+    NOT?: TestAnswerFirstScalarWhereWithAggregatesInput | TestAnswerFirstScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"TestAnswerFirst"> | number
+    studentId?: IntWithAggregatesFilter<"TestAnswerFirst"> | number
+    assignmentId?: IntWithAggregatesFilter<"TestAnswerFirst"> | number
+    blockId?: StringWithAggregatesFilter<"TestAnswerFirst"> | string
+    optionKey?: StringWithAggregatesFilter<"TestAnswerFirst"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"TestAnswerFirst"> | Date | string
+  }
+
   export type SchoolCreateInput = {
     name: string
     code?: string | null
@@ -10005,6 +16956,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     school: SchoolCreateNestedOneWithoutStudentsInput
     attempts?: AttemptCreateNestedManyWithoutStudentInput
+    submissions?: AssignmentSubmissionCreateNestedManyWithoutStudentInput
+    testAnswerFirsts?: TestAnswerFirstCreateNestedManyWithoutStudentInput
   }
 
   export type StudentUncheckedCreateInput = {
@@ -10019,6 +16972,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     attempts?: AttemptUncheckedCreateNestedManyWithoutStudentInput
+    submissions?: AssignmentSubmissionUncheckedCreateNestedManyWithoutStudentInput
+    testAnswerFirsts?: TestAnswerFirstUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type StudentUpdateInput = {
@@ -10032,6 +16987,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     school?: SchoolUpdateOneRequiredWithoutStudentsNestedInput
     attempts?: AttemptUpdateManyWithoutStudentNestedInput
+    submissions?: AssignmentSubmissionUpdateManyWithoutStudentNestedInput
+    testAnswerFirsts?: TestAnswerFirstUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentUncheckedUpdateInput = {
@@ -10046,6 +17003,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     attempts?: AttemptUncheckedUpdateManyWithoutStudentNestedInput
+    submissions?: AssignmentSubmissionUncheckedUpdateManyWithoutStudentNestedInput
+    testAnswerFirsts?: TestAnswerFirstUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentCreateManyInput = {
@@ -10237,6 +17196,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     course: CourseCreateNestedOneWithoutLessonsInput
     attempts?: AttemptCreateNestedManyWithoutLessonInput
+    assignments?: AssignmentCreateNestedManyWithoutLessonInput
   }
 
   export type LessonUncheckedCreateInput = {
@@ -10247,6 +17207,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     attempts?: AttemptUncheckedCreateNestedManyWithoutLessonInput
+    assignments?: AssignmentUncheckedCreateNestedManyWithoutLessonInput
   }
 
   export type LessonUpdateInput = {
@@ -10256,6 +17217,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     course?: CourseUpdateOneRequiredWithoutLessonsNestedInput
     attempts?: AttemptUpdateManyWithoutLessonNestedInput
+    assignments?: AssignmentUpdateManyWithoutLessonNestedInput
   }
 
   export type LessonUncheckedUpdateInput = {
@@ -10266,6 +17228,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     attempts?: AttemptUncheckedUpdateManyWithoutLessonNestedInput
+    assignments?: AssignmentUncheckedUpdateManyWithoutLessonNestedInput
   }
 
   export type LessonCreateManyInput = {
@@ -10342,6 +17305,438 @@ export namespace Prisma {
     lessonId?: IntFieldUpdateOperationsInput | number
     score?: NullableIntFieldUpdateOperationsInput | number | null
     completedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AssignmentTemplateCreateInput = {
+    key: string
+    title: string
+    description?: string | null
+    configJson?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AssignmentTemplateUncheckedCreateInput = {
+    id?: number
+    key: string
+    title: string
+    description?: string | null
+    configJson?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AssignmentTemplateUpdateInput = {
+    key?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    configJson?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AssignmentTemplateUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    key?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    configJson?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AssignmentTemplateCreateManyInput = {
+    id?: number
+    key: string
+    title: string
+    description?: string | null
+    configJson?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AssignmentTemplateUpdateManyMutationInput = {
+    key?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    configJson?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AssignmentTemplateUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    key?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    configJson?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AssignmentCreateInput = {
+    title: string
+    goal?: string | null
+    instruction: string
+    taskType: string
+    answerFormat: string
+    gradingMode?: string
+    maxScore?: number | null
+    order?: number
+    isPublished?: boolean
+    configJson?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lesson: LessonCreateNestedOneWithoutAssignmentsInput
+    fields?: AssignmentFieldCreateNestedManyWithoutAssignmentInput
+    submissions?: AssignmentSubmissionCreateNestedManyWithoutAssignmentInput
+    testAnswerFirsts?: TestAnswerFirstCreateNestedManyWithoutAssignmentInput
+  }
+
+  export type AssignmentUncheckedCreateInput = {
+    id?: number
+    lessonId: number
+    title: string
+    goal?: string | null
+    instruction: string
+    taskType: string
+    answerFormat: string
+    gradingMode?: string
+    maxScore?: number | null
+    order?: number
+    isPublished?: boolean
+    configJson?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    fields?: AssignmentFieldUncheckedCreateNestedManyWithoutAssignmentInput
+    submissions?: AssignmentSubmissionUncheckedCreateNestedManyWithoutAssignmentInput
+    testAnswerFirsts?: TestAnswerFirstUncheckedCreateNestedManyWithoutAssignmentInput
+  }
+
+  export type AssignmentUpdateInput = {
+    title?: StringFieldUpdateOperationsInput | string
+    goal?: NullableStringFieldUpdateOperationsInput | string | null
+    instruction?: StringFieldUpdateOperationsInput | string
+    taskType?: StringFieldUpdateOperationsInput | string
+    answerFormat?: StringFieldUpdateOperationsInput | string
+    gradingMode?: StringFieldUpdateOperationsInput | string
+    maxScore?: NullableIntFieldUpdateOperationsInput | number | null
+    order?: IntFieldUpdateOperationsInput | number
+    isPublished?: BoolFieldUpdateOperationsInput | boolean
+    configJson?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lesson?: LessonUpdateOneRequiredWithoutAssignmentsNestedInput
+    fields?: AssignmentFieldUpdateManyWithoutAssignmentNestedInput
+    submissions?: AssignmentSubmissionUpdateManyWithoutAssignmentNestedInput
+    testAnswerFirsts?: TestAnswerFirstUpdateManyWithoutAssignmentNestedInput
+  }
+
+  export type AssignmentUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    lessonId?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    goal?: NullableStringFieldUpdateOperationsInput | string | null
+    instruction?: StringFieldUpdateOperationsInput | string
+    taskType?: StringFieldUpdateOperationsInput | string
+    answerFormat?: StringFieldUpdateOperationsInput | string
+    gradingMode?: StringFieldUpdateOperationsInput | string
+    maxScore?: NullableIntFieldUpdateOperationsInput | number | null
+    order?: IntFieldUpdateOperationsInput | number
+    isPublished?: BoolFieldUpdateOperationsInput | boolean
+    configJson?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    fields?: AssignmentFieldUncheckedUpdateManyWithoutAssignmentNestedInput
+    submissions?: AssignmentSubmissionUncheckedUpdateManyWithoutAssignmentNestedInput
+    testAnswerFirsts?: TestAnswerFirstUncheckedUpdateManyWithoutAssignmentNestedInput
+  }
+
+  export type AssignmentCreateManyInput = {
+    id?: number
+    lessonId: number
+    title: string
+    goal?: string | null
+    instruction: string
+    taskType: string
+    answerFormat: string
+    gradingMode?: string
+    maxScore?: number | null
+    order?: number
+    isPublished?: boolean
+    configJson?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AssignmentUpdateManyMutationInput = {
+    title?: StringFieldUpdateOperationsInput | string
+    goal?: NullableStringFieldUpdateOperationsInput | string | null
+    instruction?: StringFieldUpdateOperationsInput | string
+    taskType?: StringFieldUpdateOperationsInput | string
+    answerFormat?: StringFieldUpdateOperationsInput | string
+    gradingMode?: StringFieldUpdateOperationsInput | string
+    maxScore?: NullableIntFieldUpdateOperationsInput | number | null
+    order?: IntFieldUpdateOperationsInput | number
+    isPublished?: BoolFieldUpdateOperationsInput | boolean
+    configJson?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AssignmentUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    lessonId?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    goal?: NullableStringFieldUpdateOperationsInput | string | null
+    instruction?: StringFieldUpdateOperationsInput | string
+    taskType?: StringFieldUpdateOperationsInput | string
+    answerFormat?: StringFieldUpdateOperationsInput | string
+    gradingMode?: StringFieldUpdateOperationsInput | string
+    maxScore?: NullableIntFieldUpdateOperationsInput | number | null
+    order?: IntFieldUpdateOperationsInput | number
+    isPublished?: BoolFieldUpdateOperationsInput | boolean
+    configJson?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AssignmentFieldCreateInput = {
+    fieldKey: string
+    label: string
+    fieldType: string
+    required?: boolean
+    order?: number
+    optionsJson?: string | null
+    rulesJson?: string | null
+    assignment: AssignmentCreateNestedOneWithoutFieldsInput
+  }
+
+  export type AssignmentFieldUncheckedCreateInput = {
+    id?: number
+    assignmentId: number
+    fieldKey: string
+    label: string
+    fieldType: string
+    required?: boolean
+    order?: number
+    optionsJson?: string | null
+    rulesJson?: string | null
+  }
+
+  export type AssignmentFieldUpdateInput = {
+    fieldKey?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    fieldType?: StringFieldUpdateOperationsInput | string
+    required?: BoolFieldUpdateOperationsInput | boolean
+    order?: IntFieldUpdateOperationsInput | number
+    optionsJson?: NullableStringFieldUpdateOperationsInput | string | null
+    rulesJson?: NullableStringFieldUpdateOperationsInput | string | null
+    assignment?: AssignmentUpdateOneRequiredWithoutFieldsNestedInput
+  }
+
+  export type AssignmentFieldUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    assignmentId?: IntFieldUpdateOperationsInput | number
+    fieldKey?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    fieldType?: StringFieldUpdateOperationsInput | string
+    required?: BoolFieldUpdateOperationsInput | boolean
+    order?: IntFieldUpdateOperationsInput | number
+    optionsJson?: NullableStringFieldUpdateOperationsInput | string | null
+    rulesJson?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type AssignmentFieldCreateManyInput = {
+    id?: number
+    assignmentId: number
+    fieldKey: string
+    label: string
+    fieldType: string
+    required?: boolean
+    order?: number
+    optionsJson?: string | null
+    rulesJson?: string | null
+  }
+
+  export type AssignmentFieldUpdateManyMutationInput = {
+    fieldKey?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    fieldType?: StringFieldUpdateOperationsInput | string
+    required?: BoolFieldUpdateOperationsInput | boolean
+    order?: IntFieldUpdateOperationsInput | number
+    optionsJson?: NullableStringFieldUpdateOperationsInput | string | null
+    rulesJson?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type AssignmentFieldUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    assignmentId?: IntFieldUpdateOperationsInput | number
+    fieldKey?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    fieldType?: StringFieldUpdateOperationsInput | string
+    required?: BoolFieldUpdateOperationsInput | boolean
+    order?: IntFieldUpdateOperationsInput | number
+    optionsJson?: NullableStringFieldUpdateOperationsInput | string | null
+    rulesJson?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type AssignmentSubmissionCreateInput = {
+    status?: string
+    answersJson: string
+    score?: number | null
+    gradingJson?: string | null
+    feedback?: string | null
+    submittedAt?: Date | string | null
+    checkedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    assignment: AssignmentCreateNestedOneWithoutSubmissionsInput
+    student: StudentCreateNestedOneWithoutSubmissionsInput
+  }
+
+  export type AssignmentSubmissionUncheckedCreateInput = {
+    id?: number
+    assignmentId: number
+    studentId: number
+    status?: string
+    answersJson: string
+    score?: number | null
+    gradingJson?: string | null
+    feedback?: string | null
+    submittedAt?: Date | string | null
+    checkedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AssignmentSubmissionUpdateInput = {
+    status?: StringFieldUpdateOperationsInput | string
+    answersJson?: StringFieldUpdateOperationsInput | string
+    score?: NullableIntFieldUpdateOperationsInput | number | null
+    gradingJson?: NullableStringFieldUpdateOperationsInput | string | null
+    feedback?: NullableStringFieldUpdateOperationsInput | string | null
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    checkedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    assignment?: AssignmentUpdateOneRequiredWithoutSubmissionsNestedInput
+    student?: StudentUpdateOneRequiredWithoutSubmissionsNestedInput
+  }
+
+  export type AssignmentSubmissionUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    assignmentId?: IntFieldUpdateOperationsInput | number
+    studentId?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    answersJson?: StringFieldUpdateOperationsInput | string
+    score?: NullableIntFieldUpdateOperationsInput | number | null
+    gradingJson?: NullableStringFieldUpdateOperationsInput | string | null
+    feedback?: NullableStringFieldUpdateOperationsInput | string | null
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    checkedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AssignmentSubmissionCreateManyInput = {
+    id?: number
+    assignmentId: number
+    studentId: number
+    status?: string
+    answersJson: string
+    score?: number | null
+    gradingJson?: string | null
+    feedback?: string | null
+    submittedAt?: Date | string | null
+    checkedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AssignmentSubmissionUpdateManyMutationInput = {
+    status?: StringFieldUpdateOperationsInput | string
+    answersJson?: StringFieldUpdateOperationsInput | string
+    score?: NullableIntFieldUpdateOperationsInput | number | null
+    gradingJson?: NullableStringFieldUpdateOperationsInput | string | null
+    feedback?: NullableStringFieldUpdateOperationsInput | string | null
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    checkedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AssignmentSubmissionUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    assignmentId?: IntFieldUpdateOperationsInput | number
+    studentId?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    answersJson?: StringFieldUpdateOperationsInput | string
+    score?: NullableIntFieldUpdateOperationsInput | number | null
+    gradingJson?: NullableStringFieldUpdateOperationsInput | string | null
+    feedback?: NullableStringFieldUpdateOperationsInput | string | null
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    checkedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TestAnswerFirstCreateInput = {
+    blockId: string
+    optionKey: string
+    createdAt?: Date | string
+    student: StudentCreateNestedOneWithoutTestAnswerFirstsInput
+    assignment: AssignmentCreateNestedOneWithoutTestAnswerFirstsInput
+  }
+
+  export type TestAnswerFirstUncheckedCreateInput = {
+    id?: number
+    studentId: number
+    assignmentId: number
+    blockId: string
+    optionKey: string
+    createdAt?: Date | string
+  }
+
+  export type TestAnswerFirstUpdateInput = {
+    blockId?: StringFieldUpdateOperationsInput | string
+    optionKey?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    student?: StudentUpdateOneRequiredWithoutTestAnswerFirstsNestedInput
+    assignment?: AssignmentUpdateOneRequiredWithoutTestAnswerFirstsNestedInput
+  }
+
+  export type TestAnswerFirstUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    studentId?: IntFieldUpdateOperationsInput | number
+    assignmentId?: IntFieldUpdateOperationsInput | number
+    blockId?: StringFieldUpdateOperationsInput | string
+    optionKey?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TestAnswerFirstCreateManyInput = {
+    id?: number
+    studentId: number
+    assignmentId: number
+    blockId: string
+    optionKey: string
+    createdAt?: Date | string
+  }
+
+  export type TestAnswerFirstUpdateManyMutationInput = {
+    blockId?: StringFieldUpdateOperationsInput | string
+    optionKey?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TestAnswerFirstUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    studentId?: IntFieldUpdateOperationsInput | number
+    assignmentId?: IntFieldUpdateOperationsInput | number
+    blockId?: StringFieldUpdateOperationsInput | string
+    optionKey?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -10506,7 +17901,27 @@ export namespace Prisma {
     none?: AttemptWhereInput
   }
 
+  export type AssignmentSubmissionListRelationFilter = {
+    every?: AssignmentSubmissionWhereInput
+    some?: AssignmentSubmissionWhereInput
+    none?: AssignmentSubmissionWhereInput
+  }
+
+  export type TestAnswerFirstListRelationFilter = {
+    every?: TestAnswerFirstWhereInput
+    some?: TestAnswerFirstWhereInput
+    none?: TestAnswerFirstWhereInput
+  }
+
   export type AttemptOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type AssignmentSubmissionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type TestAnswerFirstOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -10689,6 +18104,16 @@ export namespace Prisma {
     isNot?: CourseWhereInput
   }
 
+  export type AssignmentListRelationFilter = {
+    every?: AssignmentWhereInput
+    some?: AssignmentWhereInput
+    none?: AssignmentWhereInput
+  }
+
+  export type AssignmentOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type LessonCountOrderByAggregateInput = {
     id?: SortOrder
     courseId?: SortOrder
@@ -10808,6 +18233,319 @@ export namespace Prisma {
     _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
+  export type AssignmentTemplateCountOrderByAggregateInput = {
+    id?: SortOrder
+    key?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    configJson?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AssignmentTemplateAvgOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type AssignmentTemplateMaxOrderByAggregateInput = {
+    id?: SortOrder
+    key?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    configJson?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AssignmentTemplateMinOrderByAggregateInput = {
+    id?: SortOrder
+    key?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    configJson?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AssignmentTemplateSumOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type AssignmentFieldListRelationFilter = {
+    every?: AssignmentFieldWhereInput
+    some?: AssignmentFieldWhereInput
+    none?: AssignmentFieldWhereInput
+  }
+
+  export type AssignmentFieldOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type AssignmentCountOrderByAggregateInput = {
+    id?: SortOrder
+    lessonId?: SortOrder
+    title?: SortOrder
+    goal?: SortOrder
+    instruction?: SortOrder
+    taskType?: SortOrder
+    answerFormat?: SortOrder
+    gradingMode?: SortOrder
+    maxScore?: SortOrder
+    order?: SortOrder
+    isPublished?: SortOrder
+    configJson?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AssignmentAvgOrderByAggregateInput = {
+    id?: SortOrder
+    lessonId?: SortOrder
+    maxScore?: SortOrder
+    order?: SortOrder
+  }
+
+  export type AssignmentMaxOrderByAggregateInput = {
+    id?: SortOrder
+    lessonId?: SortOrder
+    title?: SortOrder
+    goal?: SortOrder
+    instruction?: SortOrder
+    taskType?: SortOrder
+    answerFormat?: SortOrder
+    gradingMode?: SortOrder
+    maxScore?: SortOrder
+    order?: SortOrder
+    isPublished?: SortOrder
+    configJson?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AssignmentMinOrderByAggregateInput = {
+    id?: SortOrder
+    lessonId?: SortOrder
+    title?: SortOrder
+    goal?: SortOrder
+    instruction?: SortOrder
+    taskType?: SortOrder
+    answerFormat?: SortOrder
+    gradingMode?: SortOrder
+    maxScore?: SortOrder
+    order?: SortOrder
+    isPublished?: SortOrder
+    configJson?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AssignmentSumOrderByAggregateInput = {
+    id?: SortOrder
+    lessonId?: SortOrder
+    maxScore?: SortOrder
+    order?: SortOrder
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type AssignmentScalarRelationFilter = {
+    is?: AssignmentWhereInput
+    isNot?: AssignmentWhereInput
+  }
+
+  export type AssignmentFieldCountOrderByAggregateInput = {
+    id?: SortOrder
+    assignmentId?: SortOrder
+    fieldKey?: SortOrder
+    label?: SortOrder
+    fieldType?: SortOrder
+    required?: SortOrder
+    order?: SortOrder
+    optionsJson?: SortOrder
+    rulesJson?: SortOrder
+  }
+
+  export type AssignmentFieldAvgOrderByAggregateInput = {
+    id?: SortOrder
+    assignmentId?: SortOrder
+    order?: SortOrder
+  }
+
+  export type AssignmentFieldMaxOrderByAggregateInput = {
+    id?: SortOrder
+    assignmentId?: SortOrder
+    fieldKey?: SortOrder
+    label?: SortOrder
+    fieldType?: SortOrder
+    required?: SortOrder
+    order?: SortOrder
+    optionsJson?: SortOrder
+    rulesJson?: SortOrder
+  }
+
+  export type AssignmentFieldMinOrderByAggregateInput = {
+    id?: SortOrder
+    assignmentId?: SortOrder
+    fieldKey?: SortOrder
+    label?: SortOrder
+    fieldType?: SortOrder
+    required?: SortOrder
+    order?: SortOrder
+    optionsJson?: SortOrder
+    rulesJson?: SortOrder
+  }
+
+  export type AssignmentFieldSumOrderByAggregateInput = {
+    id?: SortOrder
+    assignmentId?: SortOrder
+    order?: SortOrder
+  }
+
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | null
+    notIn?: Date[] | string[] | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type AssignmentSubmissionAssignmentIdStudentIdCompoundUniqueInput = {
+    assignmentId: number
+    studentId: number
+  }
+
+  export type AssignmentSubmissionCountOrderByAggregateInput = {
+    id?: SortOrder
+    assignmentId?: SortOrder
+    studentId?: SortOrder
+    status?: SortOrder
+    answersJson?: SortOrder
+    score?: SortOrder
+    gradingJson?: SortOrder
+    feedback?: SortOrder
+    submittedAt?: SortOrder
+    checkedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AssignmentSubmissionAvgOrderByAggregateInput = {
+    id?: SortOrder
+    assignmentId?: SortOrder
+    studentId?: SortOrder
+    score?: SortOrder
+  }
+
+  export type AssignmentSubmissionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    assignmentId?: SortOrder
+    studentId?: SortOrder
+    status?: SortOrder
+    answersJson?: SortOrder
+    score?: SortOrder
+    gradingJson?: SortOrder
+    feedback?: SortOrder
+    submittedAt?: SortOrder
+    checkedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AssignmentSubmissionMinOrderByAggregateInput = {
+    id?: SortOrder
+    assignmentId?: SortOrder
+    studentId?: SortOrder
+    status?: SortOrder
+    answersJson?: SortOrder
+    score?: SortOrder
+    gradingJson?: SortOrder
+    feedback?: SortOrder
+    submittedAt?: SortOrder
+    checkedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AssignmentSubmissionSumOrderByAggregateInput = {
+    id?: SortOrder
+    assignmentId?: SortOrder
+    studentId?: SortOrder
+    score?: SortOrder
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | null
+    notIn?: Date[] | string[] | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type TestAnswerFirstStudentIdAssignmentIdBlockIdCompoundUniqueInput = {
+    studentId: number
+    assignmentId: number
+    blockId: string
+  }
+
+  export type TestAnswerFirstCountOrderByAggregateInput = {
+    id?: SortOrder
+    studentId?: SortOrder
+    assignmentId?: SortOrder
+    blockId?: SortOrder
+    optionKey?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type TestAnswerFirstAvgOrderByAggregateInput = {
+    id?: SortOrder
+    studentId?: SortOrder
+    assignmentId?: SortOrder
+  }
+
+  export type TestAnswerFirstMaxOrderByAggregateInput = {
+    id?: SortOrder
+    studentId?: SortOrder
+    assignmentId?: SortOrder
+    blockId?: SortOrder
+    optionKey?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type TestAnswerFirstMinOrderByAggregateInput = {
+    id?: SortOrder
+    studentId?: SortOrder
+    assignmentId?: SortOrder
+    blockId?: SortOrder
+    optionKey?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type TestAnswerFirstSumOrderByAggregateInput = {
+    id?: SortOrder
+    studentId?: SortOrder
+    assignmentId?: SortOrder
+  }
+
   export type StudentCreateNestedManyWithoutSchoolInput = {
     create?: XOR<StudentCreateWithoutSchoolInput, StudentUncheckedCreateWithoutSchoolInput> | StudentCreateWithoutSchoolInput[] | StudentUncheckedCreateWithoutSchoolInput[]
     connectOrCreate?: StudentCreateOrConnectWithoutSchoolInput | StudentCreateOrConnectWithoutSchoolInput[]
@@ -10921,11 +18659,39 @@ export namespace Prisma {
     connect?: AttemptWhereUniqueInput | AttemptWhereUniqueInput[]
   }
 
+  export type AssignmentSubmissionCreateNestedManyWithoutStudentInput = {
+    create?: XOR<AssignmentSubmissionCreateWithoutStudentInput, AssignmentSubmissionUncheckedCreateWithoutStudentInput> | AssignmentSubmissionCreateWithoutStudentInput[] | AssignmentSubmissionUncheckedCreateWithoutStudentInput[]
+    connectOrCreate?: AssignmentSubmissionCreateOrConnectWithoutStudentInput | AssignmentSubmissionCreateOrConnectWithoutStudentInput[]
+    createMany?: AssignmentSubmissionCreateManyStudentInputEnvelope
+    connect?: AssignmentSubmissionWhereUniqueInput | AssignmentSubmissionWhereUniqueInput[]
+  }
+
+  export type TestAnswerFirstCreateNestedManyWithoutStudentInput = {
+    create?: XOR<TestAnswerFirstCreateWithoutStudentInput, TestAnswerFirstUncheckedCreateWithoutStudentInput> | TestAnswerFirstCreateWithoutStudentInput[] | TestAnswerFirstUncheckedCreateWithoutStudentInput[]
+    connectOrCreate?: TestAnswerFirstCreateOrConnectWithoutStudentInput | TestAnswerFirstCreateOrConnectWithoutStudentInput[]
+    createMany?: TestAnswerFirstCreateManyStudentInputEnvelope
+    connect?: TestAnswerFirstWhereUniqueInput | TestAnswerFirstWhereUniqueInput[]
+  }
+
   export type AttemptUncheckedCreateNestedManyWithoutStudentInput = {
     create?: XOR<AttemptCreateWithoutStudentInput, AttemptUncheckedCreateWithoutStudentInput> | AttemptCreateWithoutStudentInput[] | AttemptUncheckedCreateWithoutStudentInput[]
     connectOrCreate?: AttemptCreateOrConnectWithoutStudentInput | AttemptCreateOrConnectWithoutStudentInput[]
     createMany?: AttemptCreateManyStudentInputEnvelope
     connect?: AttemptWhereUniqueInput | AttemptWhereUniqueInput[]
+  }
+
+  export type AssignmentSubmissionUncheckedCreateNestedManyWithoutStudentInput = {
+    create?: XOR<AssignmentSubmissionCreateWithoutStudentInput, AssignmentSubmissionUncheckedCreateWithoutStudentInput> | AssignmentSubmissionCreateWithoutStudentInput[] | AssignmentSubmissionUncheckedCreateWithoutStudentInput[]
+    connectOrCreate?: AssignmentSubmissionCreateOrConnectWithoutStudentInput | AssignmentSubmissionCreateOrConnectWithoutStudentInput[]
+    createMany?: AssignmentSubmissionCreateManyStudentInputEnvelope
+    connect?: AssignmentSubmissionWhereUniqueInput | AssignmentSubmissionWhereUniqueInput[]
+  }
+
+  export type TestAnswerFirstUncheckedCreateNestedManyWithoutStudentInput = {
+    create?: XOR<TestAnswerFirstCreateWithoutStudentInput, TestAnswerFirstUncheckedCreateWithoutStudentInput> | TestAnswerFirstCreateWithoutStudentInput[] | TestAnswerFirstUncheckedCreateWithoutStudentInput[]
+    connectOrCreate?: TestAnswerFirstCreateOrConnectWithoutStudentInput | TestAnswerFirstCreateOrConnectWithoutStudentInput[]
+    createMany?: TestAnswerFirstCreateManyStudentInputEnvelope
+    connect?: TestAnswerFirstWhereUniqueInput | TestAnswerFirstWhereUniqueInput[]
   }
 
   export type DateTimeFieldUpdateOperationsInput = {
@@ -10954,6 +18720,34 @@ export namespace Prisma {
     deleteMany?: AttemptScalarWhereInput | AttemptScalarWhereInput[]
   }
 
+  export type AssignmentSubmissionUpdateManyWithoutStudentNestedInput = {
+    create?: XOR<AssignmentSubmissionCreateWithoutStudentInput, AssignmentSubmissionUncheckedCreateWithoutStudentInput> | AssignmentSubmissionCreateWithoutStudentInput[] | AssignmentSubmissionUncheckedCreateWithoutStudentInput[]
+    connectOrCreate?: AssignmentSubmissionCreateOrConnectWithoutStudentInput | AssignmentSubmissionCreateOrConnectWithoutStudentInput[]
+    upsert?: AssignmentSubmissionUpsertWithWhereUniqueWithoutStudentInput | AssignmentSubmissionUpsertWithWhereUniqueWithoutStudentInput[]
+    createMany?: AssignmentSubmissionCreateManyStudentInputEnvelope
+    set?: AssignmentSubmissionWhereUniqueInput | AssignmentSubmissionWhereUniqueInput[]
+    disconnect?: AssignmentSubmissionWhereUniqueInput | AssignmentSubmissionWhereUniqueInput[]
+    delete?: AssignmentSubmissionWhereUniqueInput | AssignmentSubmissionWhereUniqueInput[]
+    connect?: AssignmentSubmissionWhereUniqueInput | AssignmentSubmissionWhereUniqueInput[]
+    update?: AssignmentSubmissionUpdateWithWhereUniqueWithoutStudentInput | AssignmentSubmissionUpdateWithWhereUniqueWithoutStudentInput[]
+    updateMany?: AssignmentSubmissionUpdateManyWithWhereWithoutStudentInput | AssignmentSubmissionUpdateManyWithWhereWithoutStudentInput[]
+    deleteMany?: AssignmentSubmissionScalarWhereInput | AssignmentSubmissionScalarWhereInput[]
+  }
+
+  export type TestAnswerFirstUpdateManyWithoutStudentNestedInput = {
+    create?: XOR<TestAnswerFirstCreateWithoutStudentInput, TestAnswerFirstUncheckedCreateWithoutStudentInput> | TestAnswerFirstCreateWithoutStudentInput[] | TestAnswerFirstUncheckedCreateWithoutStudentInput[]
+    connectOrCreate?: TestAnswerFirstCreateOrConnectWithoutStudentInput | TestAnswerFirstCreateOrConnectWithoutStudentInput[]
+    upsert?: TestAnswerFirstUpsertWithWhereUniqueWithoutStudentInput | TestAnswerFirstUpsertWithWhereUniqueWithoutStudentInput[]
+    createMany?: TestAnswerFirstCreateManyStudentInputEnvelope
+    set?: TestAnswerFirstWhereUniqueInput | TestAnswerFirstWhereUniqueInput[]
+    disconnect?: TestAnswerFirstWhereUniqueInput | TestAnswerFirstWhereUniqueInput[]
+    delete?: TestAnswerFirstWhereUniqueInput | TestAnswerFirstWhereUniqueInput[]
+    connect?: TestAnswerFirstWhereUniqueInput | TestAnswerFirstWhereUniqueInput[]
+    update?: TestAnswerFirstUpdateWithWhereUniqueWithoutStudentInput | TestAnswerFirstUpdateWithWhereUniqueWithoutStudentInput[]
+    updateMany?: TestAnswerFirstUpdateManyWithWhereWithoutStudentInput | TestAnswerFirstUpdateManyWithWhereWithoutStudentInput[]
+    deleteMany?: TestAnswerFirstScalarWhereInput | TestAnswerFirstScalarWhereInput[]
+  }
+
   export type AttemptUncheckedUpdateManyWithoutStudentNestedInput = {
     create?: XOR<AttemptCreateWithoutStudentInput, AttemptUncheckedCreateWithoutStudentInput> | AttemptCreateWithoutStudentInput[] | AttemptUncheckedCreateWithoutStudentInput[]
     connectOrCreate?: AttemptCreateOrConnectWithoutStudentInput | AttemptCreateOrConnectWithoutStudentInput[]
@@ -10966,6 +18760,34 @@ export namespace Prisma {
     update?: AttemptUpdateWithWhereUniqueWithoutStudentInput | AttemptUpdateWithWhereUniqueWithoutStudentInput[]
     updateMany?: AttemptUpdateManyWithWhereWithoutStudentInput | AttemptUpdateManyWithWhereWithoutStudentInput[]
     deleteMany?: AttemptScalarWhereInput | AttemptScalarWhereInput[]
+  }
+
+  export type AssignmentSubmissionUncheckedUpdateManyWithoutStudentNestedInput = {
+    create?: XOR<AssignmentSubmissionCreateWithoutStudentInput, AssignmentSubmissionUncheckedCreateWithoutStudentInput> | AssignmentSubmissionCreateWithoutStudentInput[] | AssignmentSubmissionUncheckedCreateWithoutStudentInput[]
+    connectOrCreate?: AssignmentSubmissionCreateOrConnectWithoutStudentInput | AssignmentSubmissionCreateOrConnectWithoutStudentInput[]
+    upsert?: AssignmentSubmissionUpsertWithWhereUniqueWithoutStudentInput | AssignmentSubmissionUpsertWithWhereUniqueWithoutStudentInput[]
+    createMany?: AssignmentSubmissionCreateManyStudentInputEnvelope
+    set?: AssignmentSubmissionWhereUniqueInput | AssignmentSubmissionWhereUniqueInput[]
+    disconnect?: AssignmentSubmissionWhereUniqueInput | AssignmentSubmissionWhereUniqueInput[]
+    delete?: AssignmentSubmissionWhereUniqueInput | AssignmentSubmissionWhereUniqueInput[]
+    connect?: AssignmentSubmissionWhereUniqueInput | AssignmentSubmissionWhereUniqueInput[]
+    update?: AssignmentSubmissionUpdateWithWhereUniqueWithoutStudentInput | AssignmentSubmissionUpdateWithWhereUniqueWithoutStudentInput[]
+    updateMany?: AssignmentSubmissionUpdateManyWithWhereWithoutStudentInput | AssignmentSubmissionUpdateManyWithWhereWithoutStudentInput[]
+    deleteMany?: AssignmentSubmissionScalarWhereInput | AssignmentSubmissionScalarWhereInput[]
+  }
+
+  export type TestAnswerFirstUncheckedUpdateManyWithoutStudentNestedInput = {
+    create?: XOR<TestAnswerFirstCreateWithoutStudentInput, TestAnswerFirstUncheckedCreateWithoutStudentInput> | TestAnswerFirstCreateWithoutStudentInput[] | TestAnswerFirstUncheckedCreateWithoutStudentInput[]
+    connectOrCreate?: TestAnswerFirstCreateOrConnectWithoutStudentInput | TestAnswerFirstCreateOrConnectWithoutStudentInput[]
+    upsert?: TestAnswerFirstUpsertWithWhereUniqueWithoutStudentInput | TestAnswerFirstUpsertWithWhereUniqueWithoutStudentInput[]
+    createMany?: TestAnswerFirstCreateManyStudentInputEnvelope
+    set?: TestAnswerFirstWhereUniqueInput | TestAnswerFirstWhereUniqueInput[]
+    disconnect?: TestAnswerFirstWhereUniqueInput | TestAnswerFirstWhereUniqueInput[]
+    delete?: TestAnswerFirstWhereUniqueInput | TestAnswerFirstWhereUniqueInput[]
+    connect?: TestAnswerFirstWhereUniqueInput | TestAnswerFirstWhereUniqueInput[]
+    update?: TestAnswerFirstUpdateWithWhereUniqueWithoutStudentInput | TestAnswerFirstUpdateWithWhereUniqueWithoutStudentInput[]
+    updateMany?: TestAnswerFirstUpdateManyWithWhereWithoutStudentInput | TestAnswerFirstUpdateManyWithWhereWithoutStudentInput[]
+    deleteMany?: TestAnswerFirstScalarWhereInput | TestAnswerFirstScalarWhereInput[]
   }
 
   export type TeacherSchoolCreateNestedManyWithoutTeacherInput = {
@@ -11093,11 +18915,25 @@ export namespace Prisma {
     connect?: AttemptWhereUniqueInput | AttemptWhereUniqueInput[]
   }
 
+  export type AssignmentCreateNestedManyWithoutLessonInput = {
+    create?: XOR<AssignmentCreateWithoutLessonInput, AssignmentUncheckedCreateWithoutLessonInput> | AssignmentCreateWithoutLessonInput[] | AssignmentUncheckedCreateWithoutLessonInput[]
+    connectOrCreate?: AssignmentCreateOrConnectWithoutLessonInput | AssignmentCreateOrConnectWithoutLessonInput[]
+    createMany?: AssignmentCreateManyLessonInputEnvelope
+    connect?: AssignmentWhereUniqueInput | AssignmentWhereUniqueInput[]
+  }
+
   export type AttemptUncheckedCreateNestedManyWithoutLessonInput = {
     create?: XOR<AttemptCreateWithoutLessonInput, AttemptUncheckedCreateWithoutLessonInput> | AttemptCreateWithoutLessonInput[] | AttemptUncheckedCreateWithoutLessonInput[]
     connectOrCreate?: AttemptCreateOrConnectWithoutLessonInput | AttemptCreateOrConnectWithoutLessonInput[]
     createMany?: AttemptCreateManyLessonInputEnvelope
     connect?: AttemptWhereUniqueInput | AttemptWhereUniqueInput[]
+  }
+
+  export type AssignmentUncheckedCreateNestedManyWithoutLessonInput = {
+    create?: XOR<AssignmentCreateWithoutLessonInput, AssignmentUncheckedCreateWithoutLessonInput> | AssignmentCreateWithoutLessonInput[] | AssignmentUncheckedCreateWithoutLessonInput[]
+    connectOrCreate?: AssignmentCreateOrConnectWithoutLessonInput | AssignmentCreateOrConnectWithoutLessonInput[]
+    createMany?: AssignmentCreateManyLessonInputEnvelope
+    connect?: AssignmentWhereUniqueInput | AssignmentWhereUniqueInput[]
   }
 
   export type CourseUpdateOneRequiredWithoutLessonsNestedInput = {
@@ -11122,6 +18958,20 @@ export namespace Prisma {
     deleteMany?: AttemptScalarWhereInput | AttemptScalarWhereInput[]
   }
 
+  export type AssignmentUpdateManyWithoutLessonNestedInput = {
+    create?: XOR<AssignmentCreateWithoutLessonInput, AssignmentUncheckedCreateWithoutLessonInput> | AssignmentCreateWithoutLessonInput[] | AssignmentUncheckedCreateWithoutLessonInput[]
+    connectOrCreate?: AssignmentCreateOrConnectWithoutLessonInput | AssignmentCreateOrConnectWithoutLessonInput[]
+    upsert?: AssignmentUpsertWithWhereUniqueWithoutLessonInput | AssignmentUpsertWithWhereUniqueWithoutLessonInput[]
+    createMany?: AssignmentCreateManyLessonInputEnvelope
+    set?: AssignmentWhereUniqueInput | AssignmentWhereUniqueInput[]
+    disconnect?: AssignmentWhereUniqueInput | AssignmentWhereUniqueInput[]
+    delete?: AssignmentWhereUniqueInput | AssignmentWhereUniqueInput[]
+    connect?: AssignmentWhereUniqueInput | AssignmentWhereUniqueInput[]
+    update?: AssignmentUpdateWithWhereUniqueWithoutLessonInput | AssignmentUpdateWithWhereUniqueWithoutLessonInput[]
+    updateMany?: AssignmentUpdateManyWithWhereWithoutLessonInput | AssignmentUpdateManyWithWhereWithoutLessonInput[]
+    deleteMany?: AssignmentScalarWhereInput | AssignmentScalarWhereInput[]
+  }
+
   export type AttemptUncheckedUpdateManyWithoutLessonNestedInput = {
     create?: XOR<AttemptCreateWithoutLessonInput, AttemptUncheckedCreateWithoutLessonInput> | AttemptCreateWithoutLessonInput[] | AttemptUncheckedCreateWithoutLessonInput[]
     connectOrCreate?: AttemptCreateOrConnectWithoutLessonInput | AttemptCreateOrConnectWithoutLessonInput[]
@@ -11134,6 +18984,20 @@ export namespace Prisma {
     update?: AttemptUpdateWithWhereUniqueWithoutLessonInput | AttemptUpdateWithWhereUniqueWithoutLessonInput[]
     updateMany?: AttemptUpdateManyWithWhereWithoutLessonInput | AttemptUpdateManyWithWhereWithoutLessonInput[]
     deleteMany?: AttemptScalarWhereInput | AttemptScalarWhereInput[]
+  }
+
+  export type AssignmentUncheckedUpdateManyWithoutLessonNestedInput = {
+    create?: XOR<AssignmentCreateWithoutLessonInput, AssignmentUncheckedCreateWithoutLessonInput> | AssignmentCreateWithoutLessonInput[] | AssignmentUncheckedCreateWithoutLessonInput[]
+    connectOrCreate?: AssignmentCreateOrConnectWithoutLessonInput | AssignmentCreateOrConnectWithoutLessonInput[]
+    upsert?: AssignmentUpsertWithWhereUniqueWithoutLessonInput | AssignmentUpsertWithWhereUniqueWithoutLessonInput[]
+    createMany?: AssignmentCreateManyLessonInputEnvelope
+    set?: AssignmentWhereUniqueInput | AssignmentWhereUniqueInput[]
+    disconnect?: AssignmentWhereUniqueInput | AssignmentWhereUniqueInput[]
+    delete?: AssignmentWhereUniqueInput | AssignmentWhereUniqueInput[]
+    connect?: AssignmentWhereUniqueInput | AssignmentWhereUniqueInput[]
+    update?: AssignmentUpdateWithWhereUniqueWithoutLessonInput | AssignmentUpdateWithWhereUniqueWithoutLessonInput[]
+    updateMany?: AssignmentUpdateManyWithWhereWithoutLessonInput | AssignmentUpdateManyWithWhereWithoutLessonInput[]
+    deleteMany?: AssignmentScalarWhereInput | AssignmentScalarWhereInput[]
   }
 
   export type StudentCreateNestedOneWithoutAttemptsInput = {
@@ -11170,6 +19034,224 @@ export namespace Prisma {
     upsert?: LessonUpsertWithoutAttemptsInput
     connect?: LessonWhereUniqueInput
     update?: XOR<XOR<LessonUpdateToOneWithWhereWithoutAttemptsInput, LessonUpdateWithoutAttemptsInput>, LessonUncheckedUpdateWithoutAttemptsInput>
+  }
+
+  export type LessonCreateNestedOneWithoutAssignmentsInput = {
+    create?: XOR<LessonCreateWithoutAssignmentsInput, LessonUncheckedCreateWithoutAssignmentsInput>
+    connectOrCreate?: LessonCreateOrConnectWithoutAssignmentsInput
+    connect?: LessonWhereUniqueInput
+  }
+
+  export type AssignmentFieldCreateNestedManyWithoutAssignmentInput = {
+    create?: XOR<AssignmentFieldCreateWithoutAssignmentInput, AssignmentFieldUncheckedCreateWithoutAssignmentInput> | AssignmentFieldCreateWithoutAssignmentInput[] | AssignmentFieldUncheckedCreateWithoutAssignmentInput[]
+    connectOrCreate?: AssignmentFieldCreateOrConnectWithoutAssignmentInput | AssignmentFieldCreateOrConnectWithoutAssignmentInput[]
+    createMany?: AssignmentFieldCreateManyAssignmentInputEnvelope
+    connect?: AssignmentFieldWhereUniqueInput | AssignmentFieldWhereUniqueInput[]
+  }
+
+  export type AssignmentSubmissionCreateNestedManyWithoutAssignmentInput = {
+    create?: XOR<AssignmentSubmissionCreateWithoutAssignmentInput, AssignmentSubmissionUncheckedCreateWithoutAssignmentInput> | AssignmentSubmissionCreateWithoutAssignmentInput[] | AssignmentSubmissionUncheckedCreateWithoutAssignmentInput[]
+    connectOrCreate?: AssignmentSubmissionCreateOrConnectWithoutAssignmentInput | AssignmentSubmissionCreateOrConnectWithoutAssignmentInput[]
+    createMany?: AssignmentSubmissionCreateManyAssignmentInputEnvelope
+    connect?: AssignmentSubmissionWhereUniqueInput | AssignmentSubmissionWhereUniqueInput[]
+  }
+
+  export type TestAnswerFirstCreateNestedManyWithoutAssignmentInput = {
+    create?: XOR<TestAnswerFirstCreateWithoutAssignmentInput, TestAnswerFirstUncheckedCreateWithoutAssignmentInput> | TestAnswerFirstCreateWithoutAssignmentInput[] | TestAnswerFirstUncheckedCreateWithoutAssignmentInput[]
+    connectOrCreate?: TestAnswerFirstCreateOrConnectWithoutAssignmentInput | TestAnswerFirstCreateOrConnectWithoutAssignmentInput[]
+    createMany?: TestAnswerFirstCreateManyAssignmentInputEnvelope
+    connect?: TestAnswerFirstWhereUniqueInput | TestAnswerFirstWhereUniqueInput[]
+  }
+
+  export type AssignmentFieldUncheckedCreateNestedManyWithoutAssignmentInput = {
+    create?: XOR<AssignmentFieldCreateWithoutAssignmentInput, AssignmentFieldUncheckedCreateWithoutAssignmentInput> | AssignmentFieldCreateWithoutAssignmentInput[] | AssignmentFieldUncheckedCreateWithoutAssignmentInput[]
+    connectOrCreate?: AssignmentFieldCreateOrConnectWithoutAssignmentInput | AssignmentFieldCreateOrConnectWithoutAssignmentInput[]
+    createMany?: AssignmentFieldCreateManyAssignmentInputEnvelope
+    connect?: AssignmentFieldWhereUniqueInput | AssignmentFieldWhereUniqueInput[]
+  }
+
+  export type AssignmentSubmissionUncheckedCreateNestedManyWithoutAssignmentInput = {
+    create?: XOR<AssignmentSubmissionCreateWithoutAssignmentInput, AssignmentSubmissionUncheckedCreateWithoutAssignmentInput> | AssignmentSubmissionCreateWithoutAssignmentInput[] | AssignmentSubmissionUncheckedCreateWithoutAssignmentInput[]
+    connectOrCreate?: AssignmentSubmissionCreateOrConnectWithoutAssignmentInput | AssignmentSubmissionCreateOrConnectWithoutAssignmentInput[]
+    createMany?: AssignmentSubmissionCreateManyAssignmentInputEnvelope
+    connect?: AssignmentSubmissionWhereUniqueInput | AssignmentSubmissionWhereUniqueInput[]
+  }
+
+  export type TestAnswerFirstUncheckedCreateNestedManyWithoutAssignmentInput = {
+    create?: XOR<TestAnswerFirstCreateWithoutAssignmentInput, TestAnswerFirstUncheckedCreateWithoutAssignmentInput> | TestAnswerFirstCreateWithoutAssignmentInput[] | TestAnswerFirstUncheckedCreateWithoutAssignmentInput[]
+    connectOrCreate?: TestAnswerFirstCreateOrConnectWithoutAssignmentInput | TestAnswerFirstCreateOrConnectWithoutAssignmentInput[]
+    createMany?: TestAnswerFirstCreateManyAssignmentInputEnvelope
+    connect?: TestAnswerFirstWhereUniqueInput | TestAnswerFirstWhereUniqueInput[]
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
+  }
+
+  export type LessonUpdateOneRequiredWithoutAssignmentsNestedInput = {
+    create?: XOR<LessonCreateWithoutAssignmentsInput, LessonUncheckedCreateWithoutAssignmentsInput>
+    connectOrCreate?: LessonCreateOrConnectWithoutAssignmentsInput
+    upsert?: LessonUpsertWithoutAssignmentsInput
+    connect?: LessonWhereUniqueInput
+    update?: XOR<XOR<LessonUpdateToOneWithWhereWithoutAssignmentsInput, LessonUpdateWithoutAssignmentsInput>, LessonUncheckedUpdateWithoutAssignmentsInput>
+  }
+
+  export type AssignmentFieldUpdateManyWithoutAssignmentNestedInput = {
+    create?: XOR<AssignmentFieldCreateWithoutAssignmentInput, AssignmentFieldUncheckedCreateWithoutAssignmentInput> | AssignmentFieldCreateWithoutAssignmentInput[] | AssignmentFieldUncheckedCreateWithoutAssignmentInput[]
+    connectOrCreate?: AssignmentFieldCreateOrConnectWithoutAssignmentInput | AssignmentFieldCreateOrConnectWithoutAssignmentInput[]
+    upsert?: AssignmentFieldUpsertWithWhereUniqueWithoutAssignmentInput | AssignmentFieldUpsertWithWhereUniqueWithoutAssignmentInput[]
+    createMany?: AssignmentFieldCreateManyAssignmentInputEnvelope
+    set?: AssignmentFieldWhereUniqueInput | AssignmentFieldWhereUniqueInput[]
+    disconnect?: AssignmentFieldWhereUniqueInput | AssignmentFieldWhereUniqueInput[]
+    delete?: AssignmentFieldWhereUniqueInput | AssignmentFieldWhereUniqueInput[]
+    connect?: AssignmentFieldWhereUniqueInput | AssignmentFieldWhereUniqueInput[]
+    update?: AssignmentFieldUpdateWithWhereUniqueWithoutAssignmentInput | AssignmentFieldUpdateWithWhereUniqueWithoutAssignmentInput[]
+    updateMany?: AssignmentFieldUpdateManyWithWhereWithoutAssignmentInput | AssignmentFieldUpdateManyWithWhereWithoutAssignmentInput[]
+    deleteMany?: AssignmentFieldScalarWhereInput | AssignmentFieldScalarWhereInput[]
+  }
+
+  export type AssignmentSubmissionUpdateManyWithoutAssignmentNestedInput = {
+    create?: XOR<AssignmentSubmissionCreateWithoutAssignmentInput, AssignmentSubmissionUncheckedCreateWithoutAssignmentInput> | AssignmentSubmissionCreateWithoutAssignmentInput[] | AssignmentSubmissionUncheckedCreateWithoutAssignmentInput[]
+    connectOrCreate?: AssignmentSubmissionCreateOrConnectWithoutAssignmentInput | AssignmentSubmissionCreateOrConnectWithoutAssignmentInput[]
+    upsert?: AssignmentSubmissionUpsertWithWhereUniqueWithoutAssignmentInput | AssignmentSubmissionUpsertWithWhereUniqueWithoutAssignmentInput[]
+    createMany?: AssignmentSubmissionCreateManyAssignmentInputEnvelope
+    set?: AssignmentSubmissionWhereUniqueInput | AssignmentSubmissionWhereUniqueInput[]
+    disconnect?: AssignmentSubmissionWhereUniqueInput | AssignmentSubmissionWhereUniqueInput[]
+    delete?: AssignmentSubmissionWhereUniqueInput | AssignmentSubmissionWhereUniqueInput[]
+    connect?: AssignmentSubmissionWhereUniqueInput | AssignmentSubmissionWhereUniqueInput[]
+    update?: AssignmentSubmissionUpdateWithWhereUniqueWithoutAssignmentInput | AssignmentSubmissionUpdateWithWhereUniqueWithoutAssignmentInput[]
+    updateMany?: AssignmentSubmissionUpdateManyWithWhereWithoutAssignmentInput | AssignmentSubmissionUpdateManyWithWhereWithoutAssignmentInput[]
+    deleteMany?: AssignmentSubmissionScalarWhereInput | AssignmentSubmissionScalarWhereInput[]
+  }
+
+  export type TestAnswerFirstUpdateManyWithoutAssignmentNestedInput = {
+    create?: XOR<TestAnswerFirstCreateWithoutAssignmentInput, TestAnswerFirstUncheckedCreateWithoutAssignmentInput> | TestAnswerFirstCreateWithoutAssignmentInput[] | TestAnswerFirstUncheckedCreateWithoutAssignmentInput[]
+    connectOrCreate?: TestAnswerFirstCreateOrConnectWithoutAssignmentInput | TestAnswerFirstCreateOrConnectWithoutAssignmentInput[]
+    upsert?: TestAnswerFirstUpsertWithWhereUniqueWithoutAssignmentInput | TestAnswerFirstUpsertWithWhereUniqueWithoutAssignmentInput[]
+    createMany?: TestAnswerFirstCreateManyAssignmentInputEnvelope
+    set?: TestAnswerFirstWhereUniqueInput | TestAnswerFirstWhereUniqueInput[]
+    disconnect?: TestAnswerFirstWhereUniqueInput | TestAnswerFirstWhereUniqueInput[]
+    delete?: TestAnswerFirstWhereUniqueInput | TestAnswerFirstWhereUniqueInput[]
+    connect?: TestAnswerFirstWhereUniqueInput | TestAnswerFirstWhereUniqueInput[]
+    update?: TestAnswerFirstUpdateWithWhereUniqueWithoutAssignmentInput | TestAnswerFirstUpdateWithWhereUniqueWithoutAssignmentInput[]
+    updateMany?: TestAnswerFirstUpdateManyWithWhereWithoutAssignmentInput | TestAnswerFirstUpdateManyWithWhereWithoutAssignmentInput[]
+    deleteMany?: TestAnswerFirstScalarWhereInput | TestAnswerFirstScalarWhereInput[]
+  }
+
+  export type AssignmentFieldUncheckedUpdateManyWithoutAssignmentNestedInput = {
+    create?: XOR<AssignmentFieldCreateWithoutAssignmentInput, AssignmentFieldUncheckedCreateWithoutAssignmentInput> | AssignmentFieldCreateWithoutAssignmentInput[] | AssignmentFieldUncheckedCreateWithoutAssignmentInput[]
+    connectOrCreate?: AssignmentFieldCreateOrConnectWithoutAssignmentInput | AssignmentFieldCreateOrConnectWithoutAssignmentInput[]
+    upsert?: AssignmentFieldUpsertWithWhereUniqueWithoutAssignmentInput | AssignmentFieldUpsertWithWhereUniqueWithoutAssignmentInput[]
+    createMany?: AssignmentFieldCreateManyAssignmentInputEnvelope
+    set?: AssignmentFieldWhereUniqueInput | AssignmentFieldWhereUniqueInput[]
+    disconnect?: AssignmentFieldWhereUniqueInput | AssignmentFieldWhereUniqueInput[]
+    delete?: AssignmentFieldWhereUniqueInput | AssignmentFieldWhereUniqueInput[]
+    connect?: AssignmentFieldWhereUniqueInput | AssignmentFieldWhereUniqueInput[]
+    update?: AssignmentFieldUpdateWithWhereUniqueWithoutAssignmentInput | AssignmentFieldUpdateWithWhereUniqueWithoutAssignmentInput[]
+    updateMany?: AssignmentFieldUpdateManyWithWhereWithoutAssignmentInput | AssignmentFieldUpdateManyWithWhereWithoutAssignmentInput[]
+    deleteMany?: AssignmentFieldScalarWhereInput | AssignmentFieldScalarWhereInput[]
+  }
+
+  export type AssignmentSubmissionUncheckedUpdateManyWithoutAssignmentNestedInput = {
+    create?: XOR<AssignmentSubmissionCreateWithoutAssignmentInput, AssignmentSubmissionUncheckedCreateWithoutAssignmentInput> | AssignmentSubmissionCreateWithoutAssignmentInput[] | AssignmentSubmissionUncheckedCreateWithoutAssignmentInput[]
+    connectOrCreate?: AssignmentSubmissionCreateOrConnectWithoutAssignmentInput | AssignmentSubmissionCreateOrConnectWithoutAssignmentInput[]
+    upsert?: AssignmentSubmissionUpsertWithWhereUniqueWithoutAssignmentInput | AssignmentSubmissionUpsertWithWhereUniqueWithoutAssignmentInput[]
+    createMany?: AssignmentSubmissionCreateManyAssignmentInputEnvelope
+    set?: AssignmentSubmissionWhereUniqueInput | AssignmentSubmissionWhereUniqueInput[]
+    disconnect?: AssignmentSubmissionWhereUniqueInput | AssignmentSubmissionWhereUniqueInput[]
+    delete?: AssignmentSubmissionWhereUniqueInput | AssignmentSubmissionWhereUniqueInput[]
+    connect?: AssignmentSubmissionWhereUniqueInput | AssignmentSubmissionWhereUniqueInput[]
+    update?: AssignmentSubmissionUpdateWithWhereUniqueWithoutAssignmentInput | AssignmentSubmissionUpdateWithWhereUniqueWithoutAssignmentInput[]
+    updateMany?: AssignmentSubmissionUpdateManyWithWhereWithoutAssignmentInput | AssignmentSubmissionUpdateManyWithWhereWithoutAssignmentInput[]
+    deleteMany?: AssignmentSubmissionScalarWhereInput | AssignmentSubmissionScalarWhereInput[]
+  }
+
+  export type TestAnswerFirstUncheckedUpdateManyWithoutAssignmentNestedInput = {
+    create?: XOR<TestAnswerFirstCreateWithoutAssignmentInput, TestAnswerFirstUncheckedCreateWithoutAssignmentInput> | TestAnswerFirstCreateWithoutAssignmentInput[] | TestAnswerFirstUncheckedCreateWithoutAssignmentInput[]
+    connectOrCreate?: TestAnswerFirstCreateOrConnectWithoutAssignmentInput | TestAnswerFirstCreateOrConnectWithoutAssignmentInput[]
+    upsert?: TestAnswerFirstUpsertWithWhereUniqueWithoutAssignmentInput | TestAnswerFirstUpsertWithWhereUniqueWithoutAssignmentInput[]
+    createMany?: TestAnswerFirstCreateManyAssignmentInputEnvelope
+    set?: TestAnswerFirstWhereUniqueInput | TestAnswerFirstWhereUniqueInput[]
+    disconnect?: TestAnswerFirstWhereUniqueInput | TestAnswerFirstWhereUniqueInput[]
+    delete?: TestAnswerFirstWhereUniqueInput | TestAnswerFirstWhereUniqueInput[]
+    connect?: TestAnswerFirstWhereUniqueInput | TestAnswerFirstWhereUniqueInput[]
+    update?: TestAnswerFirstUpdateWithWhereUniqueWithoutAssignmentInput | TestAnswerFirstUpdateWithWhereUniqueWithoutAssignmentInput[]
+    updateMany?: TestAnswerFirstUpdateManyWithWhereWithoutAssignmentInput | TestAnswerFirstUpdateManyWithWhereWithoutAssignmentInput[]
+    deleteMany?: TestAnswerFirstScalarWhereInput | TestAnswerFirstScalarWhereInput[]
+  }
+
+  export type AssignmentCreateNestedOneWithoutFieldsInput = {
+    create?: XOR<AssignmentCreateWithoutFieldsInput, AssignmentUncheckedCreateWithoutFieldsInput>
+    connectOrCreate?: AssignmentCreateOrConnectWithoutFieldsInput
+    connect?: AssignmentWhereUniqueInput
+  }
+
+  export type AssignmentUpdateOneRequiredWithoutFieldsNestedInput = {
+    create?: XOR<AssignmentCreateWithoutFieldsInput, AssignmentUncheckedCreateWithoutFieldsInput>
+    connectOrCreate?: AssignmentCreateOrConnectWithoutFieldsInput
+    upsert?: AssignmentUpsertWithoutFieldsInput
+    connect?: AssignmentWhereUniqueInput
+    update?: XOR<XOR<AssignmentUpdateToOneWithWhereWithoutFieldsInput, AssignmentUpdateWithoutFieldsInput>, AssignmentUncheckedUpdateWithoutFieldsInput>
+  }
+
+  export type AssignmentCreateNestedOneWithoutSubmissionsInput = {
+    create?: XOR<AssignmentCreateWithoutSubmissionsInput, AssignmentUncheckedCreateWithoutSubmissionsInput>
+    connectOrCreate?: AssignmentCreateOrConnectWithoutSubmissionsInput
+    connect?: AssignmentWhereUniqueInput
+  }
+
+  export type StudentCreateNestedOneWithoutSubmissionsInput = {
+    create?: XOR<StudentCreateWithoutSubmissionsInput, StudentUncheckedCreateWithoutSubmissionsInput>
+    connectOrCreate?: StudentCreateOrConnectWithoutSubmissionsInput
+    connect?: StudentWhereUniqueInput
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+  }
+
+  export type AssignmentUpdateOneRequiredWithoutSubmissionsNestedInput = {
+    create?: XOR<AssignmentCreateWithoutSubmissionsInput, AssignmentUncheckedCreateWithoutSubmissionsInput>
+    connectOrCreate?: AssignmentCreateOrConnectWithoutSubmissionsInput
+    upsert?: AssignmentUpsertWithoutSubmissionsInput
+    connect?: AssignmentWhereUniqueInput
+    update?: XOR<XOR<AssignmentUpdateToOneWithWhereWithoutSubmissionsInput, AssignmentUpdateWithoutSubmissionsInput>, AssignmentUncheckedUpdateWithoutSubmissionsInput>
+  }
+
+  export type StudentUpdateOneRequiredWithoutSubmissionsNestedInput = {
+    create?: XOR<StudentCreateWithoutSubmissionsInput, StudentUncheckedCreateWithoutSubmissionsInput>
+    connectOrCreate?: StudentCreateOrConnectWithoutSubmissionsInput
+    upsert?: StudentUpsertWithoutSubmissionsInput
+    connect?: StudentWhereUniqueInput
+    update?: XOR<XOR<StudentUpdateToOneWithWhereWithoutSubmissionsInput, StudentUpdateWithoutSubmissionsInput>, StudentUncheckedUpdateWithoutSubmissionsInput>
+  }
+
+  export type StudentCreateNestedOneWithoutTestAnswerFirstsInput = {
+    create?: XOR<StudentCreateWithoutTestAnswerFirstsInput, StudentUncheckedCreateWithoutTestAnswerFirstsInput>
+    connectOrCreate?: StudentCreateOrConnectWithoutTestAnswerFirstsInput
+    connect?: StudentWhereUniqueInput
+  }
+
+  export type AssignmentCreateNestedOneWithoutTestAnswerFirstsInput = {
+    create?: XOR<AssignmentCreateWithoutTestAnswerFirstsInput, AssignmentUncheckedCreateWithoutTestAnswerFirstsInput>
+    connectOrCreate?: AssignmentCreateOrConnectWithoutTestAnswerFirstsInput
+    connect?: AssignmentWhereUniqueInput
+  }
+
+  export type StudentUpdateOneRequiredWithoutTestAnswerFirstsNestedInput = {
+    create?: XOR<StudentCreateWithoutTestAnswerFirstsInput, StudentUncheckedCreateWithoutTestAnswerFirstsInput>
+    connectOrCreate?: StudentCreateOrConnectWithoutTestAnswerFirstsInput
+    upsert?: StudentUpsertWithoutTestAnswerFirstsInput
+    connect?: StudentWhereUniqueInput
+    update?: XOR<XOR<StudentUpdateToOneWithWhereWithoutTestAnswerFirstsInput, StudentUpdateWithoutTestAnswerFirstsInput>, StudentUncheckedUpdateWithoutTestAnswerFirstsInput>
+  }
+
+  export type AssignmentUpdateOneRequiredWithoutTestAnswerFirstsNestedInput = {
+    create?: XOR<AssignmentCreateWithoutTestAnswerFirstsInput, AssignmentUncheckedCreateWithoutTestAnswerFirstsInput>
+    connectOrCreate?: AssignmentCreateOrConnectWithoutTestAnswerFirstsInput
+    upsert?: AssignmentUpsertWithoutTestAnswerFirstsInput
+    connect?: AssignmentWhereUniqueInput
+    update?: XOR<XOR<AssignmentUpdateToOneWithWhereWithoutTestAnswerFirstsInput, AssignmentUpdateWithoutTestAnswerFirstsInput>, AssignmentUncheckedUpdateWithoutTestAnswerFirstsInput>
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -11335,6 +19417,44 @@ export namespace Prisma {
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | null
+    notIn?: Date[] | string[] | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | null
+    notIn?: Date[] | string[] | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
   export type StudentCreateWithoutSchoolInput = {
     surname: string
     name: string
@@ -11345,6 +19465,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     attempts?: AttemptCreateNestedManyWithoutStudentInput
+    submissions?: AssignmentSubmissionCreateNestedManyWithoutStudentInput
+    testAnswerFirsts?: TestAnswerFirstCreateNestedManyWithoutStudentInput
   }
 
   export type StudentUncheckedCreateWithoutSchoolInput = {
@@ -11358,6 +19480,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     attempts?: AttemptUncheckedCreateNestedManyWithoutStudentInput
+    submissions?: AssignmentSubmissionUncheckedCreateNestedManyWithoutStudentInput
+    testAnswerFirsts?: TestAnswerFirstUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type StudentCreateOrConnectWithoutSchoolInput = {
@@ -11484,6 +19608,66 @@ export namespace Prisma {
     data: AttemptCreateManyStudentInput | AttemptCreateManyStudentInput[]
   }
 
+  export type AssignmentSubmissionCreateWithoutStudentInput = {
+    status?: string
+    answersJson: string
+    score?: number | null
+    gradingJson?: string | null
+    feedback?: string | null
+    submittedAt?: Date | string | null
+    checkedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    assignment: AssignmentCreateNestedOneWithoutSubmissionsInput
+  }
+
+  export type AssignmentSubmissionUncheckedCreateWithoutStudentInput = {
+    id?: number
+    assignmentId: number
+    status?: string
+    answersJson: string
+    score?: number | null
+    gradingJson?: string | null
+    feedback?: string | null
+    submittedAt?: Date | string | null
+    checkedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AssignmentSubmissionCreateOrConnectWithoutStudentInput = {
+    where: AssignmentSubmissionWhereUniqueInput
+    create: XOR<AssignmentSubmissionCreateWithoutStudentInput, AssignmentSubmissionUncheckedCreateWithoutStudentInput>
+  }
+
+  export type AssignmentSubmissionCreateManyStudentInputEnvelope = {
+    data: AssignmentSubmissionCreateManyStudentInput | AssignmentSubmissionCreateManyStudentInput[]
+  }
+
+  export type TestAnswerFirstCreateWithoutStudentInput = {
+    blockId: string
+    optionKey: string
+    createdAt?: Date | string
+    assignment: AssignmentCreateNestedOneWithoutTestAnswerFirstsInput
+  }
+
+  export type TestAnswerFirstUncheckedCreateWithoutStudentInput = {
+    id?: number
+    assignmentId: number
+    blockId: string
+    optionKey: string
+    createdAt?: Date | string
+  }
+
+  export type TestAnswerFirstCreateOrConnectWithoutStudentInput = {
+    where: TestAnswerFirstWhereUniqueInput
+    create: XOR<TestAnswerFirstCreateWithoutStudentInput, TestAnswerFirstUncheckedCreateWithoutStudentInput>
+  }
+
+  export type TestAnswerFirstCreateManyStudentInputEnvelope = {
+    data: TestAnswerFirstCreateManyStudentInput | TestAnswerFirstCreateManyStudentInput[]
+  }
+
   export type SchoolUpsertWithoutStudentsInput = {
     update: XOR<SchoolUpdateWithoutStudentsInput, SchoolUncheckedUpdateWithoutStudentsInput>
     create: XOR<SchoolCreateWithoutStudentsInput, SchoolUncheckedCreateWithoutStudentsInput>
@@ -11533,6 +19717,68 @@ export namespace Prisma {
     lessonId?: IntFilter<"Attempt"> | number
     score?: IntNullableFilter<"Attempt"> | number | null
     completedAt?: DateTimeFilter<"Attempt"> | Date | string
+  }
+
+  export type AssignmentSubmissionUpsertWithWhereUniqueWithoutStudentInput = {
+    where: AssignmentSubmissionWhereUniqueInput
+    update: XOR<AssignmentSubmissionUpdateWithoutStudentInput, AssignmentSubmissionUncheckedUpdateWithoutStudentInput>
+    create: XOR<AssignmentSubmissionCreateWithoutStudentInput, AssignmentSubmissionUncheckedCreateWithoutStudentInput>
+  }
+
+  export type AssignmentSubmissionUpdateWithWhereUniqueWithoutStudentInput = {
+    where: AssignmentSubmissionWhereUniqueInput
+    data: XOR<AssignmentSubmissionUpdateWithoutStudentInput, AssignmentSubmissionUncheckedUpdateWithoutStudentInput>
+  }
+
+  export type AssignmentSubmissionUpdateManyWithWhereWithoutStudentInput = {
+    where: AssignmentSubmissionScalarWhereInput
+    data: XOR<AssignmentSubmissionUpdateManyMutationInput, AssignmentSubmissionUncheckedUpdateManyWithoutStudentInput>
+  }
+
+  export type AssignmentSubmissionScalarWhereInput = {
+    AND?: AssignmentSubmissionScalarWhereInput | AssignmentSubmissionScalarWhereInput[]
+    OR?: AssignmentSubmissionScalarWhereInput[]
+    NOT?: AssignmentSubmissionScalarWhereInput | AssignmentSubmissionScalarWhereInput[]
+    id?: IntFilter<"AssignmentSubmission"> | number
+    assignmentId?: IntFilter<"AssignmentSubmission"> | number
+    studentId?: IntFilter<"AssignmentSubmission"> | number
+    status?: StringFilter<"AssignmentSubmission"> | string
+    answersJson?: StringFilter<"AssignmentSubmission"> | string
+    score?: IntNullableFilter<"AssignmentSubmission"> | number | null
+    gradingJson?: StringNullableFilter<"AssignmentSubmission"> | string | null
+    feedback?: StringNullableFilter<"AssignmentSubmission"> | string | null
+    submittedAt?: DateTimeNullableFilter<"AssignmentSubmission"> | Date | string | null
+    checkedAt?: DateTimeNullableFilter<"AssignmentSubmission"> | Date | string | null
+    createdAt?: DateTimeFilter<"AssignmentSubmission"> | Date | string
+    updatedAt?: DateTimeFilter<"AssignmentSubmission"> | Date | string
+  }
+
+  export type TestAnswerFirstUpsertWithWhereUniqueWithoutStudentInput = {
+    where: TestAnswerFirstWhereUniqueInput
+    update: XOR<TestAnswerFirstUpdateWithoutStudentInput, TestAnswerFirstUncheckedUpdateWithoutStudentInput>
+    create: XOR<TestAnswerFirstCreateWithoutStudentInput, TestAnswerFirstUncheckedCreateWithoutStudentInput>
+  }
+
+  export type TestAnswerFirstUpdateWithWhereUniqueWithoutStudentInput = {
+    where: TestAnswerFirstWhereUniqueInput
+    data: XOR<TestAnswerFirstUpdateWithoutStudentInput, TestAnswerFirstUncheckedUpdateWithoutStudentInput>
+  }
+
+  export type TestAnswerFirstUpdateManyWithWhereWithoutStudentInput = {
+    where: TestAnswerFirstScalarWhereInput
+    data: XOR<TestAnswerFirstUpdateManyMutationInput, TestAnswerFirstUncheckedUpdateManyWithoutStudentInput>
+  }
+
+  export type TestAnswerFirstScalarWhereInput = {
+    AND?: TestAnswerFirstScalarWhereInput | TestAnswerFirstScalarWhereInput[]
+    OR?: TestAnswerFirstScalarWhereInput[]
+    NOT?: TestAnswerFirstScalarWhereInput | TestAnswerFirstScalarWhereInput[]
+    id?: IntFilter<"TestAnswerFirst"> | number
+    studentId?: IntFilter<"TestAnswerFirst"> | number
+    assignmentId?: IntFilter<"TestAnswerFirst"> | number
+    blockId?: StringFilter<"TestAnswerFirst"> | string
+    optionKey?: StringFilter<"TestAnswerFirst"> | string
+    createdAt?: DateTimeFilter<"TestAnswerFirst"> | Date | string
   }
 
   export type TeacherSchoolCreateWithoutTeacherInput = {
@@ -11663,6 +19909,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     attempts?: AttemptCreateNestedManyWithoutLessonInput
+    assignments?: AssignmentCreateNestedManyWithoutLessonInput
   }
 
   export type LessonUncheckedCreateWithoutCourseInput = {
@@ -11672,6 +19919,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     attempts?: AttemptUncheckedCreateNestedManyWithoutLessonInput
+    assignments?: AssignmentUncheckedCreateNestedManyWithoutLessonInput
   }
 
   export type LessonCreateOrConnectWithoutCourseInput = {
@@ -11751,6 +19999,52 @@ export namespace Prisma {
     data: AttemptCreateManyLessonInput | AttemptCreateManyLessonInput[]
   }
 
+  export type AssignmentCreateWithoutLessonInput = {
+    title: string
+    goal?: string | null
+    instruction: string
+    taskType: string
+    answerFormat: string
+    gradingMode?: string
+    maxScore?: number | null
+    order?: number
+    isPublished?: boolean
+    configJson?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    fields?: AssignmentFieldCreateNestedManyWithoutAssignmentInput
+    submissions?: AssignmentSubmissionCreateNestedManyWithoutAssignmentInput
+    testAnswerFirsts?: TestAnswerFirstCreateNestedManyWithoutAssignmentInput
+  }
+
+  export type AssignmentUncheckedCreateWithoutLessonInput = {
+    id?: number
+    title: string
+    goal?: string | null
+    instruction: string
+    taskType: string
+    answerFormat: string
+    gradingMode?: string
+    maxScore?: number | null
+    order?: number
+    isPublished?: boolean
+    configJson?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    fields?: AssignmentFieldUncheckedCreateNestedManyWithoutAssignmentInput
+    submissions?: AssignmentSubmissionUncheckedCreateNestedManyWithoutAssignmentInput
+    testAnswerFirsts?: TestAnswerFirstUncheckedCreateNestedManyWithoutAssignmentInput
+  }
+
+  export type AssignmentCreateOrConnectWithoutLessonInput = {
+    where: AssignmentWhereUniqueInput
+    create: XOR<AssignmentCreateWithoutLessonInput, AssignmentUncheckedCreateWithoutLessonInput>
+  }
+
+  export type AssignmentCreateManyLessonInputEnvelope = {
+    data: AssignmentCreateManyLessonInput | AssignmentCreateManyLessonInput[]
+  }
+
   export type CourseUpsertWithoutLessonsInput = {
     update: XOR<CourseUpdateWithoutLessonsInput, CourseUncheckedUpdateWithoutLessonsInput>
     create: XOR<CourseCreateWithoutLessonsInput, CourseUncheckedCreateWithoutLessonsInput>
@@ -11791,6 +20085,42 @@ export namespace Prisma {
     data: XOR<AttemptUpdateManyMutationInput, AttemptUncheckedUpdateManyWithoutLessonInput>
   }
 
+  export type AssignmentUpsertWithWhereUniqueWithoutLessonInput = {
+    where: AssignmentWhereUniqueInput
+    update: XOR<AssignmentUpdateWithoutLessonInput, AssignmentUncheckedUpdateWithoutLessonInput>
+    create: XOR<AssignmentCreateWithoutLessonInput, AssignmentUncheckedCreateWithoutLessonInput>
+  }
+
+  export type AssignmentUpdateWithWhereUniqueWithoutLessonInput = {
+    where: AssignmentWhereUniqueInput
+    data: XOR<AssignmentUpdateWithoutLessonInput, AssignmentUncheckedUpdateWithoutLessonInput>
+  }
+
+  export type AssignmentUpdateManyWithWhereWithoutLessonInput = {
+    where: AssignmentScalarWhereInput
+    data: XOR<AssignmentUpdateManyMutationInput, AssignmentUncheckedUpdateManyWithoutLessonInput>
+  }
+
+  export type AssignmentScalarWhereInput = {
+    AND?: AssignmentScalarWhereInput | AssignmentScalarWhereInput[]
+    OR?: AssignmentScalarWhereInput[]
+    NOT?: AssignmentScalarWhereInput | AssignmentScalarWhereInput[]
+    id?: IntFilter<"Assignment"> | number
+    lessonId?: IntFilter<"Assignment"> | number
+    title?: StringFilter<"Assignment"> | string
+    goal?: StringNullableFilter<"Assignment"> | string | null
+    instruction?: StringFilter<"Assignment"> | string
+    taskType?: StringFilter<"Assignment"> | string
+    answerFormat?: StringFilter<"Assignment"> | string
+    gradingMode?: StringFilter<"Assignment"> | string
+    maxScore?: IntNullableFilter<"Assignment"> | number | null
+    order?: IntFilter<"Assignment"> | number
+    isPublished?: BoolFilter<"Assignment"> | boolean
+    configJson?: StringNullableFilter<"Assignment"> | string | null
+    createdAt?: DateTimeFilter<"Assignment"> | Date | string
+    updatedAt?: DateTimeFilter<"Assignment"> | Date | string
+  }
+
   export type StudentCreateWithoutAttemptsInput = {
     surname: string
     name: string
@@ -11801,6 +20131,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     school: SchoolCreateNestedOneWithoutStudentsInput
+    submissions?: AssignmentSubmissionCreateNestedManyWithoutStudentInput
+    testAnswerFirsts?: TestAnswerFirstCreateNestedManyWithoutStudentInput
   }
 
   export type StudentUncheckedCreateWithoutAttemptsInput = {
@@ -11814,6 +20146,8 @@ export namespace Prisma {
     className: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    submissions?: AssignmentSubmissionUncheckedCreateNestedManyWithoutStudentInput
+    testAnswerFirsts?: TestAnswerFirstUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type StudentCreateOrConnectWithoutAttemptsInput = {
@@ -11827,6 +20161,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     course: CourseCreateNestedOneWithoutLessonsInput
+    assignments?: AssignmentCreateNestedManyWithoutLessonInput
   }
 
   export type LessonUncheckedCreateWithoutAttemptsInput = {
@@ -11836,6 +20171,7 @@ export namespace Prisma {
     order?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    assignments?: AssignmentUncheckedCreateNestedManyWithoutLessonInput
   }
 
   export type LessonCreateOrConnectWithoutAttemptsInput = {
@@ -11864,6 +20200,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     school?: SchoolUpdateOneRequiredWithoutStudentsNestedInput
+    submissions?: AssignmentSubmissionUpdateManyWithoutStudentNestedInput
+    testAnswerFirsts?: TestAnswerFirstUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentUncheckedUpdateWithoutAttemptsInput = {
@@ -11877,6 +20215,8 @@ export namespace Prisma {
     className?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    submissions?: AssignmentSubmissionUncheckedUpdateManyWithoutStudentNestedInput
+    testAnswerFirsts?: TestAnswerFirstUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type LessonUpsertWithoutAttemptsInput = {
@@ -11896,6 +20236,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     course?: CourseUpdateOneRequiredWithoutLessonsNestedInput
+    assignments?: AssignmentUpdateManyWithoutLessonNestedInput
   }
 
   export type LessonUncheckedUpdateWithoutAttemptsInput = {
@@ -11905,6 +20246,632 @@ export namespace Prisma {
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    assignments?: AssignmentUncheckedUpdateManyWithoutLessonNestedInput
+  }
+
+  export type LessonCreateWithoutAssignmentsInput = {
+    title: string
+    order?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    course: CourseCreateNestedOneWithoutLessonsInput
+    attempts?: AttemptCreateNestedManyWithoutLessonInput
+  }
+
+  export type LessonUncheckedCreateWithoutAssignmentsInput = {
+    id?: number
+    courseId: number
+    title: string
+    order?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    attempts?: AttemptUncheckedCreateNestedManyWithoutLessonInput
+  }
+
+  export type LessonCreateOrConnectWithoutAssignmentsInput = {
+    where: LessonWhereUniqueInput
+    create: XOR<LessonCreateWithoutAssignmentsInput, LessonUncheckedCreateWithoutAssignmentsInput>
+  }
+
+  export type AssignmentFieldCreateWithoutAssignmentInput = {
+    fieldKey: string
+    label: string
+    fieldType: string
+    required?: boolean
+    order?: number
+    optionsJson?: string | null
+    rulesJson?: string | null
+  }
+
+  export type AssignmentFieldUncheckedCreateWithoutAssignmentInput = {
+    id?: number
+    fieldKey: string
+    label: string
+    fieldType: string
+    required?: boolean
+    order?: number
+    optionsJson?: string | null
+    rulesJson?: string | null
+  }
+
+  export type AssignmentFieldCreateOrConnectWithoutAssignmentInput = {
+    where: AssignmentFieldWhereUniqueInput
+    create: XOR<AssignmentFieldCreateWithoutAssignmentInput, AssignmentFieldUncheckedCreateWithoutAssignmentInput>
+  }
+
+  export type AssignmentFieldCreateManyAssignmentInputEnvelope = {
+    data: AssignmentFieldCreateManyAssignmentInput | AssignmentFieldCreateManyAssignmentInput[]
+  }
+
+  export type AssignmentSubmissionCreateWithoutAssignmentInput = {
+    status?: string
+    answersJson: string
+    score?: number | null
+    gradingJson?: string | null
+    feedback?: string | null
+    submittedAt?: Date | string | null
+    checkedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    student: StudentCreateNestedOneWithoutSubmissionsInput
+  }
+
+  export type AssignmentSubmissionUncheckedCreateWithoutAssignmentInput = {
+    id?: number
+    studentId: number
+    status?: string
+    answersJson: string
+    score?: number | null
+    gradingJson?: string | null
+    feedback?: string | null
+    submittedAt?: Date | string | null
+    checkedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AssignmentSubmissionCreateOrConnectWithoutAssignmentInput = {
+    where: AssignmentSubmissionWhereUniqueInput
+    create: XOR<AssignmentSubmissionCreateWithoutAssignmentInput, AssignmentSubmissionUncheckedCreateWithoutAssignmentInput>
+  }
+
+  export type AssignmentSubmissionCreateManyAssignmentInputEnvelope = {
+    data: AssignmentSubmissionCreateManyAssignmentInput | AssignmentSubmissionCreateManyAssignmentInput[]
+  }
+
+  export type TestAnswerFirstCreateWithoutAssignmentInput = {
+    blockId: string
+    optionKey: string
+    createdAt?: Date | string
+    student: StudentCreateNestedOneWithoutTestAnswerFirstsInput
+  }
+
+  export type TestAnswerFirstUncheckedCreateWithoutAssignmentInput = {
+    id?: number
+    studentId: number
+    blockId: string
+    optionKey: string
+    createdAt?: Date | string
+  }
+
+  export type TestAnswerFirstCreateOrConnectWithoutAssignmentInput = {
+    where: TestAnswerFirstWhereUniqueInput
+    create: XOR<TestAnswerFirstCreateWithoutAssignmentInput, TestAnswerFirstUncheckedCreateWithoutAssignmentInput>
+  }
+
+  export type TestAnswerFirstCreateManyAssignmentInputEnvelope = {
+    data: TestAnswerFirstCreateManyAssignmentInput | TestAnswerFirstCreateManyAssignmentInput[]
+  }
+
+  export type LessonUpsertWithoutAssignmentsInput = {
+    update: XOR<LessonUpdateWithoutAssignmentsInput, LessonUncheckedUpdateWithoutAssignmentsInput>
+    create: XOR<LessonCreateWithoutAssignmentsInput, LessonUncheckedCreateWithoutAssignmentsInput>
+    where?: LessonWhereInput
+  }
+
+  export type LessonUpdateToOneWithWhereWithoutAssignmentsInput = {
+    where?: LessonWhereInput
+    data: XOR<LessonUpdateWithoutAssignmentsInput, LessonUncheckedUpdateWithoutAssignmentsInput>
+  }
+
+  export type LessonUpdateWithoutAssignmentsInput = {
+    title?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    course?: CourseUpdateOneRequiredWithoutLessonsNestedInput
+    attempts?: AttemptUpdateManyWithoutLessonNestedInput
+  }
+
+  export type LessonUncheckedUpdateWithoutAssignmentsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    courseId?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    attempts?: AttemptUncheckedUpdateManyWithoutLessonNestedInput
+  }
+
+  export type AssignmentFieldUpsertWithWhereUniqueWithoutAssignmentInput = {
+    where: AssignmentFieldWhereUniqueInput
+    update: XOR<AssignmentFieldUpdateWithoutAssignmentInput, AssignmentFieldUncheckedUpdateWithoutAssignmentInput>
+    create: XOR<AssignmentFieldCreateWithoutAssignmentInput, AssignmentFieldUncheckedCreateWithoutAssignmentInput>
+  }
+
+  export type AssignmentFieldUpdateWithWhereUniqueWithoutAssignmentInput = {
+    where: AssignmentFieldWhereUniqueInput
+    data: XOR<AssignmentFieldUpdateWithoutAssignmentInput, AssignmentFieldUncheckedUpdateWithoutAssignmentInput>
+  }
+
+  export type AssignmentFieldUpdateManyWithWhereWithoutAssignmentInput = {
+    where: AssignmentFieldScalarWhereInput
+    data: XOR<AssignmentFieldUpdateManyMutationInput, AssignmentFieldUncheckedUpdateManyWithoutAssignmentInput>
+  }
+
+  export type AssignmentFieldScalarWhereInput = {
+    AND?: AssignmentFieldScalarWhereInput | AssignmentFieldScalarWhereInput[]
+    OR?: AssignmentFieldScalarWhereInput[]
+    NOT?: AssignmentFieldScalarWhereInput | AssignmentFieldScalarWhereInput[]
+    id?: IntFilter<"AssignmentField"> | number
+    assignmentId?: IntFilter<"AssignmentField"> | number
+    fieldKey?: StringFilter<"AssignmentField"> | string
+    label?: StringFilter<"AssignmentField"> | string
+    fieldType?: StringFilter<"AssignmentField"> | string
+    required?: BoolFilter<"AssignmentField"> | boolean
+    order?: IntFilter<"AssignmentField"> | number
+    optionsJson?: StringNullableFilter<"AssignmentField"> | string | null
+    rulesJson?: StringNullableFilter<"AssignmentField"> | string | null
+  }
+
+  export type AssignmentSubmissionUpsertWithWhereUniqueWithoutAssignmentInput = {
+    where: AssignmentSubmissionWhereUniqueInput
+    update: XOR<AssignmentSubmissionUpdateWithoutAssignmentInput, AssignmentSubmissionUncheckedUpdateWithoutAssignmentInput>
+    create: XOR<AssignmentSubmissionCreateWithoutAssignmentInput, AssignmentSubmissionUncheckedCreateWithoutAssignmentInput>
+  }
+
+  export type AssignmentSubmissionUpdateWithWhereUniqueWithoutAssignmentInput = {
+    where: AssignmentSubmissionWhereUniqueInput
+    data: XOR<AssignmentSubmissionUpdateWithoutAssignmentInput, AssignmentSubmissionUncheckedUpdateWithoutAssignmentInput>
+  }
+
+  export type AssignmentSubmissionUpdateManyWithWhereWithoutAssignmentInput = {
+    where: AssignmentSubmissionScalarWhereInput
+    data: XOR<AssignmentSubmissionUpdateManyMutationInput, AssignmentSubmissionUncheckedUpdateManyWithoutAssignmentInput>
+  }
+
+  export type TestAnswerFirstUpsertWithWhereUniqueWithoutAssignmentInput = {
+    where: TestAnswerFirstWhereUniqueInput
+    update: XOR<TestAnswerFirstUpdateWithoutAssignmentInput, TestAnswerFirstUncheckedUpdateWithoutAssignmentInput>
+    create: XOR<TestAnswerFirstCreateWithoutAssignmentInput, TestAnswerFirstUncheckedCreateWithoutAssignmentInput>
+  }
+
+  export type TestAnswerFirstUpdateWithWhereUniqueWithoutAssignmentInput = {
+    where: TestAnswerFirstWhereUniqueInput
+    data: XOR<TestAnswerFirstUpdateWithoutAssignmentInput, TestAnswerFirstUncheckedUpdateWithoutAssignmentInput>
+  }
+
+  export type TestAnswerFirstUpdateManyWithWhereWithoutAssignmentInput = {
+    where: TestAnswerFirstScalarWhereInput
+    data: XOR<TestAnswerFirstUpdateManyMutationInput, TestAnswerFirstUncheckedUpdateManyWithoutAssignmentInput>
+  }
+
+  export type AssignmentCreateWithoutFieldsInput = {
+    title: string
+    goal?: string | null
+    instruction: string
+    taskType: string
+    answerFormat: string
+    gradingMode?: string
+    maxScore?: number | null
+    order?: number
+    isPublished?: boolean
+    configJson?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lesson: LessonCreateNestedOneWithoutAssignmentsInput
+    submissions?: AssignmentSubmissionCreateNestedManyWithoutAssignmentInput
+    testAnswerFirsts?: TestAnswerFirstCreateNestedManyWithoutAssignmentInput
+  }
+
+  export type AssignmentUncheckedCreateWithoutFieldsInput = {
+    id?: number
+    lessonId: number
+    title: string
+    goal?: string | null
+    instruction: string
+    taskType: string
+    answerFormat: string
+    gradingMode?: string
+    maxScore?: number | null
+    order?: number
+    isPublished?: boolean
+    configJson?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    submissions?: AssignmentSubmissionUncheckedCreateNestedManyWithoutAssignmentInput
+    testAnswerFirsts?: TestAnswerFirstUncheckedCreateNestedManyWithoutAssignmentInput
+  }
+
+  export type AssignmentCreateOrConnectWithoutFieldsInput = {
+    where: AssignmentWhereUniqueInput
+    create: XOR<AssignmentCreateWithoutFieldsInput, AssignmentUncheckedCreateWithoutFieldsInput>
+  }
+
+  export type AssignmentUpsertWithoutFieldsInput = {
+    update: XOR<AssignmentUpdateWithoutFieldsInput, AssignmentUncheckedUpdateWithoutFieldsInput>
+    create: XOR<AssignmentCreateWithoutFieldsInput, AssignmentUncheckedCreateWithoutFieldsInput>
+    where?: AssignmentWhereInput
+  }
+
+  export type AssignmentUpdateToOneWithWhereWithoutFieldsInput = {
+    where?: AssignmentWhereInput
+    data: XOR<AssignmentUpdateWithoutFieldsInput, AssignmentUncheckedUpdateWithoutFieldsInput>
+  }
+
+  export type AssignmentUpdateWithoutFieldsInput = {
+    title?: StringFieldUpdateOperationsInput | string
+    goal?: NullableStringFieldUpdateOperationsInput | string | null
+    instruction?: StringFieldUpdateOperationsInput | string
+    taskType?: StringFieldUpdateOperationsInput | string
+    answerFormat?: StringFieldUpdateOperationsInput | string
+    gradingMode?: StringFieldUpdateOperationsInput | string
+    maxScore?: NullableIntFieldUpdateOperationsInput | number | null
+    order?: IntFieldUpdateOperationsInput | number
+    isPublished?: BoolFieldUpdateOperationsInput | boolean
+    configJson?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lesson?: LessonUpdateOneRequiredWithoutAssignmentsNestedInput
+    submissions?: AssignmentSubmissionUpdateManyWithoutAssignmentNestedInput
+    testAnswerFirsts?: TestAnswerFirstUpdateManyWithoutAssignmentNestedInput
+  }
+
+  export type AssignmentUncheckedUpdateWithoutFieldsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    lessonId?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    goal?: NullableStringFieldUpdateOperationsInput | string | null
+    instruction?: StringFieldUpdateOperationsInput | string
+    taskType?: StringFieldUpdateOperationsInput | string
+    answerFormat?: StringFieldUpdateOperationsInput | string
+    gradingMode?: StringFieldUpdateOperationsInput | string
+    maxScore?: NullableIntFieldUpdateOperationsInput | number | null
+    order?: IntFieldUpdateOperationsInput | number
+    isPublished?: BoolFieldUpdateOperationsInput | boolean
+    configJson?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    submissions?: AssignmentSubmissionUncheckedUpdateManyWithoutAssignmentNestedInput
+    testAnswerFirsts?: TestAnswerFirstUncheckedUpdateManyWithoutAssignmentNestedInput
+  }
+
+  export type AssignmentCreateWithoutSubmissionsInput = {
+    title: string
+    goal?: string | null
+    instruction: string
+    taskType: string
+    answerFormat: string
+    gradingMode?: string
+    maxScore?: number | null
+    order?: number
+    isPublished?: boolean
+    configJson?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lesson: LessonCreateNestedOneWithoutAssignmentsInput
+    fields?: AssignmentFieldCreateNestedManyWithoutAssignmentInput
+    testAnswerFirsts?: TestAnswerFirstCreateNestedManyWithoutAssignmentInput
+  }
+
+  export type AssignmentUncheckedCreateWithoutSubmissionsInput = {
+    id?: number
+    lessonId: number
+    title: string
+    goal?: string | null
+    instruction: string
+    taskType: string
+    answerFormat: string
+    gradingMode?: string
+    maxScore?: number | null
+    order?: number
+    isPublished?: boolean
+    configJson?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    fields?: AssignmentFieldUncheckedCreateNestedManyWithoutAssignmentInput
+    testAnswerFirsts?: TestAnswerFirstUncheckedCreateNestedManyWithoutAssignmentInput
+  }
+
+  export type AssignmentCreateOrConnectWithoutSubmissionsInput = {
+    where: AssignmentWhereUniqueInput
+    create: XOR<AssignmentCreateWithoutSubmissionsInput, AssignmentUncheckedCreateWithoutSubmissionsInput>
+  }
+
+  export type StudentCreateWithoutSubmissionsInput = {
+    surname: string
+    name: string
+    patronymic?: string | null
+    phone: string
+    passwordHash: string
+    className: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    school: SchoolCreateNestedOneWithoutStudentsInput
+    attempts?: AttemptCreateNestedManyWithoutStudentInput
+    testAnswerFirsts?: TestAnswerFirstCreateNestedManyWithoutStudentInput
+  }
+
+  export type StudentUncheckedCreateWithoutSubmissionsInput = {
+    id?: number
+    surname: string
+    name: string
+    patronymic?: string | null
+    phone: string
+    passwordHash: string
+    schoolId: number
+    className: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    attempts?: AttemptUncheckedCreateNestedManyWithoutStudentInput
+    testAnswerFirsts?: TestAnswerFirstUncheckedCreateNestedManyWithoutStudentInput
+  }
+
+  export type StudentCreateOrConnectWithoutSubmissionsInput = {
+    where: StudentWhereUniqueInput
+    create: XOR<StudentCreateWithoutSubmissionsInput, StudentUncheckedCreateWithoutSubmissionsInput>
+  }
+
+  export type AssignmentUpsertWithoutSubmissionsInput = {
+    update: XOR<AssignmentUpdateWithoutSubmissionsInput, AssignmentUncheckedUpdateWithoutSubmissionsInput>
+    create: XOR<AssignmentCreateWithoutSubmissionsInput, AssignmentUncheckedCreateWithoutSubmissionsInput>
+    where?: AssignmentWhereInput
+  }
+
+  export type AssignmentUpdateToOneWithWhereWithoutSubmissionsInput = {
+    where?: AssignmentWhereInput
+    data: XOR<AssignmentUpdateWithoutSubmissionsInput, AssignmentUncheckedUpdateWithoutSubmissionsInput>
+  }
+
+  export type AssignmentUpdateWithoutSubmissionsInput = {
+    title?: StringFieldUpdateOperationsInput | string
+    goal?: NullableStringFieldUpdateOperationsInput | string | null
+    instruction?: StringFieldUpdateOperationsInput | string
+    taskType?: StringFieldUpdateOperationsInput | string
+    answerFormat?: StringFieldUpdateOperationsInput | string
+    gradingMode?: StringFieldUpdateOperationsInput | string
+    maxScore?: NullableIntFieldUpdateOperationsInput | number | null
+    order?: IntFieldUpdateOperationsInput | number
+    isPublished?: BoolFieldUpdateOperationsInput | boolean
+    configJson?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lesson?: LessonUpdateOneRequiredWithoutAssignmentsNestedInput
+    fields?: AssignmentFieldUpdateManyWithoutAssignmentNestedInput
+    testAnswerFirsts?: TestAnswerFirstUpdateManyWithoutAssignmentNestedInput
+  }
+
+  export type AssignmentUncheckedUpdateWithoutSubmissionsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    lessonId?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    goal?: NullableStringFieldUpdateOperationsInput | string | null
+    instruction?: StringFieldUpdateOperationsInput | string
+    taskType?: StringFieldUpdateOperationsInput | string
+    answerFormat?: StringFieldUpdateOperationsInput | string
+    gradingMode?: StringFieldUpdateOperationsInput | string
+    maxScore?: NullableIntFieldUpdateOperationsInput | number | null
+    order?: IntFieldUpdateOperationsInput | number
+    isPublished?: BoolFieldUpdateOperationsInput | boolean
+    configJson?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    fields?: AssignmentFieldUncheckedUpdateManyWithoutAssignmentNestedInput
+    testAnswerFirsts?: TestAnswerFirstUncheckedUpdateManyWithoutAssignmentNestedInput
+  }
+
+  export type StudentUpsertWithoutSubmissionsInput = {
+    update: XOR<StudentUpdateWithoutSubmissionsInput, StudentUncheckedUpdateWithoutSubmissionsInput>
+    create: XOR<StudentCreateWithoutSubmissionsInput, StudentUncheckedCreateWithoutSubmissionsInput>
+    where?: StudentWhereInput
+  }
+
+  export type StudentUpdateToOneWithWhereWithoutSubmissionsInput = {
+    where?: StudentWhereInput
+    data: XOR<StudentUpdateWithoutSubmissionsInput, StudentUncheckedUpdateWithoutSubmissionsInput>
+  }
+
+  export type StudentUpdateWithoutSubmissionsInput = {
+    surname?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    patronymic?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    className?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    school?: SchoolUpdateOneRequiredWithoutStudentsNestedInput
+    attempts?: AttemptUpdateManyWithoutStudentNestedInput
+    testAnswerFirsts?: TestAnswerFirstUpdateManyWithoutStudentNestedInput
+  }
+
+  export type StudentUncheckedUpdateWithoutSubmissionsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    surname?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    patronymic?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    schoolId?: IntFieldUpdateOperationsInput | number
+    className?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    attempts?: AttemptUncheckedUpdateManyWithoutStudentNestedInput
+    testAnswerFirsts?: TestAnswerFirstUncheckedUpdateManyWithoutStudentNestedInput
+  }
+
+  export type StudentCreateWithoutTestAnswerFirstsInput = {
+    surname: string
+    name: string
+    patronymic?: string | null
+    phone: string
+    passwordHash: string
+    className: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    school: SchoolCreateNestedOneWithoutStudentsInput
+    attempts?: AttemptCreateNestedManyWithoutStudentInput
+    submissions?: AssignmentSubmissionCreateNestedManyWithoutStudentInput
+  }
+
+  export type StudentUncheckedCreateWithoutTestAnswerFirstsInput = {
+    id?: number
+    surname: string
+    name: string
+    patronymic?: string | null
+    phone: string
+    passwordHash: string
+    schoolId: number
+    className: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    attempts?: AttemptUncheckedCreateNestedManyWithoutStudentInput
+    submissions?: AssignmentSubmissionUncheckedCreateNestedManyWithoutStudentInput
+  }
+
+  export type StudentCreateOrConnectWithoutTestAnswerFirstsInput = {
+    where: StudentWhereUniqueInput
+    create: XOR<StudentCreateWithoutTestAnswerFirstsInput, StudentUncheckedCreateWithoutTestAnswerFirstsInput>
+  }
+
+  export type AssignmentCreateWithoutTestAnswerFirstsInput = {
+    title: string
+    goal?: string | null
+    instruction: string
+    taskType: string
+    answerFormat: string
+    gradingMode?: string
+    maxScore?: number | null
+    order?: number
+    isPublished?: boolean
+    configJson?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lesson: LessonCreateNestedOneWithoutAssignmentsInput
+    fields?: AssignmentFieldCreateNestedManyWithoutAssignmentInput
+    submissions?: AssignmentSubmissionCreateNestedManyWithoutAssignmentInput
+  }
+
+  export type AssignmentUncheckedCreateWithoutTestAnswerFirstsInput = {
+    id?: number
+    lessonId: number
+    title: string
+    goal?: string | null
+    instruction: string
+    taskType: string
+    answerFormat: string
+    gradingMode?: string
+    maxScore?: number | null
+    order?: number
+    isPublished?: boolean
+    configJson?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    fields?: AssignmentFieldUncheckedCreateNestedManyWithoutAssignmentInput
+    submissions?: AssignmentSubmissionUncheckedCreateNestedManyWithoutAssignmentInput
+  }
+
+  export type AssignmentCreateOrConnectWithoutTestAnswerFirstsInput = {
+    where: AssignmentWhereUniqueInput
+    create: XOR<AssignmentCreateWithoutTestAnswerFirstsInput, AssignmentUncheckedCreateWithoutTestAnswerFirstsInput>
+  }
+
+  export type StudentUpsertWithoutTestAnswerFirstsInput = {
+    update: XOR<StudentUpdateWithoutTestAnswerFirstsInput, StudentUncheckedUpdateWithoutTestAnswerFirstsInput>
+    create: XOR<StudentCreateWithoutTestAnswerFirstsInput, StudentUncheckedCreateWithoutTestAnswerFirstsInput>
+    where?: StudentWhereInput
+  }
+
+  export type StudentUpdateToOneWithWhereWithoutTestAnswerFirstsInput = {
+    where?: StudentWhereInput
+    data: XOR<StudentUpdateWithoutTestAnswerFirstsInput, StudentUncheckedUpdateWithoutTestAnswerFirstsInput>
+  }
+
+  export type StudentUpdateWithoutTestAnswerFirstsInput = {
+    surname?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    patronymic?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    className?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    school?: SchoolUpdateOneRequiredWithoutStudentsNestedInput
+    attempts?: AttemptUpdateManyWithoutStudentNestedInput
+    submissions?: AssignmentSubmissionUpdateManyWithoutStudentNestedInput
+  }
+
+  export type StudentUncheckedUpdateWithoutTestAnswerFirstsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    surname?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    patronymic?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    schoolId?: IntFieldUpdateOperationsInput | number
+    className?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    attempts?: AttemptUncheckedUpdateManyWithoutStudentNestedInput
+    submissions?: AssignmentSubmissionUncheckedUpdateManyWithoutStudentNestedInput
+  }
+
+  export type AssignmentUpsertWithoutTestAnswerFirstsInput = {
+    update: XOR<AssignmentUpdateWithoutTestAnswerFirstsInput, AssignmentUncheckedUpdateWithoutTestAnswerFirstsInput>
+    create: XOR<AssignmentCreateWithoutTestAnswerFirstsInput, AssignmentUncheckedCreateWithoutTestAnswerFirstsInput>
+    where?: AssignmentWhereInput
+  }
+
+  export type AssignmentUpdateToOneWithWhereWithoutTestAnswerFirstsInput = {
+    where?: AssignmentWhereInput
+    data: XOR<AssignmentUpdateWithoutTestAnswerFirstsInput, AssignmentUncheckedUpdateWithoutTestAnswerFirstsInput>
+  }
+
+  export type AssignmentUpdateWithoutTestAnswerFirstsInput = {
+    title?: StringFieldUpdateOperationsInput | string
+    goal?: NullableStringFieldUpdateOperationsInput | string | null
+    instruction?: StringFieldUpdateOperationsInput | string
+    taskType?: StringFieldUpdateOperationsInput | string
+    answerFormat?: StringFieldUpdateOperationsInput | string
+    gradingMode?: StringFieldUpdateOperationsInput | string
+    maxScore?: NullableIntFieldUpdateOperationsInput | number | null
+    order?: IntFieldUpdateOperationsInput | number
+    isPublished?: BoolFieldUpdateOperationsInput | boolean
+    configJson?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lesson?: LessonUpdateOneRequiredWithoutAssignmentsNestedInput
+    fields?: AssignmentFieldUpdateManyWithoutAssignmentNestedInput
+    submissions?: AssignmentSubmissionUpdateManyWithoutAssignmentNestedInput
+  }
+
+  export type AssignmentUncheckedUpdateWithoutTestAnswerFirstsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    lessonId?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    goal?: NullableStringFieldUpdateOperationsInput | string | null
+    instruction?: StringFieldUpdateOperationsInput | string
+    taskType?: StringFieldUpdateOperationsInput | string
+    answerFormat?: StringFieldUpdateOperationsInput | string
+    gradingMode?: StringFieldUpdateOperationsInput | string
+    maxScore?: NullableIntFieldUpdateOperationsInput | number | null
+    order?: IntFieldUpdateOperationsInput | number
+    isPublished?: BoolFieldUpdateOperationsInput | boolean
+    configJson?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    fields?: AssignmentFieldUncheckedUpdateManyWithoutAssignmentNestedInput
+    submissions?: AssignmentSubmissionUncheckedUpdateManyWithoutAssignmentNestedInput
   }
 
   export type StudentCreateManySchoolInput = {
@@ -11934,6 +20901,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     attempts?: AttemptUpdateManyWithoutStudentNestedInput
+    submissions?: AssignmentSubmissionUpdateManyWithoutStudentNestedInput
+    testAnswerFirsts?: TestAnswerFirstUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentUncheckedUpdateWithoutSchoolInput = {
@@ -11947,6 +20916,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     attempts?: AttemptUncheckedUpdateManyWithoutStudentNestedInput
+    submissions?: AssignmentSubmissionUncheckedUpdateManyWithoutStudentNestedInput
+    testAnswerFirsts?: TestAnswerFirstUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentUncheckedUpdateManyWithoutSchoolInput = {
@@ -11982,6 +20953,28 @@ export namespace Prisma {
     completedAt?: Date | string
   }
 
+  export type AssignmentSubmissionCreateManyStudentInput = {
+    id?: number
+    assignmentId: number
+    status?: string
+    answersJson: string
+    score?: number | null
+    gradingJson?: string | null
+    feedback?: string | null
+    submittedAt?: Date | string | null
+    checkedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TestAnswerFirstCreateManyStudentInput = {
+    id?: number
+    assignmentId: number
+    blockId: string
+    optionKey: string
+    createdAt?: Date | string
+  }
+
   export type AttemptUpdateWithoutStudentInput = {
     score?: NullableIntFieldUpdateOperationsInput | number | null
     completedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -12000,6 +20993,70 @@ export namespace Prisma {
     lessonId?: IntFieldUpdateOperationsInput | number
     score?: NullableIntFieldUpdateOperationsInput | number | null
     completedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AssignmentSubmissionUpdateWithoutStudentInput = {
+    status?: StringFieldUpdateOperationsInput | string
+    answersJson?: StringFieldUpdateOperationsInput | string
+    score?: NullableIntFieldUpdateOperationsInput | number | null
+    gradingJson?: NullableStringFieldUpdateOperationsInput | string | null
+    feedback?: NullableStringFieldUpdateOperationsInput | string | null
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    checkedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    assignment?: AssignmentUpdateOneRequiredWithoutSubmissionsNestedInput
+  }
+
+  export type AssignmentSubmissionUncheckedUpdateWithoutStudentInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    assignmentId?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    answersJson?: StringFieldUpdateOperationsInput | string
+    score?: NullableIntFieldUpdateOperationsInput | number | null
+    gradingJson?: NullableStringFieldUpdateOperationsInput | string | null
+    feedback?: NullableStringFieldUpdateOperationsInput | string | null
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    checkedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AssignmentSubmissionUncheckedUpdateManyWithoutStudentInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    assignmentId?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    answersJson?: StringFieldUpdateOperationsInput | string
+    score?: NullableIntFieldUpdateOperationsInput | number | null
+    gradingJson?: NullableStringFieldUpdateOperationsInput | string | null
+    feedback?: NullableStringFieldUpdateOperationsInput | string | null
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    checkedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TestAnswerFirstUpdateWithoutStudentInput = {
+    blockId?: StringFieldUpdateOperationsInput | string
+    optionKey?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    assignment?: AssignmentUpdateOneRequiredWithoutTestAnswerFirstsNestedInput
+  }
+
+  export type TestAnswerFirstUncheckedUpdateWithoutStudentInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    assignmentId?: IntFieldUpdateOperationsInput | number
+    blockId?: StringFieldUpdateOperationsInput | string
+    optionKey?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TestAnswerFirstUncheckedUpdateManyWithoutStudentInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    assignmentId?: IntFieldUpdateOperationsInput | number
+    blockId?: StringFieldUpdateOperationsInput | string
+    optionKey?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TeacherSchoolCreateManyTeacherInput = {
@@ -12035,6 +21092,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     attempts?: AttemptUpdateManyWithoutLessonNestedInput
+    assignments?: AssignmentUpdateManyWithoutLessonNestedInput
   }
 
   export type LessonUncheckedUpdateWithoutCourseInput = {
@@ -12044,6 +21102,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     attempts?: AttemptUncheckedUpdateManyWithoutLessonNestedInput
+    assignments?: AssignmentUncheckedUpdateManyWithoutLessonNestedInput
   }
 
   export type LessonUncheckedUpdateManyWithoutCourseInput = {
@@ -12059,6 +21118,22 @@ export namespace Prisma {
     studentId: number
     score?: number | null
     completedAt?: Date | string
+  }
+
+  export type AssignmentCreateManyLessonInput = {
+    id?: number
+    title: string
+    goal?: string | null
+    instruction: string
+    taskType: string
+    answerFormat: string
+    gradingMode?: string
+    maxScore?: number | null
+    order?: number
+    isPublished?: boolean
+    configJson?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type AttemptUpdateWithoutLessonInput = {
@@ -12079,6 +21154,188 @@ export namespace Prisma {
     studentId?: IntFieldUpdateOperationsInput | number
     score?: NullableIntFieldUpdateOperationsInput | number | null
     completedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AssignmentUpdateWithoutLessonInput = {
+    title?: StringFieldUpdateOperationsInput | string
+    goal?: NullableStringFieldUpdateOperationsInput | string | null
+    instruction?: StringFieldUpdateOperationsInput | string
+    taskType?: StringFieldUpdateOperationsInput | string
+    answerFormat?: StringFieldUpdateOperationsInput | string
+    gradingMode?: StringFieldUpdateOperationsInput | string
+    maxScore?: NullableIntFieldUpdateOperationsInput | number | null
+    order?: IntFieldUpdateOperationsInput | number
+    isPublished?: BoolFieldUpdateOperationsInput | boolean
+    configJson?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    fields?: AssignmentFieldUpdateManyWithoutAssignmentNestedInput
+    submissions?: AssignmentSubmissionUpdateManyWithoutAssignmentNestedInput
+    testAnswerFirsts?: TestAnswerFirstUpdateManyWithoutAssignmentNestedInput
+  }
+
+  export type AssignmentUncheckedUpdateWithoutLessonInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    goal?: NullableStringFieldUpdateOperationsInput | string | null
+    instruction?: StringFieldUpdateOperationsInput | string
+    taskType?: StringFieldUpdateOperationsInput | string
+    answerFormat?: StringFieldUpdateOperationsInput | string
+    gradingMode?: StringFieldUpdateOperationsInput | string
+    maxScore?: NullableIntFieldUpdateOperationsInput | number | null
+    order?: IntFieldUpdateOperationsInput | number
+    isPublished?: BoolFieldUpdateOperationsInput | boolean
+    configJson?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    fields?: AssignmentFieldUncheckedUpdateManyWithoutAssignmentNestedInput
+    submissions?: AssignmentSubmissionUncheckedUpdateManyWithoutAssignmentNestedInput
+    testAnswerFirsts?: TestAnswerFirstUncheckedUpdateManyWithoutAssignmentNestedInput
+  }
+
+  export type AssignmentUncheckedUpdateManyWithoutLessonInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    goal?: NullableStringFieldUpdateOperationsInput | string | null
+    instruction?: StringFieldUpdateOperationsInput | string
+    taskType?: StringFieldUpdateOperationsInput | string
+    answerFormat?: StringFieldUpdateOperationsInput | string
+    gradingMode?: StringFieldUpdateOperationsInput | string
+    maxScore?: NullableIntFieldUpdateOperationsInput | number | null
+    order?: IntFieldUpdateOperationsInput | number
+    isPublished?: BoolFieldUpdateOperationsInput | boolean
+    configJson?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AssignmentFieldCreateManyAssignmentInput = {
+    id?: number
+    fieldKey: string
+    label: string
+    fieldType: string
+    required?: boolean
+    order?: number
+    optionsJson?: string | null
+    rulesJson?: string | null
+  }
+
+  export type AssignmentSubmissionCreateManyAssignmentInput = {
+    id?: number
+    studentId: number
+    status?: string
+    answersJson: string
+    score?: number | null
+    gradingJson?: string | null
+    feedback?: string | null
+    submittedAt?: Date | string | null
+    checkedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TestAnswerFirstCreateManyAssignmentInput = {
+    id?: number
+    studentId: number
+    blockId: string
+    optionKey: string
+    createdAt?: Date | string
+  }
+
+  export type AssignmentFieldUpdateWithoutAssignmentInput = {
+    fieldKey?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    fieldType?: StringFieldUpdateOperationsInput | string
+    required?: BoolFieldUpdateOperationsInput | boolean
+    order?: IntFieldUpdateOperationsInput | number
+    optionsJson?: NullableStringFieldUpdateOperationsInput | string | null
+    rulesJson?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type AssignmentFieldUncheckedUpdateWithoutAssignmentInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    fieldKey?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    fieldType?: StringFieldUpdateOperationsInput | string
+    required?: BoolFieldUpdateOperationsInput | boolean
+    order?: IntFieldUpdateOperationsInput | number
+    optionsJson?: NullableStringFieldUpdateOperationsInput | string | null
+    rulesJson?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type AssignmentFieldUncheckedUpdateManyWithoutAssignmentInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    fieldKey?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    fieldType?: StringFieldUpdateOperationsInput | string
+    required?: BoolFieldUpdateOperationsInput | boolean
+    order?: IntFieldUpdateOperationsInput | number
+    optionsJson?: NullableStringFieldUpdateOperationsInput | string | null
+    rulesJson?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type AssignmentSubmissionUpdateWithoutAssignmentInput = {
+    status?: StringFieldUpdateOperationsInput | string
+    answersJson?: StringFieldUpdateOperationsInput | string
+    score?: NullableIntFieldUpdateOperationsInput | number | null
+    gradingJson?: NullableStringFieldUpdateOperationsInput | string | null
+    feedback?: NullableStringFieldUpdateOperationsInput | string | null
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    checkedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    student?: StudentUpdateOneRequiredWithoutSubmissionsNestedInput
+  }
+
+  export type AssignmentSubmissionUncheckedUpdateWithoutAssignmentInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    studentId?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    answersJson?: StringFieldUpdateOperationsInput | string
+    score?: NullableIntFieldUpdateOperationsInput | number | null
+    gradingJson?: NullableStringFieldUpdateOperationsInput | string | null
+    feedback?: NullableStringFieldUpdateOperationsInput | string | null
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    checkedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AssignmentSubmissionUncheckedUpdateManyWithoutAssignmentInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    studentId?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    answersJson?: StringFieldUpdateOperationsInput | string
+    score?: NullableIntFieldUpdateOperationsInput | number | null
+    gradingJson?: NullableStringFieldUpdateOperationsInput | string | null
+    feedback?: NullableStringFieldUpdateOperationsInput | string | null
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    checkedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TestAnswerFirstUpdateWithoutAssignmentInput = {
+    blockId?: StringFieldUpdateOperationsInput | string
+    optionKey?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    student?: StudentUpdateOneRequiredWithoutTestAnswerFirstsNestedInput
+  }
+
+  export type TestAnswerFirstUncheckedUpdateWithoutAssignmentInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    studentId?: IntFieldUpdateOperationsInput | number
+    blockId?: StringFieldUpdateOperationsInput | string
+    optionKey?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TestAnswerFirstUncheckedUpdateManyWithoutAssignmentInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    studentId?: IntFieldUpdateOperationsInput | number
+    blockId?: StringFieldUpdateOperationsInput | string
+    optionKey?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

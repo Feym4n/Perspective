@@ -1,0 +1,2081 @@
+======== FILE: layout.tsx ========
+import "~/styles/globals.css";
+
+import { type Metadata } from "next";
+import { Geist } from "next/font/google";
+
+import { TRPCReactProvider } from "~/trpc/react";
+
+export const metadata: Metadata = {
+  title: "Интерактивная рабочая тетрадь | Педагогические классы",
+  description: "Платформа для оценки работы школьников педагогических классов",
+  icons: [{ rel: "icon", url: "/favicon.ico" }],
+};
+
+const geist = Geist({
+  subsets: ["latin", "cyrillic"],
+  variable: "--font-geist-sans",
+});
+
+export default function RootLayout({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
+  return (
+    <html lang="ru" className={`${geist.variable}`}>
+      <body>
+        <TRPCReactProvider>{children}</TRPCReactProvider>
+      </body>
+    </html>
+  );
+}
+
+
+======== FILE: page.tsx ========
+import Link from "next/link";
+
+export default function Home() {
+  return (
+    <main className="relative min-h-screen overflow-hidden bg-gradient-to-br from-sky-100 via-white to-sky-50">
+      {/* Геометрический фон */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute -left-20 -top-20 h-72 w-72 rounded-full bg-sky-200/40 blur-3xl" />
+        <div className="absolute bottom-0 right-0 h-96 w-96 rounded-full bg-sky-300/30 blur-3xl" />
+        <div className="absolute left-1/2 top-1/3 h-64 w-64 -translate-x-1/2 rounded-full bg-white/60 blur-2xl" />
+      </div>
+
+      <div className="relative flex min-h-screen items-center justify-center p-4">
+        <div className="w-full max-w-md rounded-2xl border border-sky-200/80 bg-sky-50/95 p-8 shadow-xl shadow-sky-200/30 backdrop-blur-sm">
+          {/* Логотип и заголовок */}
+          <div className="mb-8 flex items-center gap-4">
+            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border-2 border-sky-400 bg-white/80">
+              <svg
+                className="h-6 w-6 text-sky-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+                />
+              </svg>
+            </div>
+            <h1 className="text-lg font-semibold uppercase tracking-wide text-sky-900">
+              Интерактивная рабочая тетрадь
+            </h1>
+            <Link
+              href="/register"
+              className="ml-auto flex flex-col items-center gap-0.5 rounded-lg px-3 py-2 text-sm text-sky-700 hover:bg-sky-100/80"
+            >
+              <svg
+                className="h-5 w-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"
+                />
+              </svg>
+              <span className="text-xs font-medium">Регистрация</span>
+            </Link>
+          </div>
+
+          <div className="flex flex-col gap-4">
+            <Link
+              href="/student/login"
+              className="rounded-lg border-2 border-sky-400 bg-white px-4 py-3 text-center text-sm font-semibold uppercase tracking-wide text-sky-700 hover:bg-sky-50"
+            >
+              Вход для ученика
+            </Link>
+            <Link
+              href="/teacher"
+              className="rounded-lg border-2 border-sky-500 bg-white px-4 py-3 text-center text-sm font-semibold uppercase tracking-wide text-sky-800 shadow-sm hover:bg-sky-50"
+            >
+              Вход для педагога
+            </Link>
+          </div>
+        </div>
+      </div>
+    </main>
+  );
+}
+
+
+======== FILE: page.tsx ========
+"use client";
+
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { api } from "~/trpc/react";
+import { setStudentCookie } from "~/lib/auth-cookies";
+import { PhoneInput, validatePhone } from "~/app/_components/phone-input";
+import { PasswordInput } from "~/app/_components/password-input";
+
+// Строго 3 символа: два цифры класса + одна заглавная русская буква (например 10Б)
+const CLASS_REGEX = /^[0-9]{2}[А-ЯЁ]$/;
+
+function validateClassName(value: string): string | null {
+  if (value.length !== 3) return "Ровно 3 символа: число класса и буква (например 10Б)";
+  if (!CLASS_REGEX.test(value)) return "Формат: две цифры и заглавная русская буква (например 10Б)";
+  return null;
+}
+
+export default function RegisterPage() {
+  const router = useRouter();
+  const [surname, setSurname] = useState("");
+  const [name, setName] = useState("");
+  const [patronymic, setPatronymic] = useState("");
+  const [phone, setPhone] = useState("");
+  const [password, setPassword] = useState("");
+  const [schoolId, setSchoolId] = useState<number | "">("");
+  const [className, setClassName] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [classError, setClassError] = useState<string | null>(null);
+  const [phoneError, setPhoneError] = useState<string | null>(null);
+
+  const { data: schools, isLoading: schoolsLoading } = api.school.list.useQuery();
+  const registerMutation = api.student.register.useMutation();
+  const loginMutation = api.student.login.useMutation();
+
+  function handleClassChange(value: string) {
+    setClassName(value);
+    if (value.length === 3) {
+      setClassError(validateClassName(value));
+    } else {
+      setClassError(null);
+    }
+  }
+
+  function handleClassBlur() {
+    if (className) setClassError(validateClassName(className));
+  }
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setError(null);
+    const phErr = validatePhone(phone);
+    if (phErr) {
+      setPhoneError(phErr);
+      return;
+    }
+    const cnErr = validateClassName(className);
+    if (cnErr) {
+      setClassError(cnErr);
+      return;
+    }
+    if (schoolId === "") {
+      setError("Выберите школу");
+      return;
+    }
+    try {
+      await registerMutation.mutateAsync({
+        surname,
+        name,
+        patronymic: patronymic || undefined,
+        phone,
+        password,
+        schoolId,
+        className,
+      });
+      const loginResult = await loginMutation.mutateAsync({ phone, password });
+      setStudentCookie(loginResult.student.id);
+      router.push("/student/dashboard");
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Ошибка регистрации";
+      setError(message);
+    }
+  }
+
+  return (
+    <main className="min-h-screen bg-stone-50">
+      <header className="border-b border-stone-200 bg-white">
+        <div className="mx-auto flex max-w-4xl items-center justify-between px-4 py-4">
+          <Link
+            href="/"
+            className="text-xl font-semibold tracking-tight text-stone-800 hover:underline"
+          >
+            Интерактивная рабочая тетрадь
+          </Link>
+          <Link
+            href="/student/login"
+            className="rounded-lg border border-stone-300 px-4 py-2 text-sm font-medium text-stone-700 hover:bg-stone-100"
+          >
+            Вход
+          </Link>
+        </div>
+      </header>
+
+      <section className="mx-auto flex min-h-[calc(100vh-65px)] max-w-md flex-col items-center justify-center px-4 py-12">
+        <h1 className="text-2xl font-bold text-stone-800">Регистрация</h1>
+
+        <form
+          onSubmit={handleSubmit}
+          className="mt-8 w-full space-y-4 rounded-xl border border-stone-200 bg-white p-6 shadow-sm"
+        >
+          <label className="block">
+            <span className="mb-1 block text-sm font-medium text-stone-700">
+              Фамилия
+            </span>
+            <input
+              type="text"
+              value={surname}
+              onChange={(e) => setSurname(e.target.value)}
+              placeholder="Фамилия"
+              className="w-full rounded-lg border border-stone-300 px-3 py-2.5 text-stone-900 placeholder:text-stone-400 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500"
+              required
+            />
+          </label>
+          <label className="block">
+            <span className="mb-1 block text-sm font-medium text-stone-700">
+              Имя
+            </span>
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Имя"
+              className="w-full rounded-lg border border-stone-300 px-3 py-2.5 text-stone-900 placeholder:text-stone-400 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500"
+              required
+            />
+          </label>
+          <label className="block">
+            <span className="mb-1 block text-sm font-medium text-stone-700">
+              Отчество <span className="text-stone-400">(необяз.)</span>
+            </span>
+            <input
+              type="text"
+              value={patronymic}
+              onChange={(e) => setPatronymic(e.target.value)}
+              placeholder="Отчество"
+              className="w-full rounded-lg border border-stone-300 px-3 py-2.5 text-stone-900 placeholder:text-stone-400 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500"
+            />
+          </label>
+          <PhoneInput
+            label="Мобильный телефон"
+            value={phone}
+            onChange={(v) => { setPhone(v); if (phoneError) setPhoneError(validatePhone(v)); }}
+            onBlur={() => { if (phone) setPhoneError(validatePhone(phone)); }}
+            placeholder="+7 (999) 123-45-67"
+            required
+            error={phoneError}
+          />
+          <label className="block">
+            <span className="mb-1 block text-sm font-medium text-stone-700">
+              Класс
+            </span>
+            <input
+              type="text"
+              value={className}
+              onChange={(e) => handleClassChange(e.target.value.toUpperCase())}
+              onBlur={handleClassBlur}
+              placeholder="10Б"
+              maxLength={3}
+              className="w-full rounded-lg border border-stone-300 px-3 py-2.5 font-medium tracking-wide text-stone-900 placeholder:text-stone-400 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500"
+              required
+            />
+            {classError && (
+              <p className="mt-1 text-sm text-red-600">{classError}</p>
+            )}
+            <p className="mt-1 text-xs text-stone-500">
+              Ровно 3 символа: число класса и заглавная буква (например 10Б, 11А)
+            </p>
+          </label>
+          <label className="block">
+            <span className="mb-1 block text-sm font-medium text-stone-700">
+              Школа
+            </span>
+            <select
+              value={schoolId}
+              onChange={(e) =>
+                setSchoolId(e.target.value === "" ? "" : Number(e.target.value))
+              }
+              className="w-full rounded-lg border border-stone-300 px-3 py-2.5 text-stone-900 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500"
+              required
+            >
+              <option value="">Выберите школу</option>
+              {schools?.map((s) => (
+                <option key={s.id} value={s.id}>
+                  {s.name}
+                </option>
+              ))}
+            </select>
+            {schoolsLoading && (
+              <span className="mt-1 block text-xs text-stone-500">
+                Загрузка списка школ…
+              </span>
+            )}
+          </label>
+          <PasswordInput
+            label="Пароль"
+            value={password}
+            onChange={setPassword}
+            placeholder="Не менее 6 символов"
+            required
+            minLength={6}
+            showStrengthBar
+          />
+
+          {error && (
+            <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">
+              {error}
+            </p>
+          )}
+
+          <p className="text-center text-sm text-stone-600">
+            Нажимая на кнопку «Зарегистрироваться», вы соглашаетесь с{" "}
+            <Link href="#" className="text-sky-600 hover:underline">
+              Условиями использования
+            </Link>{" "}
+            и{" "}
+            <Link href="#" className="text-sky-600 hover:underline">
+              Политикой конфиденциальности
+            </Link>
+            .
+          </p>
+
+          <button
+            type="submit"
+            disabled={
+              registerMutation.isPending ||
+              loginMutation.isPending ||
+              !!classError ||
+              !!phoneError ||
+              className.length !== 3
+            }
+            className="w-full rounded-lg bg-sky-600 py-3 font-medium text-white hover:bg-sky-700 disabled:opacity-50"
+          >
+            {registerMutation.isPending || loginMutation.isPending
+              ? "Регистрация…"
+              : "Зарегистрироваться"}
+          </button>
+        </form>
+      </section>
+    </main>
+  );
+}
+
+
+======== FILE: page.tsx ========
+"use client";
+
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { api } from "~/trpc/react";
+import { setStudentCookie } from "~/lib/auth-cookies";
+import { LoginCard } from "~/app/_components/login-card";
+import { PhoneInput, validatePhone } from "~/app/_components/phone-input";
+import { PasswordInput } from "~/app/_components/password-input";
+
+export default function StudentLoginPage() {
+  const router = useRouter();
+  const [phone, setPhone] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [phoneError, setPhoneError] = useState<string | null>(null);
+
+  const loginMutation = api.student.login.useMutation();
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setError(null);
+    const phErr = validatePhone(phone);
+    if (phErr) {
+      setPhoneError(phErr);
+      return;
+    }
+    try {
+      const result = await loginMutation.mutateAsync({ phone, password });
+      setStudentCookie(result.student.id);
+      router.push("/student/dashboard");
+    } catch (err: unknown) {
+      const message =
+        err instanceof Error ? err.message : "Неверный телефон или пароль";
+      setError(message);
+    }
+  }
+
+  return (
+    <LoginCard
+      title="Интерактивная рабочая тетрадь"
+      homeHref="/"
+      registrationHref="/register"
+      registrationLabel="Регистрация"
+      onSubmit={handleSubmit}
+      submitLabel="Вход"
+      submitDisabled={loginMutation.isPending}
+      error={error}
+      forgotPasswordLink="#"
+    >
+      <PhoneInput
+        label="Мобильный телефон"
+        value={phone}
+        onChange={(v) => { setPhone(v); if (phoneError) setPhoneError(validatePhone(v)); }}
+        placeholder="+7 (999) 123-45-67"
+        required
+        error={phoneError}
+        className="[&_input]:border-2 [&_input]:border-sky-200 [&_input]:bg-white"
+      />
+      <PasswordInput
+        label="Пароль"
+        value={password}
+        onChange={setPassword}
+        placeholder="••••••••"
+        required
+        className="[&_input]:border-2 [&_input]:border-sky-200 [&_input]:bg-white"
+      />
+    </LoginCard>
+  );
+}
+
+
+======== FILE: page.tsx ========
+"use client";
+
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { api } from "~/trpc/react";
+import { clearStudentCookie } from "~/lib/auth-cookies";
+
+const MENU_ITEMS = [
+  { id: "dashboard", label: "Главная" },
+  { id: "lessons", label: "Мои занятия" },
+  { id: "assignments", label: "Мои задания" },
+  { id: "progress", label: "Мой прогресс" },
+  { id: "materials", label: "Библиотека уроков" },
+  { id: "profile", label: "Мой профиль" },
+] as const;
+
+type MenuSection = (typeof MENU_ITEMS)[number]["id"];
+
+export default function StudentDashboardPage() {
+  const router = useRouter();
+  const [activeSection, setActiveSection] = useState<MenuSection>("dashboard");
+  const { data, isLoading, error, isError } = api.student.dashboard.useQuery();
+  const { data: studentAssignments, refetch: refetchAssignments } =
+    api.student.assignmentByLessonForStudent.useQuery();
+  const submitMutation = api.student.assignmentSubmit.useMutation({
+    onSuccess: () => void refetchAssignments(),
+  });
+
+  function handleLogout() {
+    clearStudentCookie();
+    router.push("/");
+  }
+
+  if (isLoading) {
+    return (
+      <main className="min-h-screen bg-stone-50 text-stone-900">
+        <div className="mx-auto max-w-2xl px-4 py-12 text-center text-stone-500">
+          Загрузка…
+        </div>
+      </main>
+    );
+  }
+
+  if (isError || !data) {
+    return (
+      <main className="min-h-screen bg-stone-50 text-stone-900">
+        <div className="mx-auto max-w-2xl px-4 py-12">
+          <p className="text-red-600">
+            {error?.message ?? "Нет доступа. Войдите как ученик."}
+          </p>
+          <Link
+            href="/student/login"
+            className="mt-4 inline-block rounded-lg bg-amber-600 px-4 py-2 text-white hover:bg-amber-700"
+          >
+            Войти
+          </Link>
+        </div>
+      </main>
+    );
+  }
+
+  const { student, lessons } = data;
+
+  const completedCount = lessons.filter((lesson) => lesson.attempted).length;
+  const pendingCount = lessons.length - completedCount;
+  const scores = lessons
+    .map((lesson) => lesson.score)
+    .filter((score): score is number => score != null);
+  const averageScore =
+    scores.length === 0
+      ? null
+      : Math.round((scores.reduce((acc, score) => acc + score, 0) / scores.length) * 10) / 10;
+
+  return (
+    <main className="min-h-screen bg-slate-100 text-slate-900">
+      <div className="grid min-h-screen grid-cols-1 lg:grid-cols-[260px_1fr]">
+        <aside className="border-r border-teal-800/30 bg-teal-900 text-white">
+          <div className="border-b border-teal-700/40 px-5 py-5">
+            <p className="text-xs uppercase tracking-wider text-teal-100/80">Личный кабинет</p>
+            <h1 className="mt-1 text-base font-semibold leading-tight">
+              Интерактивная рабочая тетрадь
+            </h1>
+          </div>
+          <nav className="p-3">
+            <ul className="space-y-1">
+              {MENU_ITEMS.map((item) => (
+                <li key={item.id}>
+                  <button
+                    type="button"
+                    onClick={() => setActiveSection(item.id)}
+                    className={`w-full rounded-lg px-3 py-2 text-left text-sm transition ${
+                      activeSection === item.id
+                        ? "bg-teal-700 text-white"
+                        : "text-teal-50 hover:bg-teal-800/70"
+                    }`}
+                  >
+                    {item.label}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </nav>
+          <div className="mt-auto space-y-2 border-t border-teal-700/40 p-3">
+            <button
+              type="button"
+              onClick={handleLogout}
+              className="w-full rounded-lg bg-white px-3 py-2 text-left text-sm font-medium text-teal-900 hover:bg-teal-50"
+            >
+              Выйти из кабинета
+            </button>
+          </div>
+        </aside>
+
+        <section className="p-4 sm:p-6 lg:p-8">
+          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <p className="text-sm text-slate-500">
+                  {student.schoolName}, {student.className}
+                </p>
+                <h2 className="text-xl font-semibold text-slate-900">
+                  {student.fullName}
+                </h2>
+              </div>
+              <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">
+                Раздел: {MENU_ITEMS.find((item) => item.id === activeSection)?.label}
+              </span>
+            </div>
+          </div>
+
+          <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
+            <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+              <p className="text-xs uppercase tracking-wide text-slate-500">Всего занятий</p>
+              <p className="mt-2 text-2xl font-semibold text-slate-900">{lessons.length}</p>
+            </div>
+            <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+              <p className="text-xs uppercase tracking-wide text-slate-500">Пройдено</p>
+              <p className="mt-2 text-2xl font-semibold text-emerald-700">{completedCount}</p>
+            </div>
+            <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+              <p className="text-xs uppercase tracking-wide text-slate-500">Средний балл</p>
+              <p className="mt-2 text-2xl font-semibold text-slate-900">
+                {averageScore ?? "—"}
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+            {activeSection === "dashboard" && (
+              <>
+                <h3 className="text-lg font-semibold text-slate-900">Добро пожаловать</h3>
+                <p className="mt-2 text-sm text-slate-600">
+                  В этом кабинете вы проходите занятия, отслеживаете прогресс и работаете с
+                  материалами курса.
+                </p>
+                <p className="mt-3 text-sm text-slate-600">
+                  Сейчас к прохождению доступно:{" "}
+                  <span className="font-medium text-slate-900">{pendingCount}</span>
+                </p>
+              </>
+            )}
+
+            {activeSection === "lessons" && (
+              <>
+                <h3 className="text-lg font-semibold text-slate-900">Мои занятия</h3>
+                <ul className="mt-4 space-y-2">
+                  {lessons.map((lesson) => (
+                    <li
+                      key={lesson.id}
+                      className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-200 p-3"
+                    >
+                      <div>
+                        <p className="font-medium text-slate-900">{lesson.title}</p>
+                        <p className="text-sm text-slate-500">{lesson.courseTitle}</p>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        {lesson.attempted ? (
+                          <>
+                            <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-medium text-emerald-700">
+                              Пройдено
+                            </span>
+                            {lesson.score != null && (
+                              <span className="text-sm text-slate-600">Балл: {lesson.score}</span>
+                            )}
+                          </>
+                        ) : (
+                          <span className="rounded-full bg-amber-100 px-2 py-0.5 text-xs font-medium text-amber-700">
+                            Ожидает прохождения
+                          </span>
+                        )}
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+                {lessons.length === 0 && (
+                  <p className="mt-4 text-sm text-slate-500">Пока нет занятий в программе.</p>
+                )}
+              </>
+            )}
+
+            {activeSection === "progress" && (
+              <>
+                <h3 className="text-lg font-semibold text-slate-900">Мой прогресс</h3>
+                <p className="mt-3 text-sm text-slate-600">
+                  Пройдено занятий: <span className="font-medium text-slate-900">{completedCount}</span>
+                </p>
+                <p className="mt-2 text-sm text-slate-600">
+                  Осталось пройти: <span className="font-medium text-slate-900">{pendingCount}</span>
+                </p>
+                <p className="mt-2 text-sm text-slate-600">
+                  Средний балл по пройденным:{" "}
+                  <span className="font-medium text-slate-900">{averageScore ?? "—"}</span>
+                </p>
+              </>
+            )}
+
+            {activeSection === "assignments" && (
+              <>
+                <h3 className="text-lg font-semibold text-slate-900">Мои задания</h3>
+                <p className="mt-2 text-sm text-slate-600">
+                  Здесь отображаются опубликованные задания от педагога.
+                </p>
+                <ul className="mt-4 space-y-3">
+                  {(studentAssignments ?? []).map((assignment) => (
+                    <li
+                      key={assignment.id}
+                      className="rounded-xl border border-slate-200 p-4"
+                    >
+                      <p className="font-medium text-slate-900">{assignment.title}</p>
+                      <p className="mt-1 text-xs text-slate-500">
+                        {assignment.lesson.courseTitle} — {assignment.lesson.title}
+                      </p>
+                      <p className="mt-2 text-sm text-slate-600">{assignment.instruction}</p>
+                      <div className="mt-3 flex flex-wrap items-center gap-2">
+                        <span className="rounded-full bg-slate-100 px-2 py-0.5 text-xs text-slate-600">
+                          {assignment.taskType}
+                        </span>
+                        <span className="rounded-full bg-slate-100 px-2 py-0.5 text-xs text-slate-600">
+                          {assignment.answerFormat}
+                        </span>
+                        {assignment.submission ? (
+                          <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-xs text-emerald-700">
+                            Статус: {assignment.submission.status}
+                          </span>
+                        ) : (
+                          <span className="rounded-full bg-amber-100 px-2 py-0.5 text-xs text-amber-700">
+                            Не отправлено
+                          </span>
+                        )}
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          submitMutation.mutate({
+                            assignmentId: assignment.id,
+                            answersJson: JSON.stringify({
+                              note: "Тестовая отправка из MVP кабинета ученика",
+                            }),
+                          })
+                        }
+                        disabled={submitMutation.isPending}
+                        className="mt-3 rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-slate-50 disabled:opacity-50"
+                      >
+                        Отправить (тест)
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+                {(studentAssignments ?? []).length === 0 && (
+                  <p className="mt-4 text-sm text-slate-500">
+                    Пока нет опубликованных заданий.
+                  </p>
+                )}
+              </>
+            )}
+
+            {activeSection === "materials" && (
+              <>
+                <h3 className="text-lg font-semibold text-slate-900">Библиотека уроков</h3>
+                <p className="mt-3 text-sm text-slate-600">
+                  Здесь будут размещаться учебные материалы, презентации и дополнительные задания
+                  по темам курса.
+                </p>
+              </>
+            )}
+
+            {activeSection === "profile" && (
+              <>
+                <h3 className="text-lg font-semibold text-slate-900">Мой профиль</h3>
+                <dl className="mt-4 grid gap-2 text-sm sm:grid-cols-2">
+                  <div>
+                    <dt className="text-slate-500">ФИО</dt>
+                    <dd className="font-medium text-slate-900">{student.fullName}</dd>
+                  </div>
+                  <div>
+                    <dt className="text-slate-500">Класс</dt>
+                    <dd className="font-medium text-slate-900">{student.className}</dd>
+                  </div>
+                  <div>
+                    <dt className="text-slate-500">Школа</dt>
+                    <dd className="font-medium text-slate-900">{student.schoolName}</dd>
+                  </div>
+                </dl>
+              </>
+            )}
+          </div>
+        </section>
+      </div>
+    </main>
+  );
+}
+
+
+======== FILE: page.tsx ========
+"use client";
+
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { api } from "~/trpc/react";
+import { setTeacherCookie } from "~/lib/auth-cookies";
+import { LoginCard } from "~/app/_components/login-card";
+import { PasswordInput } from "~/app/_components/password-input";
+
+export default function TeacherLoginPage() {
+  const router = useRouter();
+  const [emailOrPhone, setEmailOrPhone] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
+
+  const loginMutation = api.teacher.login.useMutation();
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setError(null);
+    try {
+      const result = await loginMutation.mutateAsync({
+        emailOrPhone,
+        password,
+      });
+      setTeacherCookie(result.teacher.id);
+      router.push("/teacher/dashboard");
+    } catch (err: unknown) {
+      const message =
+        err instanceof Error ? err.message : "Неверный email/телефон или пароль";
+      setError(message);
+    }
+  }
+
+  return (
+    <LoginCard
+      title="Интерактивная рабочая тетрадь"
+      homeHref="/"
+      registrationHref="#"
+      registrationLabel="Заявка"
+      onSubmit={handleSubmit}
+      submitLabel="Вход"
+      submitDisabled={loginMutation.isPending}
+      error={error}
+      forgotPasswordLink="#"
+    >
+      <label className="flex flex-col gap-1">
+        <span className="text-sm font-medium text-sky-800">Логин</span>
+        <input
+          type="text"
+          value={emailOrPhone}
+          onChange={(e) => setEmailOrPhone(e.target.value)}
+          placeholder="teacher@school.ru"
+          className="rounded-lg border-2 border-sky-200 bg-white px-3 py-2.5 text-sky-900 placeholder:text-sky-400 focus:border-sky-500 focus:outline-none"
+          required
+        />
+      </label>
+      <PasswordInput
+        label="Пароль"
+        value={password}
+        onChange={setPassword}
+        placeholder="••••••••"
+        required
+        className="[&_input]:rounded-lg [&_input]:border-2 [&_input]:border-sky-200 [&_input]:bg-white [&_input]:px-3 [&_input]:py-2.5 [&_input]:text-sky-900 [&_input]:placeholder:text-sky-400 [&_input]:focus:border-sky-500 [&_input]:focus:outline-none"
+      />
+    </LoginCard>
+  );
+}
+
+
+======== FILE: page.tsx ========
+"use client";
+
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
+import { TRPCClientError } from "@trpc/client";
+import { clearTeacherCookie } from "~/lib/auth-cookies";
+import { api } from "~/trpc/react";
+
+const MENU = [
+  { id: "create", label: "Создать занятие" },
+  { id: "library", label: "Библиотека уроков" },
+  { id: "classes", label: "Классы" },
+] as const;
+
+type ActiveTab = (typeof MENU)[number]["id"];
+
+type WizardBlock = {
+  id: string;
+  kind: "text" | "presentation" | "test" | "case" | "reflection";
+  title: string;
+  text: string;
+  gradeEnabled: boolean;
+  buttonLabel: string;
+  optionsRaw?: string;
+};
+
+type PublishSettings = {
+  educationLevel: string;
+  classGroups: string;
+  subjects: string;
+  difficulty: number;
+  allowCopy: boolean;
+  collectStats: boolean;
+  showShortResult: boolean;
+};
+
+const defaultPublishSettings: PublishSettings = {
+  educationLevel: "",
+  classGroups: "",
+  subjects: "",
+  difficulty: 2,
+  allowCopy: true,
+  collectStats: false,
+  showShortResult: false,
+};
+
+function makeDefaultBlock(): WizardBlock {
+  return {
+    id: crypto.randomUUID(),
+    kind: "text",
+    title: "Блок №1",
+    text: "",
+    gradeEnabled: false,
+    buttonLabel: "Добавить кнопку",
+    optionsRaw: "",
+  };
+}
+
+const BLOCK_TEMPLATES: Array<{
+  kind: WizardBlock["kind"];
+  label: string;
+  hint: string;
+  defaultTitle: string;
+  defaultText: string;
+}> = [
+  {
+    kind: "text",
+    label: "Текст",
+    hint: "Теория, объяснение, инструкции",
+    defaultTitle: "Текстовый блок",
+    defaultText: "",
+  },
+  {
+    kind: "presentation",
+    label: "Презентация",
+    hint: "Слайды/ссылка/ключевые тезисы",
+    defaultTitle: "Презентационный блок",
+    defaultText: "",
+  },
+  {
+    kind: "test",
+    label: "Тест",
+    hint: "Вопросы и варианты ответов",
+    defaultTitle: "Тестовый блок",
+    defaultText: "Вопрос: ",
+  },
+  {
+    kind: "case",
+    label: "Кейс",
+    hint: "Ситуация + решение + обоснование",
+    defaultTitle: "Кейс-блок",
+    defaultText: "Ситуация: ",
+  },
+  {
+    kind: "reflection",
+    label: "Рефлексия",
+    hint: "Выводы, эссе, обратная связь",
+    defaultTitle: "Рефлексия",
+    defaultText: "",
+  },
+];
+
+export default function TeacherDashboardPage() {
+  const router = useRouter();
+  const [activeTab, setActiveTab] = useState<ActiveTab>("create");
+  const [step, setStep] = useState(1);
+  const [workspaceLessonId, setWorkspaceLessonId] = useState<number | null>(null);
+  const [selectedAssignmentId, setSelectedAssignmentId] = useState<number | "">("");
+  const [lessonTitle, setLessonTitle] = useState("");
+  const [lessonDescription, setLessonDescription] = useState("");
+  const [taskBlocks, setTaskBlocks] = useState<WizardBlock[]>([makeDefaultBlock()]);
+  const [publishSettings, setPublishSettings] = useState<PublishSettings>(defaultPublishSettings);
+  const [previewImageNames, setPreviewImageNames] = useState<string[]>([]);
+  const [methodicFileNames, setMethodicFileNames] = useState<string[]>([]);
+  const [isSaving, setIsSaving] = useState(false);
+  const [uiError, setUiError] = useState<string | null>(null);
+  const [assignTargetId, setAssignTargetId] = useState<number | "">("");
+  const [assignedClasses, setAssignedClasses] = useState<Record<string, boolean>>({});
+
+  const { data: me, isLoading: meLoading, isError: meError } = api.teacher.me.useQuery();
+  const ensureWorkspaceLesson = api.teacher.workspaceLessonEnsure.useMutation();
+  const { data: classList } = api.teacher.classList.useQuery();
+  const {
+    data: assignmentList,
+    refetch: refetchAssignments,
+    isLoading: libraryLoading,
+  } = api.teacher.assignmentByLesson.useQuery(
+    { lessonId: workspaceLessonId as number },
+    { enabled: typeof workspaceLessonId === "number" && workspaceLessonId > 0 }
+  );
+  const assignmentCreate = api.teacher.assignmentCreate.useMutation();
+  const assignmentUpdate = api.teacher.assignmentUpdate.useMutation();
+  const assignmentAssignClasses = api.teacher.assignmentAssignClasses.useMutation();
+
+  useEffect(() => {
+    let mounted = true;
+    void ensureWorkspaceLesson
+      .mutateAsync()
+      .then((lesson) => {
+        if (!mounted) return;
+        setWorkspaceLessonId(lesson.id);
+      })
+      .catch((err: unknown) => {
+        if (!mounted) return;
+        if (err instanceof TRPCClientError) {
+          setUiError(err.message);
+        } else {
+          setUiError("Не удалось инициализировать рабочее пространство педагога");
+        }
+      });
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  const selectedAssignment = useMemo(
+    () =>
+      typeof selectedAssignmentId === "number"
+        ? (assignmentList ?? []).find((a) => a.id === selectedAssignmentId) ?? null
+        : null,
+    [assignmentList, selectedAssignmentId]
+  );
+
+  useEffect(() => {
+    if (!selectedAssignment) return;
+    setLessonTitle(selectedAssignment.title);
+    setLessonDescription(selectedAssignment.instruction);
+    if (!selectedAssignment.configJson) return;
+    try {
+      const parsed = JSON.parse(selectedAssignment.configJson) as {
+        taskBlocks?: WizardBlock[];
+        publishSettings?: PublishSettings;
+        previewImageNames?: string[];
+        methodicFileNames?: string[];
+      };
+      setTaskBlocks(
+        Array.isArray(parsed.taskBlocks) && parsed.taskBlocks.length > 0
+          ? parsed.taskBlocks.map((b, idx) => ({
+              id: b.id ?? crypto.randomUUID(),
+              kind: b.kind ?? "text",
+              title: b.title ?? `Блок №${idx + 1}`,
+              text: b.text ?? "",
+              gradeEnabled: Boolean(b.gradeEnabled),
+              buttonLabel: b.buttonLabel ?? "Добавить кнопку",
+              optionsRaw: b.optionsRaw ?? "",
+            }))
+          : [makeDefaultBlock()]
+      );
+      setPublishSettings({ ...defaultPublishSettings, ...(parsed.publishSettings ?? {}) });
+      setPreviewImageNames(Array.isArray(parsed.previewImageNames) ? parsed.previewImageNames : []);
+      setMethodicFileNames(Array.isArray(parsed.methodicFileNames) ? parsed.methodicFileNames : []);
+    } catch {
+      setTaskBlocks([makeDefaultBlock()]);
+      setPublishSettings(defaultPublishSettings);
+      setPreviewImageNames([]);
+      setMethodicFileNames([]);
+    }
+  }, [selectedAssignment]);
+
+  function handleLogout() {
+    clearTeacherCookie();
+    router.push("/");
+  }
+
+  function resetCreateForm() {
+    setSelectedAssignmentId("");
+    setStep(1);
+    setLessonTitle("");
+    setLessonDescription("");
+    setTaskBlocks([makeDefaultBlock()]);
+    setPublishSettings(defaultPublishSettings);
+    setPreviewImageNames([]);
+    setMethodicFileNames([]);
+  }
+
+  function addBlock(kind: WizardBlock["kind"]) {
+    const template = BLOCK_TEMPLATES.find((t) => t.kind === kind);
+    setTaskBlocks((prev) => [
+      ...prev,
+      {
+        id: crypto.randomUUID(),
+        kind,
+        title: template ? template.defaultTitle : `Блок №${prev.length + 1}`,
+        text: template ? template.defaultText : "",
+        gradeEnabled: kind === "test",
+        buttonLabel: "Добавить кнопку",
+        optionsRaw: kind === "test" ? "Вариант 1\nВариант 2\nВариант 3" : "",
+      },
+    ]);
+  }
+
+  function updateBlock(id: string, patch: Partial<WizardBlock>) {
+    setTaskBlocks((prev) => prev.map((block) => (block.id === id ? { ...block, ...patch } : block)));
+  }
+
+  function removeBlock(id: string) {
+    setTaskBlocks((prev) => prev.filter((block) => block.id !== id));
+  }
+
+  async function persistWizard(opts?: { publish?: boolean }) {
+    if (typeof workspaceLessonId !== "number") return;
+    setIsSaving(true);
+    setUiError(null);
+    try {
+      const configJson = JSON.stringify({
+        taskBlocks,
+        publishSettings,
+        previewImageNames,
+        methodicFileNames,
+      });
+      let assignmentId = selectedAssignmentId;
+      if (typeof assignmentId !== "number") {
+        const created = await assignmentCreate.mutateAsync({
+          lessonId: workspaceLessonId,
+          title: lessonTitle.trim() || "Без названия",
+          instruction: lessonDescription.trim() || "Описание не заполнено",
+          taskType: "text_quest",
+          answerFormat: "mixed",
+        });
+        assignmentId = created.id;
+        setSelectedAssignmentId(created.id);
+      }
+      await assignmentUpdate.mutateAsync({
+        id: assignmentId as number,
+        title: lessonTitle.trim() || "Без названия",
+        instruction: lessonDescription.trim() || "Описание не заполнено",
+        taskType: "text_quest",
+        answerFormat: "mixed",
+        configJson,
+        isPublished: opts?.publish ? true : undefined,
+      });
+      await refetchAssignments();
+    } catch (err: unknown) {
+      if (err instanceof TRPCClientError) {
+        setUiError(err.message);
+      } else {
+        setUiError("Ошибка сохранения занятия");
+      }
+    } finally {
+      setIsSaving(false);
+    }
+  }
+
+  async function handleNext() {
+    if (step === 1 || step === 2 || step === 4) {
+      await persistWizard();
+    }
+    setStep((prev) => Math.min(prev + 1, 4));
+  }
+
+  function handleBack() {
+    setStep((prev) => Math.max(prev - 1, 1));
+  }
+
+  async function handlePublish() {
+    await persistWizard({ publish: true });
+  }
+
+  function toggleAssignClass(key: string) {
+    setAssignedClasses((prev) => ({ ...prev, [key]: !prev[key] }));
+  }
+
+  async function handleAssignToClasses() {
+    if (typeof assignTargetId !== "number") return;
+    const selected = Object.entries(assignedClasses)
+      .filter(([, checked]) => checked)
+      .map(([key]) => {
+        const [schoolId, className] = key.split("::");
+        if (!className) return null;
+        return { schoolId: Number(schoolId), className };
+      })
+      .filter((v): v is { schoolId: number; className: string } => v !== null);
+    setUiError(null);
+    try {
+      await assignmentAssignClasses.mutateAsync({
+        assignmentId: assignTargetId,
+        classes: selected,
+      });
+    } catch (err: unknown) {
+      if (err instanceof TRPCClientError) {
+        setUiError(err.message);
+      } else {
+        setUiError("Не удалось назначить занятие классам");
+      }
+    }
+  }
+
+  if (meLoading || !me) {
+    return (
+      <main className="min-h-screen bg-stone-50 text-stone-900">
+        <div className="mx-auto max-w-2xl px-4 py-12 text-center text-stone-500">Загрузка…</div>
+      </main>
+    );
+  }
+
+  if (meError) {
+    return (
+      <main className="min-h-screen bg-stone-50 text-stone-900">
+        <div className="mx-auto max-w-2xl px-4 py-12">
+          <p className="text-red-600">Нет доступа. Войдите как педагог.</p>
+          <Link
+            href="/teacher"
+            className="mt-4 inline-block rounded-lg bg-amber-600 px-4 py-2 text-white hover:bg-amber-700"
+          >
+            Войти
+          </Link>
+        </div>
+      </main>
+    );
+  }
+
+  const stepTitle =
+    step === 1
+      ? "Редактирование шаг 1 из 4"
+      : step === 2
+      ? "Редактирование шаг 2 из 4"
+      : step === 3
+      ? "Редактирование шаг 3 из 4"
+      : "Редактирование шаг 4 из 4";
+
+  const shareCode = selectedAssignmentId || "—";
+  const shareLink =
+    typeof selectedAssignmentId === "number"
+      ? `https://perspective.local/assignment/${selectedAssignmentId}`
+      : "https://perspective.local/assignment/demo";
+  const qrLink = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(
+    shareLink
+  )}`;
+
+  return (
+    <main className="min-h-screen bg-stone-100 text-stone-900">
+      <div className="mx-auto flex min-h-screen w-full max-w-7xl">
+        <aside className="w-64 border-r border-stone-200 bg-white p-5">
+          <p className="text-xs uppercase tracking-wide text-stone-500">Кабинет педагога</p>
+          <p className="mt-1 text-sm text-stone-700">{me.emailOrPhone}</p>
+          <nav className="mt-6 space-y-2">
+            {MENU.map((item) => (
+              <button
+                key={item.id}
+                type="button"
+                onClick={() => {
+                  setActiveTab(item.id);
+                  if (item.id === "create") setStep(1);
+                }}
+                className={`w-full rounded-lg px-3 py-2 text-left text-sm ${
+                  activeTab === item.id
+                    ? "bg-amber-100 font-medium text-amber-900"
+                    : "text-stone-700 hover:bg-stone-100"
+                }`}
+              >
+                {item.label}
+              </button>
+            ))}
+          </nav>
+          <button
+            type="button"
+            onClick={handleLogout}
+            className="mt-8 w-full rounded-lg border border-stone-300 px-3 py-2 text-sm text-stone-700 hover:bg-stone-100"
+          >
+            Выйти из кабинета
+          </button>
+        </aside>
+
+        <section className="flex-1 p-6">
+          {uiError && (
+            <div className="mb-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+              {uiError}
+            </div>
+          )}
+          {activeTab === "library" && (
+            <div className="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm">
+              <div className="mb-4 flex items-center justify-between">
+                <h1 className="text-2xl font-semibold">Библиотека уроков</h1>
+                <button
+                  type="button"
+                  onClick={() => {
+                    resetCreateForm();
+                    setActiveTab("create");
+                  }}
+                  className="rounded-lg bg-amber-600 px-3 py-2 text-sm font-medium text-white hover:bg-amber-700"
+                >
+                  Новое занятие
+                </button>
+              </div>
+              {libraryLoading ? (
+                <p className="text-sm text-stone-500">Загрузка библиотеки...</p>
+              ) : (assignmentList ?? []).length === 0 ? (
+                <p className="text-sm text-stone-500">Пока нет сохраненных занятий.</p>
+              ) : (
+                <div className="space-y-2">
+                  {(assignmentList ?? []).map((assignment) => (
+                    <div key={assignment.id} className="rounded-lg border border-stone-200 p-3">
+                      <div className="flex flex-wrap items-start justify-between gap-3">
+                        <div>
+                          <p className="font-medium text-stone-900">{assignment.title}</p>
+                          <p className="mt-1 text-sm text-stone-600">{assignment.instruction}</p>
+                          <p className="mt-1 text-xs text-stone-500">
+                            #{assignment.id} · {assignment.isPublished ? "Опубликован" : "Черновик"}
+                          </p>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setSelectedAssignmentId(assignment.id);
+                            setStep(1);
+                            setActiveTab("create");
+                          }}
+                          className="rounded-lg border border-stone-300 px-3 py-2 text-sm hover:bg-stone-100"
+                        >
+                          Открыть в редакторе
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          {activeTab === "classes" && (
+            <div className="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm">
+              <h1 className="text-2xl font-semibold">Классы</h1>
+              <p className="mt-1 text-sm text-stone-600">
+                Назначьте любое занятие из библиотеки выбранным классам.
+              </p>
+              <div className="mt-4 max-w-md">
+                <label className="flex flex-col gap-1">
+                  <span className="text-sm font-medium text-stone-700">Занятие для назначения</span>
+                  <select
+                    value={assignTargetId}
+                    onChange={(e) => setAssignTargetId(e.target.value === "" ? "" : Number(e.target.value))}
+                    className="rounded-lg border border-stone-300 px-3 py-2 text-sm text-stone-900 focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500"
+                  >
+                    <option value="">Выберите занятие</option>
+                    {(assignmentList ?? []).map((assignment) => (
+                      <option key={assignment.id} value={assignment.id}>
+                        #{assignment.id} — {assignment.title}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              </div>
+              <div className="mt-4 space-y-2">
+                {(classList ?? []).length === 0 ? (
+                  <p className="text-sm text-stone-500">Классы не найдены.</p>
+                ) : (
+                  (classList ?? []).map((row) => (
+                    <div key={`${row.schoolId}-${row.className}`} className="rounded-lg border border-stone-200 p-3">
+                      <label className="flex items-start gap-3">
+                        <input
+                          type="checkbox"
+                          checked={!!assignedClasses[`${row.schoolId}::${row.className}`]}
+                          onChange={() => toggleAssignClass(`${row.schoolId}::${row.className}`)}
+                        />
+                        <span>
+                          <span className="block font-medium text-stone-900">
+                            {row.className} — {row.schoolName}
+                          </span>
+                          <span className="text-sm text-stone-600">Учеников: {row.studentCount}</span>
+                        </span>
+                      </label>
+                    </div>
+                  ))
+                )}
+              </div>
+              <button
+                type="button"
+                onClick={() => void handleAssignToClasses()}
+                disabled={typeof assignTargetId !== "number" || assignmentAssignClasses.isPending}
+                className="mt-4 rounded-lg bg-amber-600 px-4 py-2 text-sm font-medium text-white hover:bg-amber-700 disabled:opacity-50"
+              >
+                {assignmentAssignClasses.isPending ? "Назначение..." : "Назначить занятие классам"}
+              </button>
+            </div>
+          )}
+
+          {activeTab === "create" && (
+            <div className="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div>
+                  <h1 className="text-2xl font-semibold text-stone-900">Создать занятие</h1>
+                  <p className="text-sm text-stone-500">{stepTitle}</p>
+                </div>
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={handleBack}
+                    disabled={step === 1}
+                    className="rounded-lg border border-stone-300 px-3 py-2 text-sm disabled:opacity-50"
+                  >
+                    Назад
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => void handleNext()}
+                    disabled={step === 4 || isSaving || workspaceLessonId == null}
+                    className="rounded-lg bg-amber-600 px-3 py-2 text-sm font-medium text-white hover:bg-amber-700 disabled:opacity-50"
+                  >
+                    {isSaving ? "Сохранение..." : "Далее"}
+                  </button>
+                </div>
+              </div>
+
+              {step === 1 && (
+                <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_320px]">
+                  <div className="space-y-4">
+                    <label className="flex flex-col gap-1">
+                      <span className="text-sm font-medium text-stone-700">Название урока</span>
+                      <input
+                        type="text"
+                        value={lessonTitle}
+                        onChange={(e) => setLessonTitle(e.target.value)}
+                        placeholder="Например: Социальные роли и нормы"
+                        className="rounded-lg border border-stone-300 px-3 py-2 text-sm text-stone-900 focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500"
+                      />
+                    </label>
+                    <label className="flex flex-col gap-1">
+                      <span className="text-sm font-medium text-stone-700">Краткое описание</span>
+                      <textarea
+                        value={lessonDescription}
+                        onChange={(e) => setLessonDescription(e.target.value)}
+                        rows={5}
+                        placeholder="Опишите цель урока, основной результат и формат работы."
+                        className="rounded-lg border border-stone-300 px-3 py-2 text-sm text-stone-900 focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500"
+                      />
+                    </label>
+                  </div>
+                  <div className="rounded-xl border border-stone-200 bg-stone-50 p-4">
+                    <h3 className="text-sm font-semibold text-stone-800">Референс/предпросмотр</h3>
+                    <p className="mt-2 text-sm text-stone-600">
+                      Блок справа показывает пример структуры будущего занятия.
+                    </p>
+                    <div className="mt-3 rounded-lg bg-white p-3 text-xs text-stone-500">
+                      <p>• Цель урока</p>
+                      <p>• Основной кейс/ситуация</p>
+                      <p>• Практическое задание</p>
+                      <p>• Рефлексия и обратная связь</p>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {step === 2 && (
+                <div className="mt-6 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-lg font-semibold text-stone-900">Конструктор блоков заданий</h3>
+                    <span className="text-sm text-stone-500">Соберите урок из готовых модулей</span>
+                  </div>
+                  <div className="grid gap-2 rounded-xl border border-stone-200 bg-stone-50 p-3 md:grid-cols-5">
+                    {BLOCK_TEMPLATES.map((tpl) => (
+                      <button
+                        key={tpl.kind}
+                        type="button"
+                        onClick={() => addBlock(tpl.kind)}
+                        className="rounded-lg border border-stone-300 bg-white px-3 py-2 text-left text-sm hover:border-amber-300 hover:bg-amber-50"
+                      >
+                        <p className="font-semibold text-stone-900">{tpl.label}</p>
+                        <p className="mt-1 text-xs text-stone-500">{tpl.hint}</p>
+                      </button>
+                    ))}
+                  </div>
+                  {taskBlocks.map((block, index) => (
+                    <div key={block.id} className="rounded-xl border border-stone-200 p-4">
+                      <div className="mb-2 flex items-center justify-between gap-2">
+                        <p className="text-xs font-semibold uppercase tracking-wide text-stone-500">
+                          Блок {index + 1} · {BLOCK_TEMPLATES.find((t) => t.kind === block.kind)?.label}
+                        </p>
+                        <button
+                          type="button"
+                          onClick={() => removeBlock(block.id)}
+                          disabled={taskBlocks.length === 1}
+                          className="rounded-lg border border-red-200 px-3 py-1.5 text-xs text-red-700 hover:bg-red-50 disabled:opacity-40"
+                        >
+                          Удалить
+                        </button>
+                      </div>
+                      <input
+                        type="text"
+                        value={block.title}
+                        onChange={(e) => updateBlock(block.id, { title: e.target.value })}
+                        className="w-full rounded-lg border border-stone-300 px-3 py-2 text-sm"
+                      />
+                      <textarea
+                        value={block.text}
+                        onChange={(e) => updateBlock(block.id, { text: e.target.value })}
+                        rows={3}
+                        placeholder={
+                          block.kind === "test"
+                            ? "Описание теста и формулировка вопроса"
+                            : `Текст задания для блока ${index + 1}`
+                        }
+                        className="mt-2 w-full rounded-lg border border-stone-300 px-3 py-2 text-sm"
+                      />
+                      {block.kind === "test" && (
+                        <textarea
+                          value={block.optionsRaw ?? ""}
+                          onChange={(e) => updateBlock(block.id, { optionsRaw: e.target.value })}
+                          rows={4}
+                          placeholder="Варианты ответа, по одному на строку"
+                          className="mt-2 w-full rounded-lg border border-stone-300 px-3 py-2 text-sm"
+                        />
+                      )}
+                      {block.kind === "presentation" && (
+                        <input
+                          type="text"
+                          value={block.optionsRaw ?? ""}
+                          onChange={(e) => updateBlock(block.id, { optionsRaw: e.target.value })}
+                          placeholder="Ссылка на презентацию / видео"
+                          className="mt-2 w-full rounded-lg border border-stone-300 px-3 py-2 text-sm"
+                        />
+                      )}
+                      <div className="mt-2 flex flex-wrap items-center gap-3">
+                        <label className="flex items-center gap-2 text-sm text-stone-700">
+                          <input
+                            type="checkbox"
+                            checked={block.gradeEnabled}
+                            onChange={(e) => updateBlock(block.id, { gradeEnabled: e.target.checked })}
+                          />
+                          Оценивать задание
+                        </label>
+                        <input
+                          type="text"
+                          value={block.buttonLabel}
+                          onChange={(e) => updateBlock(block.id, { buttonLabel: e.target.value })}
+                          placeholder="Название действия"
+                          className="rounded-lg border border-stone-300 px-3 py-1.5 text-sm"
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {step === 3 && (
+                <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_220px]">
+                  <div className="rounded-xl border border-stone-200 bg-stone-50 p-4">
+                    <h3 className="text-lg font-semibold text-stone-900">Занятие готово к выдаче</h3>
+                    <p className="mt-2 text-sm text-stone-600">
+                      Отправьте ссылку ученикам или используйте идентификатор для быстрого доступа.
+                    </p>
+                    <div className="mt-4 space-y-2 text-sm">
+                      <p>
+                        <span className="text-stone-500">ID занятия:</span> <strong>{shareCode}</strong>
+                      </p>
+                      <p className="break-all">
+                        <span className="text-stone-500">Ссылка:</span> {shareLink}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="rounded-xl border border-stone-200 bg-white p-4">
+                    <p className="mb-2 text-sm font-medium text-stone-700">QR-код</p>
+                    <img src={qrLink} alt="QR-код занятия" className="h-44 w-44 rounded-lg border border-stone-200" />
+                  </div>
+                </div>
+              )}
+
+              {step === 4 && (
+                <div className="mt-6 space-y-5">
+                  <div className="grid gap-4 md:grid-cols-2">
+                    <label className="flex flex-col gap-1">
+                      <span className="text-sm font-medium text-stone-700">Превью (до 3 файлов)</span>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        multiple
+                        onChange={(e) => {
+                          const names = Array.from(e.target.files ?? [])
+                            .slice(0, 3)
+                            .map((file) => file.name);
+                          setPreviewImageNames(names);
+                        }}
+                        className="rounded-lg border border-stone-300 px-3 py-2 text-sm"
+                      />
+                    </label>
+                    <label className="flex flex-col gap-1">
+                      <span className="text-sm font-medium text-stone-700">Методические файлы</span>
+                      <input
+                        type="file"
+                        multiple
+                        onChange={(e) => {
+                          const names = Array.from(e.target.files ?? []).map((file) => file.name);
+                          setMethodicFileNames(names);
+                        }}
+                        className="rounded-lg border border-stone-300 px-3 py-2 text-sm"
+                      />
+                    </label>
+                  </div>
+
+                  <div className="grid gap-3 md:grid-cols-2">
+                    <input
+                      type="text"
+                      value={publishSettings.educationLevel}
+                      onChange={(e) =>
+                        setPublishSettings((prev) => ({ ...prev, educationLevel: e.target.value }))
+                      }
+                      placeholder="Ступень (например: основная школа)"
+                      className="rounded-lg border border-stone-300 px-3 py-2 text-sm"
+                    />
+                    <input
+                      type="text"
+                      value={publishSettings.classGroups}
+                      onChange={(e) => setPublishSettings((prev) => ({ ...prev, classGroups: e.target.value }))}
+                      placeholder="Классы/группы (например: 8-9)"
+                      className="rounded-lg border border-stone-300 px-3 py-2 text-sm"
+                    />
+                    <input
+                      type="text"
+                      value={publishSettings.subjects}
+                      onChange={(e) => setPublishSettings((prev) => ({ ...prev, subjects: e.target.value }))}
+                      placeholder="Предметы (например: обществознание)"
+                      className="rounded-lg border border-stone-300 px-3 py-2 text-sm"
+                    />
+                    <label className="flex items-center gap-3 rounded-lg border border-stone-300 px-3 py-2 text-sm text-stone-700">
+                      Сложность
+                      <input
+                        type="range"
+                        min={1}
+                        max={5}
+                        value={publishSettings.difficulty}
+                        onChange={(e) =>
+                          setPublishSettings((prev) => ({ ...prev, difficulty: Number(e.target.value) }))
+                        }
+                      />
+                      <span>{publishSettings.difficulty}</span>
+                    </label>
+                  </div>
+
+                  <div className="flex flex-wrap gap-4 text-sm">
+                    <label className="flex items-center gap-2">
+                      <input
+                        type="checkbox"
+                        checked={publishSettings.allowCopy}
+                        onChange={(e) => setPublishSettings((prev) => ({ ...prev, allowCopy: e.target.checked }))}
+                      />
+                      Разрешить копирование
+                    </label>
+                    <label className="flex items-center gap-2">
+                      <input
+                        type="checkbox"
+                        checked={publishSettings.collectStats}
+                        onChange={(e) =>
+                          setPublishSettings((prev) => ({ ...prev, collectStats: e.target.checked }))
+                        }
+                      />
+                      Собирать статистику
+                    </label>
+                    <label className="flex items-center gap-2">
+                      <input
+                        type="checkbox"
+                        checked={publishSettings.showShortResult}
+                        onChange={(e) =>
+                          setPublishSettings((prev) => ({ ...prev, showShortResult: e.target.checked }))
+                        }
+                      />
+                      Показывать краткий результат
+                    </label>
+                  </div>
+
+                  {(previewImageNames.length > 0 || methodicFileNames.length > 0) && (
+                    <div className="rounded-lg border border-stone-200 bg-stone-50 p-3 text-xs text-stone-600">
+                      {previewImageNames.length > 0 && <p>Превью: {previewImageNames.join(", ")}</p>}
+                      {methodicFileNames.length > 0 && <p>Методички: {methodicFileNames.join(", ")}</p>}
+                    </div>
+                  )}
+
+                  <button
+                    type="button"
+                    onClick={() => void handlePublish()}
+                    disabled={isSaving || workspaceLessonId == null}
+                    className="rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700 disabled:opacity-50"
+                  >
+                    {isSaving ? "Публикация..." : "Опубликовать изменения"}
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
+        </section>
+      </div>
+    </main>
+  );
+}
+
+
+======== FILE: login-card.tsx ========
+"use client";
+
+import Link from "next/link";
+
+type LoginCardProps = {
+  title: string;
+  children: React.ReactNode;
+  registrationHref: string;
+  registrationLabel?: string;
+  homeHref?: string;
+  onSubmit: (e: React.FormEvent) => void;
+  submitLabel?: string;
+  submitDisabled?: boolean;
+  error?: string | null;
+  forgotPasswordLink?: string;
+};
+
+export function LoginCard({
+  title,
+  children,
+  registrationHref,
+  registrationLabel = "Регистрация",
+  homeHref,
+  onSubmit,
+  submitLabel = "ВХОД",
+  submitDisabled,
+  error,
+  forgotPasswordLink,
+}: LoginCardProps) {
+  return (
+    <main className="relative min-h-screen overflow-hidden bg-gradient-to-br from-sky-100 via-white to-sky-50">
+      {/* Кнопка «На главную» в правом верхнем углу */}
+      {homeHref != null && (
+        <Link
+          href={homeHref}
+          className="fixed right-4 top-4 z-10 flex items-center gap-2 rounded-lg border border-sky-200 bg-white/90 px-3 py-2 text-sm font-medium text-sky-700 shadow-sm backdrop-blur-sm hover:bg-sky-50"
+        >
+          <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+          </svg>
+          На главную
+        </Link>
+      )}
+      {/* Геометрический фон */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute -left-20 -top-20 h-72 w-72 rounded-full bg-sky-200/40 blur-3xl" />
+        <div className="absolute bottom-0 right-0 h-96 w-96 rounded-full bg-sky-300/30 blur-3xl" />
+        <div className="absolute left-1/2 top-1/3 h-64 w-64 -translate-x-1/2 rounded-full bg-white/60 blur-2xl" />
+      </div>
+
+      <div className="relative flex min-h-screen items-center justify-center p-4">
+        <div className="w-full max-w-md rounded-2xl border border-sky-200/80 bg-sky-50/95 p-8 shadow-xl shadow-sky-200/30 backdrop-blur-sm">
+          {/* Логотип и заголовок */}
+          <div className="mb-8 flex items-center gap-4">
+            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border-2 border-sky-400 bg-white/80">
+              <svg
+                className="h-6 w-6 text-sky-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+                />
+              </svg>
+            </div>
+            <h1 className="text-lg font-semibold uppercase tracking-wide text-sky-900">
+              {title}
+            </h1>
+            <div className="ml-auto flex items-center gap-2">
+              <Link
+                href={registrationHref}
+                className="flex flex-col items-center gap-0.5 rounded-lg px-3 py-2 text-sm text-sky-700 hover:bg-sky-100/80"
+              >
+              <svg
+                className="h-5 w-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"
+                />
+              </svg>
+              <span className="text-xs font-medium">{registrationLabel}</span>
+              </Link>
+            </div>
+          </div>
+
+          <form onSubmit={onSubmit} className="flex flex-col gap-5">
+            {children}
+
+            {error && (
+              <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">
+                {error}
+              </p>
+            )}
+
+            <div className="flex items-center justify-between gap-4 pt-2">
+              <div>
+                {forgotPasswordLink && (
+                  <Link
+                    href={forgotPasswordLink}
+                    className="text-sm text-sky-700 hover:underline"
+                  >
+                    Забыли пароль?
+                  </Link>
+                )}
+              </div>
+              <button
+                type="submit"
+                disabled={submitDisabled}
+                className="rounded-lg border-2 border-sky-500 bg-white px-5 py-2.5 text-sm font-semibold uppercase tracking-wide text-sky-800 shadow-sm hover:bg-sky-50 disabled:opacity-50"
+              >
+                {submitLabel}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </main>
+  );
+}
+
+
+======== FILE: phone-input.tsx ========
+"use client";
+
+import PhoneInputLib, { isValidPhoneNumber } from "react-phone-number-input";
+import "react-phone-number-input/style.css";
+import type { E164Number } from "libphonenumber-js";
+
+const inputBaseClass =
+  "w-full rounded-lg border px-3 py-2.5 text-stone-900 placeholder:text-stone-400 focus:outline-none focus:ring-1";
+
+const inputNormal =
+  `${inputBaseClass} border-stone-300 focus:border-sky-500 focus:ring-sky-500`;
+
+const inputError =
+  `${inputBaseClass} border-red-500 focus:border-red-500 focus:ring-red-500`;
+
+const countryLabels = { RU: "Россия", BY: "Беларусь" };
+
+export function validatePhone(value: string): string | null {
+  if (!value) return "Введите номер телефона";
+  if (!isValidPhoneNumber(value)) return "Введите корректный номер телефона";
+  return null;
+}
+
+type PhoneInputProps = {
+  value: string;
+  onChange: (value: string) => void;
+  onBlur?: () => void;
+  label?: string;
+  placeholder?: string;
+  required?: boolean;
+  error?: string | null;
+  className?: string;
+  id?: string;
+};
+
+export function PhoneInput({
+  value,
+  onChange,
+  onBlur,
+  label,
+  placeholder,
+  required,
+  error,
+  className,
+  id,
+}: PhoneInputProps) {
+  const hasError = !!error;
+
+  return (
+    <div className={`block ${className ?? ""}`}>
+      {label && (
+        <span className="mb-1 block text-sm font-medium text-stone-700">
+          {label}
+        </span>
+      )}
+      <div
+        className={
+          hasError
+            ? "[&_.PhoneInputInput]:rounded-lg [&_.PhoneInputInput]:border-red-500 [&_.PhoneInputInput]:focus:border-red-500 [&_.PhoneInputInput]:focus:ring-red-500"
+            : "[&_.PhoneInputInput]:rounded-lg [&_.PhoneInputInput]:border-stone-300 [&_.PhoneInputInput]:focus:border-sky-500 [&_.PhoneInputInput]:focus:ring-sky-500"
+        }
+        style={{ ["--PhoneInput-color--focus" as string]: hasError ? "#ef4444" : "#0ea5e9" }}
+      >
+        <PhoneInputLib
+          id={id}
+          international
+          defaultCountry="RU"
+          countries={["RU", "BY"]}
+          labels={countryLabels}
+          value={(value || undefined) as E164Number | undefined}
+          onChange={(v) => onChange((v as E164Number) ?? "")}
+          onBlur={onBlur}
+          placeholder={placeholder}
+          required={required}
+          limitMaxLength
+          addInternationalOption={false}
+          numberInputProps={{
+            className: hasError ? inputError : inputNormal,
+          }}
+        />
+      </div>
+      {error && (
+        <p className="mt-1 text-sm text-red-600">{error}</p>
+      )}
+    </div>
+  );
+}
+
+
+======== FILE: password-input.tsx ========
+"use client";
+
+import { useState } from "react";
+import PasswordStrengthBar from "react-password-strength-bar";
+
+const inputBaseClass =
+  "w-full rounded-lg border border-stone-300 px-3 py-2.5 pr-10 text-stone-900 placeholder:text-stone-400 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500";
+
+const SCORE_WORDS_RU = ["слабый", "слабый", "нормально", "хороший", "надёжный"];
+
+type PasswordInputProps = {
+  value: string;
+  onChange: (value: string) => void;
+  label?: string;
+  placeholder?: string;
+  required?: boolean;
+  minLength?: number;
+  showStrengthBar?: boolean;
+  className?: string;
+  id?: string;
+};
+
+export function PasswordInput({
+  value,
+  onChange,
+  label,
+  placeholder = "••••••••",
+  required,
+  minLength = 6,
+  showStrengthBar = false,
+  className,
+  id,
+}: PasswordInputProps) {
+  const [visible, setVisible] = useState(false);
+
+  return (
+    <label className={`block ${className ?? ""}`}>
+      {label && (
+        <span className="mb-1 block text-sm font-medium text-stone-700">
+          {label}
+        </span>
+      )}
+      <div className="relative">
+        <input
+          id={id}
+          type={visible ? "text" : "password"}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          placeholder={placeholder}
+          required={required}
+          minLength={minLength}
+          autoComplete={showStrengthBar ? "new-password" : "current-password"}
+          className={inputBaseClass}
+        />
+        <button
+          type="button"
+          aria-label={visible ? "Скрыть пароль" : "Показать пароль"}
+          onClick={() => setVisible((v) => !v)}
+          className="absolute right-2 top-1/2 -translate-y-1/2 rounded p-1.5 text-stone-400 hover:bg-stone-100 hover:text-stone-600"
+        >
+          {visible ? (
+            <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
+            </svg>
+          ) : (
+            <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+            </svg>
+          )}
+        </button>
+      </div>
+      {showStrengthBar && (
+        <PasswordStrengthBar
+          password={value}
+          minLength={minLength}
+          scoreWords={SCORE_WORDS_RU}
+          shortScoreWord="слишком короткий"
+          barColors={["#e5e7eb", "#ef4836", "#f6b44d", "#2b90ef", "#25c281"]}
+          className="mt-2"
+          scoreWordClassName="text-right text-xs text-stone-500"
+        />
+      )}
+    </label>
+  );
+}
+
+
+======== FILE: globals.css ========
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+
+======== FILE: react.tsx ========
+"use client";
+
+import { QueryClientProvider, type QueryClient } from "@tanstack/react-query";
+import { httpBatchStreamLink, loggerLink } from "@trpc/client";
+import { createTRPCReact } from "@trpc/react-query";
+import { type inferRouterInputs, type inferRouterOutputs } from "@trpc/server";
+import { useState } from "react";
+import SuperJSON from "superjson";
+
+import { type AppRouter } from "~/server/api/root";
+import { createQueryClient } from "./query-client";
+
+let clientQueryClientSingleton: QueryClient | undefined = undefined;
+const getQueryClient = () => {
+  if (typeof window === "undefined") {
+    // Server: always make a new query client
+    return createQueryClient();
+  }
+  // Browser: use singleton pattern to keep the same query client
+  clientQueryClientSingleton ??= createQueryClient();
+
+  return clientQueryClientSingleton;
+};
+
+export const api = createTRPCReact<AppRouter>();
+
+/**
+ * Inference helper for inputs.
+ *
+ * @example type HelloInput = RouterInputs['example']['hello']
+ */
+export type RouterInputs = inferRouterInputs<AppRouter>;
+
+/**
+ * Inference helper for outputs.
+ *
+ * @example type HelloOutput = RouterOutputs['example']['hello']
+ */
+export type RouterOutputs = inferRouterOutputs<AppRouter>;
+
+export function TRPCReactProvider(props: { children: React.ReactNode }) {
+  const queryClient = getQueryClient();
+
+  const [trpcClient] = useState(() =>
+    api.createClient({
+      links: [
+        loggerLink({
+          enabled: (op) =>
+            process.env.NODE_ENV === "development" ||
+            (op.direction === "down" && op.result instanceof Error),
+        }),
+        httpBatchStreamLink({
+          transformer: SuperJSON,
+          url: getBaseUrl() + "/api/trpc",
+          fetch(url, options) {
+            return fetch(url, { ...options, credentials: "include" });
+          },
+          headers: () => {
+            const headers = new Headers();
+            headers.set("x-trpc-source", "nextjs-react");
+            return headers;
+          },
+        }),
+      ],
+    })
+  );
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <api.Provider client={trpcClient} queryClient={queryClient}>
+        {props.children}
+      </api.Provider>
+    </QueryClientProvider>
+  );
+}
+
+function getBaseUrl() {
+  if (typeof window !== "undefined") return window.location.origin;
+  if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;
+  return `http://localhost:${process.env.PORT ?? 3000}`;
+}
+
+
+======== FILE: query-client.ts ========
+import {
+  defaultShouldDehydrateQuery,
+  QueryClient,
+} from "@tanstack/react-query";
+import SuperJSON from "superjson";
+
+export const createQueryClient = () =>
+  new QueryClient({
+    defaultOptions: {
+      queries: {
+        // With SSR, we usually want to set some default staleTime
+        // above 0 to avoid refetching immediately on the client
+        staleTime: 30 * 1000,
+      },
+      dehydrate: {
+        serializeData: SuperJSON.serialize,
+        shouldDehydrateQuery: (query) =>
+          defaultShouldDehydrateQuery(query) ||
+          query.state.status === "pending",
+      },
+      hydrate: {
+        deserializeData: SuperJSON.deserialize,
+      },
+    },
+  });
+
+

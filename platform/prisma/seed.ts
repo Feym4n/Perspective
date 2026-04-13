@@ -4,6 +4,39 @@ import bcrypt from "bcryptjs";
 const prisma = new PrismaClient();
 
 async function main() {
+  const templateCount = await prisma.assignmentTemplate.count();
+  if (templateCount === 0) {
+    await prisma.assignmentTemplate.createMany({
+      data: [
+        {
+          key: "case_analysis",
+          title: "Кейс + обоснование",
+          description: "Ситуация, выбор решения, краткое обоснование",
+        },
+        {
+          key: "method_plan",
+          title: "Метод + план 2-3 шага",
+          description: "Выбор метода и структурированный план действий",
+        },
+        {
+          key: "error_fix",
+          title: "Найди ошибки и исправь",
+          description: "Анализ текста и исправление ошибок",
+        },
+        {
+          key: "creative_poster",
+          title: "Творческий плакат/эскиз",
+          description: "Творческая работа с загрузкой изображения",
+        },
+        {
+          key: "essay",
+          title: "Эссе",
+          description: "Развернутый текстовый ответ",
+        },
+      ],
+    });
+  }
+
   const schoolCount = await prisma.school.count();
   if (schoolCount === 0) {
     await prisma.school.createMany({

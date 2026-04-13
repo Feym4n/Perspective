@@ -175,6 +175,69 @@ exports.Prisma.AttemptScalarFieldEnum = {
   completedAt: 'completedAt'
 };
 
+exports.Prisma.AssignmentTemplateScalarFieldEnum = {
+  id: 'id',
+  key: 'key',
+  title: 'title',
+  description: 'description',
+  configJson: 'configJson',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.AssignmentScalarFieldEnum = {
+  id: 'id',
+  lessonId: 'lessonId',
+  title: 'title',
+  goal: 'goal',
+  instruction: 'instruction',
+  taskType: 'taskType',
+  answerFormat: 'answerFormat',
+  gradingMode: 'gradingMode',
+  maxScore: 'maxScore',
+  order: 'order',
+  isPublished: 'isPublished',
+  configJson: 'configJson',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.AssignmentFieldScalarFieldEnum = {
+  id: 'id',
+  assignmentId: 'assignmentId',
+  fieldKey: 'fieldKey',
+  label: 'label',
+  fieldType: 'fieldType',
+  required: 'required',
+  order: 'order',
+  optionsJson: 'optionsJson',
+  rulesJson: 'rulesJson'
+};
+
+exports.Prisma.AssignmentSubmissionScalarFieldEnum = {
+  id: 'id',
+  assignmentId: 'assignmentId',
+  studentId: 'studentId',
+  status: 'status',
+  answersJson: 'answersJson',
+  score: 'score',
+  gradingJson: 'gradingJson',
+  feedback: 'feedback',
+  submittedAt: 'submittedAt',
+  checkedAt: 'checkedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.TestAnswerFirstScalarFieldEnum = {
+  id: 'id',
+  studentId: 'studentId',
+  assignmentId: 'assignmentId',
+  blockId: 'blockId',
+  optionKey: 'optionKey',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -193,7 +256,12 @@ exports.Prisma.ModelName = {
   TeacherSchool: 'TeacherSchool',
   Course: 'Course',
   Lesson: 'Lesson',
-  Attempt: 'Attempt'
+  Attempt: 'Attempt',
+  AssignmentTemplate: 'AssignmentTemplate',
+  Assignment: 'Assignment',
+  AssignmentField: 'AssignmentField',
+  AssignmentSubmission: 'AssignmentSubmission',
+  TestAnswerFirst: 'TestAnswerFirst'
 };
 
 /**

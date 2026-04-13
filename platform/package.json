@@ -13,7 +13,13 @@
     "postinstall": "prisma generate",
     "preview": "next build && next start",
     "start": "next start",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "listing:docx": "node scripts/generate-listing-docx.mjs",
+    "listing:inject-comments": "node scripts/inject-listing-comments.mjs",
+    "listing:server:build": "node scripts/build-server-listing.mjs",
+    "listing:server:inject-comments": "node scripts/inject-listing-comments-server.mjs",
+    "listing:server:docx": "node scripts/generate-listing-docx.mjs ./проектирование/listing-modul-server-obrabotki-i-servisov.txt ./проектирование/listing-modul-server-obrabotki-i-servisov.docx",
+    "listing:server:all": "npm run listing:server:build && npm run listing:server:inject-comments && npm run listing:server:docx"
   },
   "dependencies": {
     "@prisma/client": "^6.6.0",
@@ -23,7 +29,9 @@
     "@trpc/react-query": "^11.0.0",
     "@trpc/server": "^11.0.0",
     "bcryptjs": "^2.4.3",
+    "exceljs": "^4.4.0",
     "libphonenumber-js": "^1.12.38",
+    "lucide-react": "^1.8.0",
     "next": "^15.2.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
@@ -39,6 +47,7 @@
     "@types/node": "^20.14.10",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
+    "docx": "^9.6.1",
     "postcss": "^8.5.3",
     "prisma": "^6.6.0",
     "tailwindcss": "^4.0.15",

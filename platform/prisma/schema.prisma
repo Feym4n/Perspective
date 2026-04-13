@@ -32,6 +32,8 @@ model Student {
   updatedAt    DateTime @updatedAt
   school       School   @relation(fields: [schoolId], references: [id], onDelete: Cascade)
   attempts     Attempt[]
+  submissions  AssignmentSubmission[]
+  testAnswerFirsts TestAnswerFirst[]
 
   @@index([schoolId, className])
   @@index([phone])
@@ -73,6 +75,7 @@ model Lesson {
   updatedAt DateTime @updatedAt
   course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
   attempts  Attempt[]
+  assignments Assignment[]
 
   @@index([courseId])
 }
@@ -89,4 +92,88 @@ model Attempt {
   @@unique([studentId, lessonId])
   @@index([lessonId])
   @@index([studentId])
+}
+
+model AssignmentTemplate {
+  id          Int      @id @default(autoincrement())
+  key         String   @unique
+  title       String
+  description String?
+  configJson  String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Assignment {
+  id            Int      @id @default(autoincrement())
+  lessonId      Int
+  title         String
+  goal          String?
+  instruction   String
+  taskType      String
+  answerFormat  String
+  gradingMode   String   @default("manual")
+  maxScore      Int?
+  order         Int      @default(0)
+  isPublished   Boolean  @default(false)
+  configJson    String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  lesson        Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  fields        AssignmentField[]
+  submissions   AssignmentSubmission[]
+  testAnswerFirsts TestAnswerFirst[]
+
+  @@index([lessonId, order])
+}
+
+model AssignmentField {
+  id           Int      @id @default(autoincrement())
+  assignmentId Int
+  fieldKey     String
+  label        String
+  fieldType    String
+  required     Boolean  @default(false)
+  order        Int      @default(0)
+  optionsJson  String?
+  rulesJson    String?
+  assignment   Assignment @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
+
+  @@index([assignmentId, order])
+}
+
+model AssignmentSubmission {
+  id           Int      @id @default(autoincrement())
+  assignmentId Int
+  studentId    Int
+  status       String   @default("draft")
+  answersJson  String
+  score        Int?
+  gradingJson  String?
+  feedback     String?
+  submittedAt  DateTime?
+  checkedAt    DateTime?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  assignment   Assignment @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
+  student      Student    @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  @@unique([assignmentId, studentId])
+  @@index([studentId, status])
+}
+
+/// Первый зафиксированный ответ ученика на тестовый блок (single_choice).
+model TestAnswerFirst {
+  id           Int      @id @default(autoincrement())
+  studentId    Int
+  assignmentId Int
+  blockId      String
+  optionKey    String
+  createdAt    DateTime @default(now())
+  student      Student    @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  assignment   Assignment @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
+
+  @@unique([studentId, assignmentId, blockId])
+  @@index([assignmentId])
+  @@index([studentId, assignmentId])
 }

@@ -12,9 +12,11 @@ export function setTeacherCookie(teacherId: number) {
 }
 
 export function clearStudentCookie() {
-  document.cookie = `${STUDENT_COOKIE}=; path=/; max-age=0`;
+  document.cookie = `${STUDENT_COOKIE}=; path=/; max-age=0; expires=Thu, 01 Jan 1970 00:00:00 GMT; SameSite=Lax`;
+  document.cookie = `${STUDENT_COOKIE}=; path=/; max-age=0; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
 }
 
 export function clearTeacherCookie() {
-  document.cookie = `${TEACHER_COOKIE}=; path=/; max-age=0`;
+  document.cookie = `${TEACHER_COOKIE}=; path=/; max-age=0; expires=Thu, 01 Jan 1970 00:00:00 GMT; SameSite=Lax`;
+  document.cookie = `${TEACHER_COOKIE}=; path=/; max-age=0; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
 }

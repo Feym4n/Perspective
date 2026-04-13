@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
+import { getAssignmentStatistics } from "~/server/assignment-statistics";
 import { createTRPCRouter, publicProcedure, teacherProcedure } from "~/server/api/trpc";
 import { hashPassword, verifyPassword } from "~/server/auth-utils";
 
@@ -195,5 +196,196 @@ export const teacherRouter = createTRPCRouter({
           };
         }),
       };
+    }),
+
+  lessonList: teacherProcedure.query(async ({ ctx }) => {
+    return ctx.db.lesson.findMany({
+      orderBy: [{ courseId: "asc" }, { order: "asc" }],
+      include: { course: { select: { title: true } } },
+    });
+  }),
+
+  workspaceLessonEnsure: teacherProcedure.mutation(async ({ ctx }) => {
+    const courseTitle = `Личная библиотека педагога #${ctx.teacherId}`;
+    let course = await ctx.db.course.findFirst({
+      where: { title: courseTitle },
+      select: { id: true },
+    });
+    if (!course) {
+      course = await ctx.db.course.create({
+        data: { title: courseTitle },
+        select: { id: true },
+      });
+    }
+
+    let lesson = await ctx.db.lesson.findFirst({
+      where: { courseId: course.id, title: "Материалы педагога" },
+      select: { id: true, courseId: true, title: true },
+    });
+    if (!lesson) {
+      lesson = await ctx.db.lesson.create({
+        data: { courseId: course.id, title: "Материалы педагога", order: 1 },
+        select: { id: true, courseId: true, title: true },
+      });
+    }
+    return lesson;
+  }),
+
+  classList: teacherProcedure.query(async ({ ctx }) => {
+    const schoolIds = await ctx.db.teacherSchool.findMany({
+      where: { teacherId: ctx.teacherId },
+      select: { schoolId: true },
+    });
+    const ids = schoolIds.map((s) => s.schoolId);
+    if (ids.length === 0) return [];
+
+    const rows = await ctx.db.student.groupBy({
+      by: ["schoolId", "className"],
+      where: { schoolId: { in: ids } },
+      _count: { _all: true },
+      orderBy: [{ schoolId: "asc" }, { className: "asc" }],
+    });
+    const schools = await ctx.db.school.findMany({
+      where: { id: { in: ids } },
+      select: { id: true, name: true },
+    });
+    const schoolMap = new Map(schools.map((s) => [s.id, s.name]));
+    return rows.map((r) => ({
+      schoolId: r.schoolId,
+      schoolName: schoolMap.get(r.schoolId) ?? `Школа #${r.schoolId}`,
+      className: r.className,
+      studentCount: r._count._all,
+    }));
+  }),
+
+  assignmentTemplateList: teacherProcedure.query(async ({ ctx }) => {
+    return ctx.db.assignmentTemplate.findMany({
+      orderBy: { id: "asc" },
+    });
+  }),
+
+  assignmentByLesson: teacherProcedure
+    .input(z.object({ lessonId: z.number().int().positive() }))
+    .query(async ({ ctx, input }) => {
+      return ctx.db.assignment.findMany({
+        where: { lessonId: input.lessonId },
+        orderBy: [{ order: "asc" }, { id: "asc" }],
+        include: {
+          fields: { orderBy: [{ order: "asc" }, { id: "asc" }] },
+        },
+      });
+    }),
+
+  assignmentCreate: teacherProcedure
+    .input(
+      z.object({
+        lessonId: z.number().int().positive(),
+        title: z.string().min(1),
+        instruction: z.string().min(1),
+        taskType: z.string().min(1),
+        answerFormat: z.string().min(1),
+        goal: z.string().optional(),
+        maxScore: z.number().int().positive().optional(),
+        templateKey: z.string().optional(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const last = await ctx.db.assignment.findFirst({
+        where: { lessonId: input.lessonId },
+        orderBy: { order: "desc" },
+      });
+      return ctx.db.assignment.create({
+        data: {
+          lessonId: input.lessonId,
+          title: input.title,
+          goal: input.goal ?? null,
+          instruction: input.instruction,
+          taskType: input.taskType,
+          answerFormat: input.answerFormat,
+          maxScore: input.maxScore ?? null,
+          order: (last?.order ?? 0) + 1,
+          configJson: input.templateKey ? JSON.stringify({ templateKey: input.templateKey }) : null,
+        },
+      });
+    }),
+
+  assignmentUpdate: teacherProcedure
+    .input(
+      z.object({
+        id: z.number().int().positive(),
+        title: z.string().min(1).optional(),
+        goal: z.string().optional().nullable(),
+        instruction: z.string().min(1).optional(),
+        taskType: z.string().min(1).optional(),
+        answerFormat: z.string().min(1).optional(),
+        gradingMode: z.string().min(1).optional(),
+        maxScore: z.number().int().positive().optional().nullable(),
+        order: z.number().int().optional(),
+        isPublished: z.boolean().optional(),
+        configJson: z.string().optional().nullable(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { id, ...patch } = input;
+      return ctx.db.assignment.update({
+        where: { id },
+        data: patch,
+      });
+    }),
+
+  assignmentDelete: teacherProcedure
+    .input(z.object({ id: z.number().int().positive() }))
+    .mutation(async ({ ctx, input }) => {
+      await ctx.db.assignment.delete({ where: { id: input.id } });
+      return { ok: true };
+    }),
+
+  assignmentAssignClasses: teacherProcedure
+    .input(
+      z.object({
+        assignmentId: z.number().int().positive(),
+        classes: z.array(
+          z.object({
+            schoolId: z.number().int().positive(),
+            className: z.string().min(1),
+          })
+        ),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const assignment = await ctx.db.assignment.findUnique({
+        where: { id: input.assignmentId },
+        select: { id: true, configJson: true },
+      });
+      if (!assignment) {
+        throw new TRPCError({ code: "NOT_FOUND", message: "Занятие не найдено" });
+      }
+
+      let config: Record<string, unknown> = {};
+      if (assignment.configJson) {
+        try {
+          config = JSON.parse(assignment.configJson) as Record<string, unknown>;
+        } catch {
+          config = {};
+        }
+      }
+
+      config.assignedClasses = input.classes;
+
+      await ctx.db.assignment.update({
+        where: { id: assignment.id },
+        data: { configJson: JSON.stringify(config) },
+      });
+      return { ok: true };
+    }),
+
+  assignmentStatistics: teacherProcedure
+    .input(z.object({ assignmentId: z.number().int().positive() }))
+    .query(async ({ ctx, input }) => {
+      const stats = await getAssignmentStatistics(ctx.db, input.assignmentId);
+      if (!stats) {
+        throw new TRPCError({ code: "NOT_FOUND", message: "Занятие не найдено" });
+      }
+      return stats;
     }),
 });
