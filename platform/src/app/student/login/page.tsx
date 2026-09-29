@@ -55,7 +55,7 @@ export default function StudentLoginPage() {
         placeholder="+7 (999) 123-45-67"
         required
         error={phoneError}
-        className="[&_input]:border-2 [&_input]:border-sky-200 [&_input]:bg-white"
+        className="[&_input]:rounded-xl [&_input]:border [&_input]:border-slate-300 [&_input]:bg-white [&_input]:focus:border-blue-500 [&_input]:focus:ring-1 [&_input]:focus:ring-blue-500"
       />
       <PasswordInput
         label="Пароль"
@@ -63,7 +63,7 @@ export default function StudentLoginPage() {
         onChange={setPassword}
         placeholder="••••••••"
         required
-        className="[&_input]:border-2 [&_input]:border-sky-200 [&_input]:bg-white"
+        className="[&_input]:rounded-xl [&_input]:border [&_input]:border-slate-300 [&_input]:bg-white [&_input]:focus:border-blue-500 [&_input]:focus:ring-1 [&_input]:focus:ring-blue-500"
       />
     </LoginCard>
   );

@@ -1,6 +1,13 @@
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 import { getAssignmentStatistics } from "~/server/assignment-statistics";
+import { getDashboardOverview } from "~/server/teacher-dashboard-overview";
+import {
+  getClassRosterProgress,
+  getGradebookMatrix,
+  getGradesOverview,
+} from "~/server/teacher-class-sections";
+import { getAutoReviewQueue } from "~/server/teacher-auto-review";
 import { createTRPCRouter, publicProcedure, teacherProcedure } from "~/server/api/trpc";
 import { hashPassword, verifyPassword } from "~/server/auth-utils";
 
@@ -388,4 +395,61 @@ export const teacherRouter = createTRPCRouter({
       }
       return stats;
     }),
+
+  assignmentDashboardOverview: teacherProcedure.query(async ({ ctx }) => {
+    const overview = await getDashboardOverview(ctx.db, ctx.teacherId);
+    return overview ?? { assignments: [], totals: { assignedStudentCount: 0, submittedCount: 0, inProgressCount: 0, notStartedCount: 0, avgProgressPercent: 0 } };
+  }),
+
+  classRosterProgress: teacherProcedure
+    .input(
+      z.object({
+        schoolId: z.number().int().positive(),
+        className: z.string().min(1),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      const canAccess = await ctx.db.teacherSchool.findFirst({
+        where: { teacherId: ctx.teacherId, schoolId: input.schoolId },
+      });
+      if (!canAccess) {
+        throw new TRPCError({ code: "FORBIDDEN", message: "Нет доступа к этой школе" });
+      }
+      const school = await ctx.db.school.findUnique({
+        where: { id: input.schoolId },
+        select: { name: true },
+      });
+      return getClassRosterProgress(
+        ctx.db,
+        ctx.teacherId,
+        input.schoolId,
+        input.className,
+        school?.name ?? `Школа #${input.schoolId}`
+      );
+    }),
+
+  gradebookMatrix: teacherProcedure
+    .input(
+      z.object({
+        schoolId: z.number().int().positive(),
+        className: z.string().min(1),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      const canAccess = await ctx.db.teacherSchool.findFirst({
+        where: { teacherId: ctx.teacherId, schoolId: input.schoolId },
+      });
+      if (!canAccess) {
+        throw new TRPCError({ code: "FORBIDDEN", message: "Нет доступа к этой школе" });
+      }
+      return getGradebookMatrix(ctx.db, ctx.teacherId, input.schoolId, input.className);
+    }),
+
+  gradesOverview: teacherProcedure.query(async ({ ctx }) => {
+    return getGradesOverview(ctx.db, ctx.teacherId);
+  }),
+
+  autoReviewQueue: teacherProcedure.query(async ({ ctx }) => {
+    return getAutoReviewQueue(ctx.db, ctx.teacherId);
+  }),
 });

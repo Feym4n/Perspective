@@ -107,7 +107,9 @@ export async function getAssignmentStatistics(
     },
   });
 
-  const submitted = submissions.filter((s) => s.status === "submitted");
+  const submitted = submissions.filter(
+    (s) => s.status === "submitted" || s.status === "auto_review"
+  );
   const submittedCount = submitted.length;
   const percentClassCompleted =
     assignedStudentCount != null && assignedStudentCount > 0
@@ -165,7 +167,9 @@ export async function getAssignmentStatistics(
     };
   });
 
-  const byStudent = submissions.map((s) => {
+  const submissionByStudentId = new Map(submissions.map((s) => [s.studentId, s]));
+
+  function rowFromSubmission(s: (typeof submissions)[number]) {
     let firstTryPercent: number | null = null;
     let passedThreshold: boolean | null = null;
     if (s.gradingJson) {
@@ -191,7 +195,47 @@ export async function getAssignmentStatistics(
       firstTryPercent,
       passedThreshold,
     };
-  });
+  }
+
+  let byStudent: AssignmentStatisticsResult["byStudent"];
+
+  if (hasAssignedClasses && assignedStudentCount != null && assignedStudentCount > 0) {
+    const seen = new Set<string>();
+    const or: Array<{ schoolId: number; className: string }> = [];
+    for (const c of assignedClasses) {
+      const key = `${c.schoolId}::${c.className}`;
+      if (seen.has(key)) continue;
+      seen.add(key);
+      or.push({ schoolId: c.schoolId, className: c.className });
+    }
+    const roster = await db.student.findMany({
+      where: { OR: or },
+      orderBy: [{ surname: "asc" }, { name: "asc" }],
+      select: {
+        id: true,
+        surname: true,
+        name: true,
+        patronymic: true,
+        className: true,
+      },
+    });
+    byStudent = roster.map((st) => {
+      const sub = submissionByStudentId.get(st.id);
+      if (sub) return rowFromSubmission(sub);
+      const fullName = [st.surname, st.name, st.patronymic].filter(Boolean).join(" ");
+      return {
+        studentId: st.id,
+        fullName,
+        className: st.className,
+        status: "none",
+        score: null,
+        firstTryPercent: null,
+        passedThreshold: null,
+      };
+    });
+  } else {
+    byStudent = submissions.map((s) => rowFromSubmission(s));
+  }
 
   return {
     assignmentId: assignment.id,

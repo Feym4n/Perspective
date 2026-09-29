@@ -12,14 +12,17 @@ import {
 } from "~/lib/grading-settings";
 import { api } from "~/trpc/react";
 
-const MENU = [
-  { id: "create", label: "Создать занятие" },
-  { id: "library", label: "Библиотека уроков" },
-  { id: "classes", label: "Классы" },
-  { id: "statistics", label: "Статистика" },
-] as const;
+import { AnalyticsSection } from "~/components/teacher-cabinet/AnalyticsSection";
+import { AssignmentsHome } from "~/components/teacher-cabinet/AssignmentsHome";
+import { GradesProgressSection } from "~/components/teacher-cabinet/GradesProgressSection";
+import { JournalSection } from "~/components/teacher-cabinet/JournalSection";
+import { AutoReviewSection } from "~/components/teacher-cabinet/AutoReviewSection";
+import { StubSection } from "~/components/teacher-cabinet/StubSection";
+import { StudentsSection } from "~/components/teacher-cabinet/StudentsSection";
+import { TeacherSidebar, type TeacherNavId } from "~/components/teacher-cabinet/TeacherSidebar";
+import { classRowKey } from "~/components/teacher-cabinet/ClassSelector";
 
-type ActiveTab = (typeof MENU)[number]["id"];
+type ActiveTab = TeacherNavId;
 
 type WizardBlock = {
   id: string;
@@ -171,7 +174,7 @@ function getCanvasBlockTitle(block: WizardBlock): string {
 
 export default function TeacherDashboardPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState<ActiveTab>("create");
+  const [activeTab, setActiveTab] = useState<ActiveTab>("assignments");
   const [step, setStep] = useState(1);
   const [workspaceLessonId, setWorkspaceLessonId] = useState<number | null>(null);
   const [selectedAssignmentId, setSelectedAssignmentId] = useState<number | "">("");
@@ -200,6 +203,7 @@ export default function TeacherDashboardPage() {
   const canvasSceneRef = useRef<HTMLDivElement | null>(null);
   const optionAnchorRefs = useRef<Record<string, HTMLButtonElement | null>>({});
 
+  const utils = api.useUtils();
   const { data: me, isLoading: meLoading, isError: meError } = api.teacher.me.useQuery();
   const ensureWorkspaceLesson = api.teacher.workspaceLessonEnsure.useMutation();
   const { data: classList } = api.teacher.classList.useQuery();
@@ -216,18 +220,23 @@ export default function TeacherDashboardPage() {
   const assignmentDelete = api.teacher.assignmentDelete.useMutation();
   const assignmentAssignClasses = api.teacher.assignmentAssignClasses.useMutation();
 
-  const [statsAssignmentId, setStatsAssignmentId] = useState<number | "">("");
-  const { data: assignmentStats, isLoading: assignmentStatsLoading } =
-    api.teacher.assignmentStatistics.useQuery(
-      { assignmentId: typeof statsAssignmentId === "number" ? statsAssignmentId : 0 },
-      { enabled: activeTab === "statistics" && typeof statsAssignmentId === "number" }
-    );
+  const [analyticsFocusId, setAnalyticsFocusId] = useState<number | undefined>(undefined);
+  const [selectedClassKey, setSelectedClassKey] = useState("");
+
+  const { data: dashboardOverview, isLoading: overviewLoading } =
+    api.teacher.assignmentDashboardOverview.useQuery();
 
   const [textModal, setTextModal] = useState<
     | { type: "lesson"; value: string }
     | { type: "block"; blockId: string; value: string }
     | null
   >(null);
+
+  useEffect(() => {
+    if (selectedClassKey || !classList?.length) return;
+    const first = classList[0]!;
+    setSelectedClassKey(classRowKey(first.schoolId, first.className));
+  }, [classList, selectedClassKey]);
 
   useEffect(() => {
     let mounted = true;
@@ -704,6 +713,11 @@ export default function TeacherDashboardPage() {
     return hoveredBlockId === blockId;
   }
 
+  function cancelDraftEdgeStart() {
+    setDraftEdgeStart(null);
+    setDraftEdgeCursor(null);
+  }
+
   function handleAnchorClick(anchor: EdgeAnchor) {
     if (!draftEdgeStart) {
       if (!isOutputAnchor(anchor)) return;
@@ -714,6 +728,15 @@ export default function TeacherDashboardPage() {
     if (!isInputAnchor(anchor)) return;
     addGraphEdge(draftEdgeStart, anchor);
   }
+
+  useEffect(() => {
+    if (!draftEdgeStart) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") cancelDraftEdgeStart();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [draftEdgeStart]);
 
   useEffect(() => {
     const ids = new Set(taskBlocks.map((block) => block.id));
@@ -800,6 +823,7 @@ export default function TeacherDashboardPage() {
         isPublished: opts?.publish ? true : undefined,
       });
       await refetchAssignments();
+      void utils.teacher.assignmentDashboardOverview.invalidate();
     } catch (err: unknown) {
       if (err instanceof TRPCClientError) {
         setUiError(err.message);
@@ -846,6 +870,17 @@ export default function TeacherDashboardPage() {
         assignmentId: assignTargetId,
         classes: selected,
       });
+      void utils.teacher.assignmentDashboardOverview.invalidate();
+      void utils.teacher.gradesOverview.invalidate();
+      if (selectedClassKey) {
+        const parsed = selectedClassKey.split("::");
+        const schoolId = Number(parsed[0]);
+        const className = parsed.slice(1).join("::");
+        if (Number.isFinite(schoolId) && className) {
+          void utils.teacher.classRosterProgress.invalidate({ schoolId, className });
+          void utils.teacher.gradebookMatrix.invalidate({ schoolId, className });
+        }
+      }
     } catch (err: unknown) {
       if (err instanceof TRPCClientError) {
         setUiError(err.message);
@@ -865,6 +900,7 @@ export default function TeacherDashboardPage() {
         resetCreateForm();
       }
       await refetchAssignments();
+      void utils.teacher.assignmentDashboardOverview.invalidate();
     } catch (err: unknown) {
       if (err instanceof TRPCClientError) {
         setUiError(err.message);
@@ -907,7 +943,6 @@ export default function TeacherDashboardPage() {
       ? "Редактирование шаг 3 из 4"
       : "Редактирование шаг 4 из 4";
 
-  const shareCode = selectedAssignmentId || "—";
   const shareLink =
     typeof selectedAssignmentId === "number"
       ? `https://perspective.local/assignment/${selectedAssignmentId}`
@@ -916,50 +951,72 @@ export default function TeacherDashboardPage() {
     shareLink
   )}`;
 
-  return (
-    <main className="min-h-screen bg-stone-100 text-stone-900">
-      <div className="mx-auto flex min-h-screen w-full max-w-[1800px]">
-        <aside className="w-64 shrink-0 border-r border-stone-200 bg-white p-5">
-          <p className="text-xs uppercase tracking-wide text-stone-500">Кабинет педагога</p>
-          <p className="mt-1 text-sm text-stone-700">{me.emailOrPhone}</p>
-          <nav className="mt-6 space-y-2">
-            {MENU.map((item) => (
-              <button
-                key={item.id}
-                type="button"
-                onClick={() => {
-                  setActiveTab(item.id);
-                  if (item.id === "create") setStep(1);
-                }}
-                className={`w-full rounded-lg px-4 py-2.5 text-left text-base ${
-                  activeTab === item.id
-                    ? "bg-amber-100 font-medium text-amber-900"
-                    : "text-stone-700 hover:bg-stone-100"
-                }`}
-              >
-                {item.label}
-              </button>
-            ))}
-          </nav>
-          <button
-            type="button"
-            onClick={handleLogout}
-            className="mt-8 w-full rounded-lg border border-stone-300 px-4 py-2.5 text-base text-stone-700 hover:bg-stone-100"
-          >
-            Выйти из кабинета
-          </button>
-        </aside>
+  function navigateTab(id: ActiveTab) {
+    if (id === "settings") return;
+    setActiveTab(id);
+    if (id === "create") setStep(1);
+  }
 
-        <section className="min-w-0 flex-1 p-4 lg:p-6">
+  const teacherDisplayName = me.emailOrPhone.includes("@")
+    ? me.emailOrPhone.split("@")[0]!
+    : me.emailOrPhone;
+
+  return (
+    <main className="min-h-screen bg-slate-100 text-slate-900">
+      <div className="flex min-h-screen w-full">
+        <TeacherSidebar
+          activeTab={activeTab === "create" ? "assignments" : activeTab}
+          onNavigate={navigateTab}
+          teacherLabel={teacherDisplayName}
+          onLogout={handleLogout}
+        />
+
+        <section className="min-w-0 flex-1 overflow-y-auto p-4 lg:p-8">
           {uiError && (
             <div className="mb-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
               {uiError}
             </div>
           )}
-          {activeTab === "library" && (
-            <div className="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm">
+          {activeTab === "assignments" && (
+            <AssignmentsHome
+              rows={dashboardOverview?.assignments ?? []}
+              totals={
+                dashboardOverview?.totals ?? {
+                  assignedStudentCount: 0,
+                  submittedCount: 0,
+                  inProgressCount: 0,
+                  notStartedCount: 0,
+                  avgProgressPercent: 0,
+                }
+              }
+              loading={overviewLoading}
+              onCreate={() => {
+                resetCreateForm();
+                setActiveTab("create");
+                setStep(1);
+              }}
+              onOpen={(id) => {
+                setSelectedAssignmentId(id);
+                setStep(1);
+                setActiveTab("create");
+              }}
+              onAssign={(id) => {
+                setAssignTargetId(id);
+                setActiveTab("students");
+              }}
+              onStats={(id) => {
+                setAnalyticsFocusId(id);
+                setActiveTab("analytics");
+              }}
+              onDelete={(id) => void handleDeleteAssignment(id)}
+              deletePending={assignmentDelete.isPending}
+            />
+          )}
+
+          {activeTab === "materials" && (
+            <div className="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-sm">
               <div className="mb-4 flex items-center justify-between">
-                <h1 className="text-2xl font-semibold">Библиотека уроков</h1>
+                <h1 className="text-2xl font-bold text-slate-900">Материалы</h1>
                 <button
                   type="button"
                   onClick={() => {
@@ -984,7 +1041,7 @@ export default function TeacherDashboardPage() {
                           <p className="font-medium text-stone-900">{assignment.title}</p>
                           <p className="mt-1 text-sm text-stone-600">{assignment.instruction}</p>
                           <p className="mt-1 text-xs text-stone-500">
-                            #{assignment.id} · {assignment.isPublished ? "Опубликован" : "Черновик"}
+                            {assignment.isPublished ? "Опубликован" : "Черновик"}
                           </p>
                         </div>
                         <div className="flex items-center gap-2">
@@ -1016,223 +1073,64 @@ export default function TeacherDashboardPage() {
             </div>
           )}
 
-          {activeTab === "classes" && (
-            <div className="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm">
-              <h1 className="text-2xl font-semibold">Классы</h1>
-              <p className="mt-1 text-sm text-stone-600">
-                Назначьте любое занятие из библиотеки выбранным классам.
-              </p>
-              <div className="mt-4 max-w-md">
-                <label className="flex flex-col gap-1">
-                  <span className="text-sm font-medium text-stone-700">Занятие для назначения</span>
-                  <select
-                    value={assignTargetId}
-                    onChange={(e) => setAssignTargetId(e.target.value === "" ? "" : Number(e.target.value))}
-                    className="rounded-lg border border-stone-300 px-3 py-2 text-sm text-stone-900 focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500"
-                  >
-                    <option value="">Выберите занятие</option>
-                    {(assignmentList ?? []).map((assignment) => (
-                      <option key={assignment.id} value={assignment.id}>
-                        #{assignment.id} — {assignment.title}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-              </div>
-              <div className="mt-4 space-y-2">
-                {(classList ?? []).length === 0 ? (
-                  <p className="text-sm text-stone-500">Классы не найдены.</p>
-                ) : (
-                  (classList ?? []).map((row) => (
-                    <div key={`${row.schoolId}-${row.className}`} className="rounded-lg border border-stone-200 p-3">
-                      <label className="flex items-start gap-3">
-                        <input
-                          type="checkbox"
-                          checked={!!assignedClasses[`${row.schoolId}::${row.className}`]}
-                          onChange={() => toggleAssignClass(`${row.schoolId}::${row.className}`)}
-                        />
-                        <span>
-                          <span className="block font-medium text-stone-900">
-                            {row.className} — {row.schoolName}
-                          </span>
-                          <span className="text-sm text-stone-600">Учеников: {row.studentCount}</span>
-                        </span>
-                      </label>
-                    </div>
-                  ))
-                )}
-              </div>
-              <button
-                type="button"
-                onClick={() => void handleAssignToClasses()}
-                disabled={typeof assignTargetId !== "number" || assignmentAssignClasses.isPending}
-                className="mt-4 rounded-lg bg-amber-600 px-5 py-2.5 text-base font-medium text-white hover:bg-amber-700 disabled:opacity-50"
-              >
-                {assignmentAssignClasses.isPending ? "Назначение..." : "Назначить занятие классам"}
-              </button>
-            </div>
+          {activeTab === "students" && (
+            <StudentsSection
+              classList={classList ?? []}
+              selectedClassKey={selectedClassKey}
+              onClassKeyChange={setSelectedClassKey}
+              assignments={(assignmentList ?? []).map((a) => ({ id: a.id, title: a.title }))}
+              assignTargetId={assignTargetId}
+              onAssignTargetChange={setAssignTargetId}
+              assignedClasses={assignedClasses}
+              onToggleClass={toggleAssignClass}
+              onAssignSubmit={() => void handleAssignToClasses()}
+              assignPending={assignmentAssignClasses.isPending}
+            />
           )}
 
-          {activeTab === "statistics" && (
-            <div className="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm">
-              <h1 className="text-2xl font-semibold">Статистика</h1>
-              <p className="mt-1 text-sm text-stone-600">
-                Охват класса, результаты по тестам с первой попытки и выгрузка в Excel.
-              </p>
-              <div className="mt-4 max-w-md">
-                <label className="flex flex-col gap-1">
-                  <span className="text-sm font-medium text-stone-700">Занятие</span>
-                  <select
-                    value={statsAssignmentId}
-                    onChange={(e) =>
-                      setStatsAssignmentId(e.target.value === "" ? "" : Number(e.target.value))
-                    }
-                    className="rounded-lg border border-stone-300 px-3 py-2 text-sm text-stone-900 focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500"
-                  >
-                    <option value="">Выберите занятие</option>
-                    {(assignmentList ?? []).map((assignment) => (
-                      <option key={assignment.id} value={assignment.id}>
-                        #{assignment.id} — {assignment.title}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-              </div>
-              {typeof statsAssignmentId === "number" && (
-                <div className="mt-4">
-                  <a
-                    href={`/api/teacher/export-stats?assignmentId=${statsAssignmentId}`}
-                    className="inline-flex rounded-lg border border-stone-300 bg-white px-5 py-2.5 text-base font-medium text-stone-800 hover:bg-stone-50"
-                  >
-                    Скачать Excel
-                  </a>
-                </div>
-              )}
-              {assignmentStatsLoading && typeof statsAssignmentId === "number" ? (
-                <p className="mt-4 text-sm text-stone-500">Загрузка…</p>
-              ) : assignmentStats ? (
-                <div className="mt-6 space-y-6">
-                  {!assignmentStats.hasAssignedClasses && (
-                    <p className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-900">
-                      Классы не назначены — процент охвата класса недоступен. Назначьте занятие на вкладке
-                      «Классы».
-                    </p>
-                  )}
-                  {assignmentStats.gradableTestCount === 0 && (
-                    <p className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-900">
-                      Нет тестов с одиночным выбором и отмеченным верным ответом — метрики «с первой попытки»
-                      и автооценка не применяются.
-                    </p>
-                  )}
-                  <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                    <div className="rounded-xl border border-stone-200 bg-stone-50 p-4">
-                      <p className="text-xs uppercase text-stone-500">Назначено учеников</p>
-                      <p className="mt-1 text-xl font-semibold text-stone-900">
-                        {assignmentStats.assignedStudentCount ?? "—"}
-                      </p>
-                    </div>
-                    <div className="rounded-xl border border-stone-200 bg-stone-50 p-4">
-                      <p className="text-xs uppercase text-stone-500">Сдали</p>
-                      <p className="mt-1 text-xl font-semibold text-stone-900">
-                        {assignmentStats.submittedCount}
-                      </p>
-                    </div>
-                    <div className="rounded-xl border border-stone-200 bg-stone-50 p-4">
-                      <p className="text-xs uppercase text-stone-500">% класса сдали</p>
-                      <p className="mt-1 text-xl font-semibold text-stone-900">
-                        {assignmentStats.percentClassCompleted != null
-                          ? `${assignmentStats.percentClassCompleted}%`
-                          : "—"}
-                      </p>
-                    </div>
-                    <div className="rounded-xl border border-stone-200 bg-stone-50 p-4">
-                      <p className="text-xs uppercase text-stone-500">Средний % с 1-й попытки</p>
-                      <p className="mt-1 text-xl font-semibold text-stone-900">
-                        {assignmentStats.avgFirstTryPercent ?? "—"}
-                      </p>
-                    </div>
-                    <div className="rounded-xl border border-stone-200 bg-stone-50 p-4">
-                      <p className="text-xs uppercase text-stone-500">Средний балл</p>
-                      <p className="mt-1 text-xl font-semibold text-stone-900">
-                        {assignmentStats.avgScore ?? "—"}
-                      </p>
-                    </div>
-                  </div>
-                  <div>
-                    <h2 className="text-sm font-semibold text-stone-900">По блокам</h2>
-                    <div className="mt-2 overflow-x-auto">
-                      <table className="min-w-full text-left text-sm">
-                        <thead>
-                          <tr className="border-b border-stone-200 text-stone-600">
-                            <th className="py-2 pr-4">Блок</th>
-                            <th className="py-2 pr-4">% верных (1-я попытка)</th>
-                            <th className="py-2 pr-4">Верно</th>
-                            <th className="py-2">Сдавших</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {assignmentStats.byBlock.map((row) => (
-                            <tr key={row.blockId} className="border-b border-stone-100">
-                              <td className="py-2 pr-4">{row.title}</td>
-                              <td className="py-2 pr-4">
-                                {row.firstTryCorrectPercent != null ? `${row.firstTryCorrectPercent}%` : "—"}
-                              </td>
-                              <td className="py-2 pr-4">{row.firstTryCorrectCount}</td>
-                              <td className="py-2">{row.submittedCount}</td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                  <div>
-                    <h2 className="text-sm font-semibold text-stone-900">По ученикам</h2>
-                    <div className="mt-2 overflow-x-auto">
-                      <table className="min-w-full text-left text-sm">
-                        <thead>
-                          <tr className="border-b border-stone-200 text-stone-600">
-                            <th className="py-2 pr-4">ФИО</th>
-                            <th className="py-2 pr-4">Класс</th>
-                            <th className="py-2 pr-4">Статус</th>
-                            <th className="py-2 pr-4">Балл</th>
-                            <th className="py-2 pr-4">% 1-я попытка</th>
-                            <th className="py-2">Порог</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {assignmentStats.byStudent.map((row) => (
-                            <tr key={row.studentId} className="border-b border-stone-100">
-                              <td className="py-2 pr-4">{row.fullName}</td>
-                              <td className="py-2 pr-4">{row.className}</td>
-                              <td className="py-2 pr-4">{row.status}</td>
-                              <td className="py-2 pr-4">{row.score ?? "—"}</td>
-                              <td className="py-2 pr-4">{row.firstTryPercent ?? "—"}</td>
-                              <td className="py-2">
-                                {row.passedThreshold == null
-                                  ? "—"
-                                  : row.passedThreshold
-                                  ? "Да"
-                                  : "Нет"}
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                </div>
-              ) : typeof statsAssignmentId === "number" ? (
-                <p className="mt-4 text-sm text-stone-500">Нет данных.</p>
-              ) : null}
-            </div>
+          {activeTab === "journal" && (
+            <JournalSection
+              classList={classList ?? []}
+              selectedClassKey={selectedClassKey}
+              onClassKeyChange={setSelectedClassKey}
+            />
+          )}
+
+          {activeTab === "grades" && (
+            <GradesProgressSection
+              onOpenAnalytics={(id) => {
+                setAnalyticsFocusId(id);
+                setActiveTab("analytics");
+              }}
+            />
+          )}
+
+          {activeTab === "analytics" && (
+            <AnalyticsSection focusAssignmentId={analyticsFocusId} />
+          )}
+
+          {activeTab === "autoReview" && <AutoReviewSection />}
+
+          {activeTab === "settings" && (
+            <StubSection
+              title="Настройки"
+              description="Профиль педагога, уведомления, параметры оценивания по умолчанию. Обмен сообщениями с учащимися — в следующей версии."
+            />
           )}
 
           {activeTab === "create" && (
-            <div className="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm">
+            <div className="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-sm">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div>
-                  <h1 className="text-2xl font-semibold text-stone-900">Создать занятие</h1>
-                  <p className="text-sm text-stone-500">{stepTitle}</p>
+                  <button
+                    type="button"
+                    onClick={() => setActiveTab("assignments")}
+                    className="mb-2 text-sm font-medium text-blue-600 hover:text-blue-800"
+                  >
+                    ← К списку заданий
+                  </button>
+                  <h1 className="text-2xl font-bold text-slate-900">Создать занятие</h1>
+                  <p className="text-sm text-slate-500">{stepTitle}</p>
                 </div>
                 <div className="flex items-center gap-2">
                   <button
@@ -1394,19 +1292,6 @@ export default function TeacherDashboardPage() {
                             Удалить выбранную связь
                           </button>
                         )}
-                        {draftEdgeStart && (
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setDraftEdgeStart(null);
-                              setDraftEdgeCursor(null);
-                            }}
-                            className="rounded-lg border border-stone-300 px-4 py-2 text-base text-stone-700 hover:bg-stone-100"
-                          >
-                            Отменить стартовую точку
-                          </button>
-                        )}
-                        {!selectedEdgeId && !draftEdgeStart && <span className="h-[34px]" />}
                       </div>
                     </div>
 
@@ -1464,7 +1349,10 @@ export default function TeacherDashboardPage() {
                             transform: `scale(${canvasScale})`,
                             transformOrigin: "top left",
                           }}
-                          onClick={() => setSelectedEdgeId(null)}
+                          onClick={() => {
+                            setSelectedEdgeId(null);
+                            if (draftEdgeStart) cancelDraftEdgeStart();
+                          }}
                           onMouseMove={(e) => {
                             if (!draftEdgeStart) return;
                             const rect = e.currentTarget.getBoundingClientRect();
@@ -1564,6 +1452,7 @@ export default function TeacherDashboardPage() {
                                     className="cursor-pointer"
                                     onClick={(e) => {
                                       e.stopPropagation();
+                                      if (draftEdgeStart) cancelDraftEdgeStart();
                                       setSelectedEdgeId(edge.id);
                                     }}
                                   />
@@ -1614,6 +1503,7 @@ export default function TeacherDashboardPage() {
                               onMouseLeave={() => setHoveredBlockId((prev) => (prev === block.id ? null : prev))}
                               onClick={(e) => {
                                 e.stopPropagation();
+                                if (draftEdgeStart) cancelDraftEdgeStart();
                                 setSelectedCanvasBlockId(block.id);
                               }}
                               className={`absolute z-10 cursor-move rounded-xl border bg-white p-3 shadow-sm ${
@@ -1987,9 +1877,6 @@ export default function TeacherDashboardPage() {
                       Отправьте ссылку ученикам или используйте идентификатор для быстрого доступа.
                     </p>
                     <div className="mt-4 space-y-2 text-sm">
-                      <p>
-                        <span className="text-stone-500">ID занятия:</span> <strong>{shareCode}</strong>
-                      </p>
                       <p className="break-all">
                         <span className="text-stone-500">Ссылка:</span> {shareLink}
                       </p>

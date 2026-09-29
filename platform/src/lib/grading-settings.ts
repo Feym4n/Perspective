@@ -93,7 +93,7 @@ export function serializeOptionKeySet(keys: string[]): string {
   return normalizeOptionKeySet(keys).join("|");
 }
 
-function getCorrectOptionKeysFromBlock(item: Record<string, unknown>): string[] {
+export function getCorrectOptionKeysFromBlock(item: Record<string, unknown>): string[] {
   const fromArray = Array.isArray(item.correctOptionKeys)
     ? item.correctOptionKeys
         .map((v) => (typeof v === "string" ? v : ""))

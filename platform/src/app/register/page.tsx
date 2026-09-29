@@ -26,9 +26,11 @@ export default function RegisterPage() {
   const [password, setPassword] = useState("");
   const [schoolId, setSchoolId] = useState<number | "">("");
   const [className, setClassName] = useState("");
+  const [personalDataConsent, setPersonalDataConsent] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [classError, setClassError] = useState<string | null>(null);
   const [phoneError, setPhoneError] = useState<string | null>(null);
+  const [consentError, setConsentError] = useState<string | null>(null);
 
   const { data: schools, isLoading: schoolsLoading } = api.school.list.useQuery();
   const registerMutation = api.student.register.useMutation();
@@ -64,6 +66,11 @@ export default function RegisterPage() {
       setError("Выберите школу");
       return;
     }
+    if (!personalDataConsent) {
+      setConsentError("Необходимо согласие на обработку персональных данных");
+      return;
+    }
+    setConsentError(null);
     try {
       await registerMutation.mutateAsync({
         surname,
@@ -94,10 +101,10 @@ export default function RegisterPage() {
             Интерактивная рабочая тетрадь
           </Link>
           <Link
-            href="/student/login"
+            href="/"
             className="rounded-lg border border-stone-300 px-4 py-2 text-sm font-medium text-stone-700 hover:bg-stone-100"
           >
-            Вход
+            На главную
           </Link>
         </div>
       </header>
@@ -218,17 +225,35 @@ export default function RegisterPage() {
             </p>
           )}
 
-          <p className="text-center text-sm text-stone-600">
-            Нажимая на кнопку «Зарегистрироваться», вы соглашаетесь с{" "}
-            <Link href="#" className="text-sky-600 hover:underline">
-              Условиями использования
-            </Link>{" "}
-            и{" "}
-            <Link href="#" className="text-sky-600 hover:underline">
-              Политикой конфиденциальности
-            </Link>
-            .
-          </p>
+          <label className="flex cursor-pointer items-start gap-3 rounded-lg border border-stone-200 bg-stone-50/80 px-3 py-3">
+            <input
+              type="checkbox"
+              checked={personalDataConsent}
+              onChange={(e) => {
+                setPersonalDataConsent(e.target.checked);
+                if (e.target.checked) setConsentError(null);
+              }}
+              className="mt-0.5 h-4 w-4 shrink-0 rounded border-stone-300 text-sky-600 focus:ring-sky-500"
+              aria-describedby={consentError ? "consent-error" : undefined}
+            />
+            <span className="text-sm leading-snug text-stone-700">
+              Даю согласие на{" "}
+              <span className="font-medium">обработку персональных данных</span> в соответствии с{" "}
+              <Link href="#" className="text-sky-600 hover:underline">
+                Политикой конфиденциальности
+              </Link>{" "}
+              и принимаю{" "}
+              <Link href="#" className="text-sky-600 hover:underline">
+                Условия использования
+              </Link>
+              .
+            </span>
+          </label>
+          {consentError ? (
+            <p id="consent-error" className="-mt-2 text-sm text-red-600">
+              {consentError}
+            </p>
+          ) : null}
 
           <button
             type="submit"
@@ -237,7 +262,8 @@ export default function RegisterPage() {
               loginMutation.isPending ||
               !!classError ||
               !!phoneError ||
-              className.length !== 3
+              className.length !== 3 ||
+              !personalDataConsent
             }
             className="w-full rounded-lg bg-sky-600 py-3 font-medium text-white hover:bg-sky-700 disabled:opacity-50"
           >

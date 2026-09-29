@@ -1,5 +1,6 @@
 import { PrismaClient } from "../generated/prisma";
 import bcrypt from "bcryptjs";
+import { seedDemoDashboard } from "./seed-demo";
 
 const prisma = new PrismaClient();
 
@@ -83,6 +84,8 @@ async function main() {
       });
     }
   }
+
+  await seedDemoDashboard(prisma);
 }
 
 main()

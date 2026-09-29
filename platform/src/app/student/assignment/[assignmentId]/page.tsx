@@ -3,8 +3,12 @@
 import { Check, CheckCheck, Play, Send, X } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { ChatHeader } from "~/components/student-chat/ChatHeader";
-import { MessageBubble } from "~/components/student-chat/MessageBubble";
+import { FeedCard } from "~/components/student-lesson/FeedCard";
+import { LessonBlocksNav } from "~/components/student-lesson/LessonBlocksNav";
+import { LessonFeedHeader } from "~/components/student-lesson/LessonFeedHeader";
+import { LessonHandInBanner } from "~/components/student-lesson/LessonHandInBanner";
+import { LessonMetaSidebar } from "~/components/student-lesson/LessonMetaSidebar";
+import { isTestChoiceAnswerCorrect } from "~/lib/submission-flow";
 import { api } from "~/trpc/react";
 
 type StudentBlock = {
@@ -111,6 +115,7 @@ function useBlobUrlFromDataUrl(dataUrl: string | undefined): string | undefined 
 function submissionStatusLabel(submission: { status: string } | null | undefined): string {
   if (!submission) return "Не сохранено";
   if (submission.status === "submitted") return "Отправлено";
+  if (submission.status === "auto_review") return "На автопроверке";
   if (submission.status === "draft") return "Черновик сохранён";
   return submission.status;
 }
@@ -139,9 +144,22 @@ export default function StudentAssignmentChatPage() {
       void utils.student.assignmentDetail.invalidate({ assignmentId: vars.assignmentId });
     },
   });
+  const [handInBanner, setHandInBanner] = useState<null | "auto_review" | "error">(null);
+  const [handInErrorText, setHandInErrorText] = useState("");
+
   const submit = api.student.assignmentSubmit.useMutation({
-    onSuccess: (_data, vars) => {
+    onSuccess: (result, vars) => {
       void utils.student.assignmentDetail.invalidate({ assignmentId: vars.assignmentId });
+      void utils.student.dashboard.invalidate();
+      if (result.status === "auto_review") {
+        setHandInBanner("auto_review");
+      } else {
+        setHandInBanner(null);
+      }
+    },
+    onError: (err) => {
+      setHandInBanner("error");
+      setHandInErrorText(err.message);
     },
   });
   const recordTestFirstAnswer = api.student.recordTestFirstAnswer.useMutation();
@@ -149,6 +167,7 @@ export default function StudentAssignmentChatPage() {
   const [revealedIds, setRevealedIds] = useState<string[]>([]);
   const [openAnswers, setOpenAnswers] = useState<Record<string, string>>({});
   const [pendingChoiceKeys, setPendingChoiceKeys] = useState<Record<string, string[]>>({});
+  const [choiceFeedback, setChoiceFeedback] = useState<Record<string, string>>({});
   const [studentReplies, setStudentReplies] = useState<Record<string, StudentReply>>({});
   const [dismissedExplanationIds, setDismissedExplanationIds] = useState<string[]>([]);
   const [presentationFullscreen, setPresentationFullscreen] = useState<{
@@ -156,6 +175,7 @@ export default function StudentAssignmentChatPage() {
     title: string;
   } | null>(null);
   const endRef = useRef<HTMLDivElement | null>(null);
+  const blockRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
   const blocks = (data?.blocks ?? []) as StudentBlock[];
   const edges = (data?.edges ?? []) as StudentEdge[];
@@ -222,6 +242,22 @@ export default function StudentAssignmentChatPage() {
     return null;
   }, [revealedIds, blockById, dismissedExplanationIds]);
 
+  const contentBlocks = useMemo(
+    () => blocks.filter((b) => b.kind !== "explanation"),
+    [blocks]
+  );
+
+  const activeBlockId = useMemo(() => {
+    if (activeTestBlock) return activeTestBlock.id;
+    return revealedIds[revealedIds.length - 1] ?? null;
+  }, [activeTestBlock, revealedIds]);
+
+  const repliedBlockIds = useMemo(() => Object.keys(studentReplies), [studentReplies]);
+
+  function scrollToBlock(blockId: string) {
+    blockRefs.current[blockId]?.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+
   const activeContinue = (() => {
     if (pendingExplanationBlock) return null;
     if (activeTestBlock) return null;
@@ -261,6 +297,26 @@ export default function StudentAssignmentChatPage() {
   function submitChoiceReply(assignmentIdForAnswer: number, block: StudentBlock, optionKeys: string[], replyText: string) {
     const normalized = normalizeOptionKeys(optionKeys);
     if (normalized.length === 0) return;
+    const correctKeys = getCorrectOptionKeys(block);
+    if (correctKeys.length === 0) {
+      setChoiceFeedback((prev) => ({
+        ...prev,
+        [block.id]: "Для этого вопроса не задан верный ответ. Обратитесь к педагогу.",
+      }));
+      return;
+    }
+    if (!isTestChoiceAnswerCorrect(correctKeys, normalized)) {
+      setChoiceFeedback((prev) => ({
+        ...prev,
+        [block.id]: "Неверный ответ. Попробуйте ещё раз.",
+      }));
+      return;
+    }
+    setChoiceFeedback((prev) => {
+      const next = { ...prev };
+      delete next[block.id];
+      return next;
+    });
     void (async () => {
       try {
         await recordTestFirstAnswer.mutateAsync({
@@ -268,8 +324,13 @@ export default function StudentAssignmentChatPage() {
           blockId: block.id,
           optionKeys: normalized,
         });
-      } catch {
-        /* продолжаем прохождение даже если запись на сервер не удалась */
+      } catch (err) {
+        const msg =
+          err && typeof err === "object" && "message" in err && typeof err.message === "string"
+            ? err.message
+            : "Не удалось сохранить ответ.";
+        setChoiceFeedback((prev) => ({ ...prev, [block.id]: msg }));
+        return;
       }
       setReply(block.id, "option", replyText);
       revealNext(getNextAfterSelectedOptions(block.id, normalized));
@@ -328,6 +389,12 @@ export default function StudentAssignmentChatPage() {
   }, [data, blocks.length, firstBlock, revealedIds.length]);
 
   useEffect(() => {
+    if (data?.submission?.status === "auto_review") {
+      setHandInBanner("auto_review");
+    }
+  }, [data?.submission?.status]);
+
+  useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
   }, [revealedIds, studentReplies, pendingExplanationBlock]);
 
@@ -356,50 +423,74 @@ export default function StudentAssignmentChatPage() {
     );
   }
 
-  return (
-    <main className="min-h-screen bg-[#dbe4eb]">
-      <ChatHeader title={data.title} subtitle={`${data.lesson.courseTitle} • ${data.lesson.title}`} />
+  const revealedContentCount = revealedIds.filter((id) => {
+    const b = blockById.get(id);
+    return b && b.kind !== "explanation";
+  }).length;
 
-      <section className="mx-auto flex min-h-[calc(100vh-64px)] w-full max-w-3xl flex-col">
-        <div
-          className="flex-1 overflow-y-auto bg-[radial-gradient(circle_at_1px_1px,#ffffff_1px,transparent_0)] bg-[length:16px_16px] p-3 sm:p-4"
-        >
-          <div className="space-y-3">
+  const answersPayload = () =>
+    JSON.stringify({ openAnswers, revealedIds, studentReplies });
+
+  return (
+    <main className="min-h-screen bg-slate-100">
+      <div className="mx-auto flex min-h-screen w-full max-w-[1280px]">
+        <aside className="sticky top-0 hidden h-screen w-[260px] shrink-0 overflow-y-auto border-r border-slate-200/90 bg-white lg:block">
+          <LessonBlocksNav
+            blocks={contentBlocks}
+            revealedIds={revealedIds}
+            repliedIds={repliedBlockIds}
+            activeBlockId={activeBlockId}
+            onSelect={scrollToBlock}
+          />
+        </aside>
+
+        <section className="flex min-h-screen min-w-0 flex-1 flex-col border-x border-slate-200/60 bg-slate-50">
+          <LessonFeedHeader
+            title={data.title}
+            subtitle={`${data.lesson.courseTitle} • ${data.lesson.title}`}
+          />
+
+          <div className="flex-1 overflow-y-auto px-3 py-4 sm:px-5">
+            <div className="mx-auto flex w-full max-w-xl flex-col gap-4">
               {revealedIds.map((blockId) => {
                 const block = blockById.get(blockId);
                 if (!block) return null;
                 if (block.kind === "explanation") return null;
                 const studentReply = studentReplies[block.id];
 
-                const incomingFooter = (
-                  <span className="inline-flex items-center gap-1 text-[11px] text-slate-500">
+                const timeMeta = (
+                  <span className="inline-flex items-center gap-1">
                     {formatTime(studentReply?.timestamp ?? Date.now())}
                   </span>
                 );
 
                 return (
-                  <div key={block.id} className="space-y-2 animate-[fadein_.2s_ease-out]">
+                  <div
+                    key={block.id}
+                    ref={(el) => {
+                      blockRefs.current[block.id] = el;
+                    }}
+                    className="flex flex-col gap-3"
+                  >
                     {block.kind === "test" ? (
-                      <>
-                        <MessageBubble side="incoming" title={block.title || "Вопрос"} footer={incomingFooter}>
-                          <p className="whitespace-pre-wrap">{block.text}</p>
-                          {!studentReply ? (
-                            <p className="mt-2 text-xs text-slate-500">
-                              {block.responseMode === "open_question"
-                                ? "Заполните поля ответа внизу экрана."
-                                : getCorrectOptionKeys(block).length > 1
-                                ? "Выберите несколько верных ответов внизу экрана."
-                                : "Выберите один ответ внизу экрана."}
-                            </p>
-                          ) : null}
-                        </MessageBubble>
-                      </>
+                      <FeedCard variant="content" title={block.title || "Вопрос"} meta={timeMeta}>
+                        <p className="whitespace-pre-wrap">{block.text}</p>
+                        {!studentReply ? (
+                          <p className="mt-3 rounded-lg bg-zinc-50 px-3 py-2 text-xs text-zinc-600">
+                            {block.responseMode === "open_question"
+                              ? "Ответьте в панели внизу ленты."
+                              : getCorrectOptionKeys(block).length > 1
+                                ? "Выберите несколько вариантов внизу ленты."
+                                : "Выберите вариант ответа внизу ленты."}
+                          </p>
+                        ) : null}
+                      </FeedCard>
                     ) : (
-                      <MessageBubble
-                        side="incoming"
-                        title={block.title || "Сообщение"}
-                        footer={incomingFooter}
-                        onArticleClick={
+                      <FeedCard
+                        variant="content"
+                        title={block.title || "Материал"}
+                        meta={timeMeta}
+                        onClick={
                           block.kind === "presentation" && block.mediaDataUrl
                             ? () =>
                                 setPresentationFullscreen({
@@ -411,8 +502,8 @@ export default function StudentAssignmentChatPage() {
                       >
                         {block.kind === "audio" ? (
                           <div className="space-y-2">
-                            <div className="inline-flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1 text-xs text-slate-600">
-                              <Play className="h-3 w-3" /> Голосовое сообщение
+                            <div className="inline-flex items-center gap-2 rounded-full bg-zinc-100 px-3 py-1 text-xs text-zinc-600">
+                              <Play className="h-3 w-3" /> Аудио
                             </div>
                             <audio controls src={block.mediaDataUrl} className="w-full" />
                           </div>
@@ -423,42 +514,38 @@ export default function StudentAssignmentChatPage() {
                             <img
                               src={block.mediaDataUrl}
                               alt={block.mediaFileName || block.title}
-                              className="max-h-80 w-full rounded-xl object-contain"
+                              className="max-h-[28rem] w-full rounded-xl object-contain"
                             />
                           ) : (
-                            <p className="text-xs text-slate-500">Изображение не загружено</p>
+                            <p className="text-xs text-zinc-500">Изображение не загружено</p>
                           )
                         ) : null}
 
                         {block.kind === "video" ? (
-                          <div className="space-y-2 rounded-xl border border-slate-200 bg-slate-50 p-2">
+                          <div className="overflow-hidden rounded-xl border border-zinc-200 bg-zinc-50">
                             {block.mediaDataUrl ? (
                               <StudentVideoPlayer dataUrl={block.mediaDataUrl} />
                             ) : (
-                              <p className="text-xs text-slate-500">
-                                Видео не загружено. Допустимый формат: MP4.
-                              </p>
+                              <p className="p-3 text-xs text-zinc-500">Видео не загружено (MP4).</p>
                             )}
                           </div>
                         ) : null}
 
                         {block.kind === "presentation" ? (
-                          <div className="space-y-2 rounded-xl border border-slate-200 bg-slate-50 p-2">
+                          <div className="space-y-2">
                             {block.mediaDataUrl ? (
                               <>
-                                <p className="text-center text-[11px] text-slate-500">
-                                  Нажмите на сообщение — просмотр на весь экран
+                                <p className="text-center text-[11px] text-zinc-500">
+                                  Нажмите на карточку — полноэкранный просмотр
                                 </p>
                                 <iframe
                                   src={block.mediaDataUrl}
                                   title={block.mediaFileName || "Презентация"}
-                                  className="pointer-events-none h-72 w-full rounded-lg border border-slate-200 bg-white"
+                                  className="pointer-events-none h-80 w-full rounded-xl border border-zinc-200 bg-white"
                                 />
                               </>
                             ) : (
-                              <p className="text-xs text-slate-500">
-                                Презентация не загружена. Допустимый формат: PDF.
-                              </p>
+                              <p className="text-xs text-zinc-500">Презентация не загружена (PDF).</p>
                             )}
                           </div>
                         ) : null}
@@ -466,20 +553,21 @@ export default function StudentAssignmentChatPage() {
                         {block.kind === "text" || block.text ? (
                           <p className="whitespace-pre-wrap">{block.text}</p>
                         ) : null}
-
-                      </MessageBubble>
+                      </FeedCard>
                     )}
 
                     {studentReply ? (
-                      <MessageBubble
-                        side="outgoing"
-                        footer={
-                          <span className="inline-flex items-center gap-1 text-[11px] text-cyan-100">
+                      <FeedCard
+                        variant="reply"
+                        title="Ваш ответ"
+                        meta={
+                          <span className="inline-flex items-center gap-1">
                             {formatTime(studentReply.timestamp)}
-                            {data.submission?.status === "submitted" ? (
-                              <CheckCheck className="h-3 w-3" />
+                            {data.submission?.status === "submitted" ||
+                            data.submission?.status === "auto_review" ? (
+                              <CheckCheck className="h-3.5 w-3.5 text-blue-600" />
                             ) : (
-                              <Check className="h-3 w-3" />
+                              <Check className="h-3.5 w-3.5 text-blue-600" />
                             )}
                           </span>
                         }
@@ -491,19 +579,24 @@ export default function StudentAssignmentChatPage() {
                         >
                           {studentReply.text}
                         </p>
-                      </MessageBubble>
+                      </FeedCard>
                     ) : null}
                   </div>
                 );
               })}
               <div ref={endRef} />
             </div>
-        </div>
+          </div>
 
-        <footer className="sticky bottom-0 border-t border-slate-200 bg-white/95 p-3 backdrop-blur">
-          <div className="mx-auto flex max-w-3xl flex-col gap-2">
+          <footer className="sticky bottom-0 border-t border-zinc-200/80 bg-white/95 px-3 py-3 backdrop-blur-md sm:px-5">
+            <div className="mx-auto flex w-full max-w-xl flex-col gap-2">
             {activeTestBlock?.responseMode === "single_choice" ? (
               <div className="space-y-2 rounded-xl border border-slate-200 bg-slate-50 p-2">
+                {choiceFeedback[activeTestBlock.id] ? (
+                  <p className="rounded-lg bg-red-50 px-3 py-2 text-xs font-medium text-red-800">
+                    {choiceFeedback[activeTestBlock.id]}
+                  </p>
+                ) : null}
                 {(() => {
                   const options = getTestOptionLines(activeTestBlock).filter((option) => option.label.trim() !== "");
                   const correctKeys = getCorrectOptionKeys(activeTestBlock);
@@ -544,8 +637,8 @@ export default function StudentAssignmentChatPage() {
                             }}
                             className={`block w-full rounded-xl border px-4 py-3 text-left text-sm font-medium transition hover:-translate-y-0.5 ${
                               isSelected
-                                ? "border-cyan-400 bg-cyan-50 text-cyan-900"
-                                : "border-white/80 bg-white text-slate-800 shadow-[0_3px_10px_rgba(15,23,42,0.07)] hover:bg-slate-50"
+                                ? "border-blue-400 bg-blue-50 text-blue-900"
+                                : "border-zinc-200 bg-white text-zinc-800 shadow-sm hover:bg-zinc-50"
                             }`}
                           >
                             {multiMode ? (
@@ -570,7 +663,7 @@ export default function StudentAssignmentChatPage() {
                             submitChoiceReply(data.id, activeTestBlock, normalizedSelected, selectedLabels);
                           }}
                           disabled={selected.length === 0}
-                          className="inline-flex w-full items-center justify-center gap-1 rounded-lg bg-cyan-600 px-3 py-2.5 text-sm font-semibold text-white hover:bg-cyan-700 disabled:opacity-60"
+                          className="inline-flex w-full items-center justify-center gap-1 rounded-lg bg-blue-600 px-3 py-2.5 text-sm font-semibold text-white hover:bg-blue-700 disabled:opacity-60"
                         >
                           <Send className="h-3.5 w-3.5" />
                           Отправить ответ
@@ -617,7 +710,7 @@ export default function StudentAssignmentChatPage() {
                 <button
                   type="button"
                   onClick={submitOpenReplyFromComposer}
-                  className="inline-flex w-full items-center justify-center gap-1 rounded-lg bg-cyan-600 px-3 py-2.5 text-sm font-semibold text-white hover:bg-cyan-700"
+                  className="inline-flex w-full items-center justify-center gap-1 rounded-lg bg-blue-600 px-3 py-2.5 text-sm font-semibold text-white hover:bg-blue-700"
                 >
                   <Send className="h-3.5 w-3.5" />
                   Отправить ответ
@@ -630,47 +723,100 @@ export default function StudentAssignmentChatPage() {
                 <button
                   type="button"
                   onClick={() => revealNext(activeContinue.nextId)}
-                  className="w-full rounded-lg bg-cyan-600 px-3 py-2 text-sm font-semibold text-white hover:bg-cyan-700"
+                  className="w-full rounded-lg bg-blue-600 px-3 py-2 text-sm font-semibold text-white hover:bg-blue-700"
                 >
                   Дальше
                 </button>
               </div>
             ) : null}
 
-            <div className="flex items-center justify-between gap-2">
-              <p className="text-xs text-slate-500">Статус: {submissionStatusLabel(data.submission)}</p>
+            {handInBanner === "auto_review" ? (
+              <div className="mb-3 xl:hidden">
+                <LessonHandInBanner
+                  embedded
+                  variant="success"
+                  title="Занятие сдано"
+                  message="Открытые ответы отправлены на автопроверку. Балл по ним появится после проверки."
+                  onDismiss={() => setHandInBanner(null)}
+                />
+              </div>
+            ) : null}
+
+            {handInBanner === "error" ? (
+              <div className="mb-3 xl:hidden">
+                <LessonHandInBanner
+                  embedded
+                  variant="error"
+                  title="Не удалось сдать занятие"
+                  message={handInErrorText}
+                  onDismiss={() => setHandInBanner(null)}
+                />
+              </div>
+            ) : null}
+
+            <div className="flex items-center justify-between gap-2 xl:hidden">
+              <p className="text-xs text-zinc-500">Статус: {submissionStatusLabel(data.submission)}</p>
               <div className="flex gap-2">
-              <button
-                type="button"
-                onClick={() =>
-                  saveDraft.mutate({
-                    assignmentId: data.id,
-                    answersJson: JSON.stringify({ openAnswers, revealedIds, studentReplies }),
-                  })
-                }
-                disabled={saveDraft.isPending}
-                className="rounded-lg border border-slate-300 px-3 py-2 text-xs font-medium text-slate-700 hover:bg-slate-50 disabled:opacity-60"
-              >
-                Сохранить
-              </button>
-              <button
-                type="button"
-                onClick={() =>
-                  submit.mutate({
-                    assignmentId: data.id,
-                    answersJson: JSON.stringify({ openAnswers, revealedIds, studentReplies }),
-                  })
-                }
-                disabled={submit.isPending}
-                className="rounded-lg bg-cyan-600 px-3 py-2 text-xs font-semibold text-white hover:bg-cyan-700 disabled:opacity-60"
-              >
-                Отправить
-              </button>
+                <button
+                  type="button"
+                  onClick={() =>
+                    saveDraft.mutate({
+                      assignmentId: data.id,
+                      answersJson: answersPayload(),
+                    })
+                  }
+                  disabled={saveDraft.isPending}
+                  className="rounded-lg border border-zinc-300 px-3 py-2 text-xs font-medium text-zinc-700 hover:bg-zinc-50 disabled:opacity-60"
+                >
+                  Сохранить
+                </button>
+                <button
+                  type="button"
+                  onClick={() =>
+                    submit.mutate({
+                      assignmentId: data.id,
+                      answersJson: answersPayload(),
+                    })
+                  }
+                  disabled={submit.isPending}
+                  className="rounded-lg bg-blue-600 px-3 py-2 text-xs font-semibold text-white hover:bg-blue-700 disabled:opacity-60"
+                >
+                  Отправить
+                </button>
               </div>
             </div>
-          </div>
-        </footer>
-      </section>
+            </div>
+          </footer>
+        </section>
+
+        <aside className="sticky top-0 hidden h-screen w-72 shrink-0 overflow-y-auto border-l border-slate-200/90 bg-slate-50 xl:block">
+          <LessonMetaSidebar
+            courseTitle={data.lesson.courseTitle}
+            lessonTitle={data.lesson.title}
+            assignmentTitle={data.title}
+            revealedCount={revealedContentCount}
+            totalCount={contentBlocks.length}
+            statusLabel={submissionStatusLabel(data.submission)}
+            handInBanner={handInBanner}
+            handInErrorText={handInErrorText}
+            onDismissHandInBanner={() => setHandInBanner(null)}
+            onSave={() =>
+              saveDraft.mutate({
+                assignmentId: data.id,
+                answersJson: answersPayload(),
+              })
+            }
+            onSubmit={() =>
+              submit.mutate({
+                assignmentId: data.id,
+                answersJson: answersPayload(),
+              })
+            }
+            savePending={saveDraft.isPending}
+            submitPending={submit.isPending}
+          />
+        </aside>
+      </div>
       {presentationFullscreen ? (
         <div
           className="fixed inset-0 z-[60] flex flex-col bg-slate-950/90 p-3 sm:p-5"
@@ -708,7 +854,7 @@ export default function StudentAssignmentChatPage() {
             <button
               type="button"
               onClick={dismissExplanationOverlay}
-              className="mt-6 w-full rounded-xl bg-cyan-100 px-4 py-3 text-base font-semibold text-cyan-900 transition hover:bg-cyan-200"
+              className="mt-6 w-full rounded-xl bg-blue-100 px-4 py-3 text-base font-semibold text-blue-900 transition hover:bg-blue-200"
             >
               {pendingExplanationBlock.buttonLabel || "Продолжить"}
             </button>

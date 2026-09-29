@@ -5,9 +5,17 @@ import type { PrismaClient } from "../../../../generated/prisma";
 import {
   extractGradingSettingsFromConfigJson,
   getGradableSingleChoiceBlocksFromConfigJson,
+  getCorrectOptionKeysFromBlock,
   serializeOptionKeySet,
   scoreFromFirstTryPercent,
 } from "~/lib/grading-settings";
+import {
+  assertAllChoiceBlocksAnsweredCorrectly,
+  buildSimulatedAutoReviewMeta,
+  isTestChoiceAnswerCorrect,
+  resolveSubmissionStatusOnHandIn,
+  isFinishedSubmissionStatus,
+} from "~/lib/submission-flow";
 import { createTRPCRouter, publicProcedure, studentProcedure } from "~/server/api/trpc";
 import { hashPassword, verifyPassword } from "~/server/auth-utils";
 
@@ -412,11 +420,14 @@ export const studentRouter = createTRPCRouter({
         fullName: [student.surname, student.name, student.patronymic].filter(Boolean).join(" "),
         schoolName: student.school.name,
         className: student.className,
+        phone: student.phone,
       },
       assignedAssignments,
       stats: {
         total: assignedAssignments.length,
-        completed: assignedAssignments.filter((item) => item.submission?.status === "submitted").length,
+        completed: assignedAssignments.filter((item) =>
+          isFinishedSubmissionStatus(item.submission?.status)
+        ).length,
         averageScore:
           scores.length === 0
             ? null
@@ -511,6 +522,16 @@ export const studentRouter = createTRPCRouter({
           message: "Для этого блока ответ не фиксируется",
         });
       }
+      const blockCorrectKeys = getBlockCorrectKeysFromConfig(assignment.configJson, input.blockId);
+      if (
+        blockCorrectKeys.length === 0 ||
+        !isTestChoiceAnswerCorrect(blockCorrectKeys, input.optionKeys)
+      ) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Неверный ответ. Выберите правильный вариант, чтобы перейти дальше.",
+        });
+      }
       const existing = await ctx.db.testAnswerFirst.findUnique({
         where: {
           studentId_assignmentId_blockId: {
@@ -602,6 +623,24 @@ export const studentRouter = createTRPCRouter({
       if (!canStudentAccessAssignment(assignment, student)) {
         throw new TRPCError({ code: "FORBIDDEN", message: "Нет доступа к занятию" });
       }
+      try {
+        await assertAllChoiceBlocksAnsweredCorrectly(
+          ctx.db,
+          ctx.studentId,
+          input.assignmentId,
+          assignment.configJson
+        );
+      } catch (e) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: e instanceof Error ? e.message : "Не все вопросы с выбором решены верно",
+        });
+      }
+
+      const finalStatus = resolveSubmissionStatusOnHandIn(
+        assignment.configJson,
+        input.answersJson
+      );
       const { score, gradingJson } = await buildGradingPayload(
         ctx.db,
         ctx.studentId,
@@ -609,6 +648,17 @@ export const studentRouter = createTRPCRouter({
         assignment.configJson,
         assignment.maxScore
       );
+      let gradingPayload: Record<string, unknown> = {};
+      try {
+        gradingPayload = JSON.parse(gradingJson) as Record<string, unknown>;
+      } catch {
+        gradingPayload = {};
+      }
+      if (finalStatus === "auto_review") {
+        gradingPayload.autoReview = buildSimulatedAutoReviewMeta();
+      }
+      const mergedGradingJson = JSON.stringify(gradingPayload);
+
       return ctx.db.assignmentSubmission.upsert({
         where: {
           assignmentId_studentId: {
@@ -617,22 +667,39 @@ export const studentRouter = createTRPCRouter({
           },
         },
         update: {
-          status: "submitted",
+          status: finalStatus,
           answersJson: input.answersJson,
           submittedAt: new Date(),
           score,
-          gradingJson,
+          gradingJson: mergedGradingJson,
         },
         create: {
           assignmentId: input.assignmentId,
           studentId: ctx.studentId,
-          status: "submitted",
+          status: finalStatus,
           answersJson: input.answersJson,
           submittedAt: new Date(),
           score,
-          gradingJson,
+          gradingJson: mergedGradingJson,
         },
       });
     }),
 });
+
+function getBlockCorrectKeysFromConfig(configJson: string | null, blockId: string): string[] {
+  if (!configJson) return [];
+  try {
+    const parsed = JSON.parse(configJson) as { taskBlocks?: unknown };
+    if (!Array.isArray(parsed.taskBlocks)) return [];
+    for (const item of parsed.taskBlocks) {
+      if (typeof item !== "object" || item === null) continue;
+      const b = item as Record<string, unknown>;
+      if (b.id !== blockId || b.kind !== "test") continue;
+      return getCorrectOptionKeysFromBlock(b);
+    }
+  } catch {
+    return [];
+  }
+  return [];
+}
 
